@@ -1,59 +1,63 @@
 const path = require('path');
-const moviesModel = require('../models/moviesModel');
+const movieModel = require("../models/moviesModel.js");
 
-exports.list_movies = async (req, res) => {
+exports.list_movies = async (req, res)=> {
     if (req.query) {
         if ("last" in req.query) {
             try {
-                res.json(await moviesModel.findOne({}).sort('-released')).limit(1);
-            } catch (err) {
-                res.json(err);
+                res.json(await movieModel.findOne({}).sort('-released').limit(1));
+            } catch (e) {
+                res.json(e);
             }
         } else {
             try {
-                res.json(await moviesModel.find(req.query));
-            } catch (err) {
-                res.json(err);
+                res.json(await movieModel.find({}));
+            } catch (e){
+                res.json(e);
             }
         }
     } else {
         try {
-            res.json(await moviesModel.find({}));
-        } catch (err) {
-            res.json(err);
+            res.json(await movieModel.find({}));
+        } catch (e){
+            res.json(e);
         }
     }
+
 };
 
-exports.get_movie = async (req, res) => {
-    try {
-        res.json(await moviesModel.findById(req.params.id));
-    } catch (err) {
-        res.json(err);
+exports.read_movie = async (req, res)=> {
+    /*
+    TODO cast req.params.id to ObjectId
+    */
+    try{
+        res.json(await movieModel.findById(req.params.id));
+    }catch (e) {
+        res.json(e);
     }
 };
 
-exports.create_movie = async (req, res) => {
-    const Movie = new moviesModel(req.body);
+exports.create_movie = async (req, res)=> {
+    const Movie = new movieModel(req.body);
     try {
         res.json(await Movie.save());
-    } catch (err) {
-        res.json(err);
+    } catch (e) {
+        res.json(e);
     }
 };
 
-exports.update_movie = async (req, res) => {
+exports.update_movie = async (req, res)=> {
     try {
-        res.json(await moviesModel.findByIdAndUpdate(req.params.id, req.body, {new: true}));
-    } catch (err) {
-        res.json(err);
+        res.json(await movieModel.findByIdAndUpdate(req.params.id,req.body,{new: true}));
+    } catch (e) {
+        res.json(e);
     }
 };
 
-exports.delete_movie = async (req, res) => {
+exports.delete_movie = async (req, res)=> {
     try {
-        res.json(await moviesModel.findByIdAndDelete(req.params.id));
-    } catch (err) {
-        res.json(err);
+        res.json(await movieModel.findByIdAndDelete(req.params.id));
+    } catch (e) {
+        res.json(e);
     }
 };
