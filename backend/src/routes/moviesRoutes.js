@@ -7,7 +7,7 @@ router.route('/')
     .post(moviesController.create_movie);
 
 router.route('/:id')
-    .get(moviesController.get_movie)
+    .get(moviesController.read_movie)
     .put(moviesController.update_movie)
     .delete(moviesController.delete_movie);
 
