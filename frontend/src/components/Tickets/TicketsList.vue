@@ -29,7 +29,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div style="display: flex; justify-content: center;">
+  <div class="ticket-list">
     <div v-for="ticket in tickets" style="margin: 0 1rem;">
       <TicketCard :ticket="ticket"></TicketCard>
     </div>
@@ -38,4 +38,10 @@ export default defineComponent({
 
 <style scoped>
 @import url('../../../templates/style.css');
+.ticket-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
 </style>
