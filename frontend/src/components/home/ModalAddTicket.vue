@@ -34,8 +34,7 @@ export default defineComponent({
       const idTechnician = document.getElementById("technician").value.split(" ")[0] === "Nessuno" ?
           null : document.getElementById("technician").value.split(" ")[0];
 
-      axios
-          .post(`${BASE_URL}/addTicket`, {
+      axios.post(`${BASE_URL}/addTicket`, {
             idClient,
             fullNameClient,
             clientRequest,
@@ -52,6 +51,8 @@ export default defineComponent({
           .catch((error) => {
             console.log(error);
           });
+
+      // TODO: check if success then show notification
     }
   },
   mounted() {
