@@ -29,7 +29,6 @@ export default defineComponent({
 </script>
 
 <template>
-
   <div v-for="ticket in tickets">
     <TicketCard :ticket="ticket"></TicketCard>
   </div>
