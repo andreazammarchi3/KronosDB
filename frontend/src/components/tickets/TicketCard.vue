@@ -15,7 +15,7 @@ export default defineComponent({
   methods: {
     getClientFullName() {
       axios.get(`${BASE_URL}/getClient:${this.ticket.idClient}`).then(response => {
-        this.clientFullName = response.data
+        this.clientFullName = response.data.fullName
       }).catch(error => {
         console.log(error)
       })
@@ -28,10 +28,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="card bg-secondary mb-3" style="max-width: 20rem;">
-    <div class="card-header">{{ this.ticket.idTicket }}</div>
+  <div class="card border-secondary mb-3" style="max-width: 20rem;">
+    <div class="card-header">ID: {{ this.ticket.idTicket }} - {{ this.ticket.openDate }}</div>
     <div class="card-body">
-      <h4 class="card-title">{{ this.clientFullName.fullName }}</h4>
+      <h4 class="card-title">{{ this.clientFullName }}</h4>
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
     </div>
   </div>
