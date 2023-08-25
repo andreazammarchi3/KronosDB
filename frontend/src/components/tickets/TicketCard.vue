@@ -29,7 +29,10 @@ export default defineComponent({
 
 <template>
   <div class="card border-secondary mb-3" style="max-width: 20rem;">
-    <div class="card-header">ID: {{ this.ticket.idTicket }} - {{ this.ticket.openDate }}</div>
+    <div class="card-header" style="display: flex; justify-content: space-between;">
+      <div>ID: {{ this.ticket.idTicket }}</div>
+      <div>{{ this.ticket.openDate }}</div>
+    </div>
     <div class="card-body">
       <h4 class="card-title">{{ this.clientFullName }}</h4>
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
