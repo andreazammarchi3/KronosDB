@@ -8,3 +8,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 const app = createApp(App);
 app.use(router);
 app.mount("#app");
+
+const BASE_URL = 'http://localhost:3000';
+export { BASE_URL };
