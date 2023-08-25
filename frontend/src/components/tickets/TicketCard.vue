@@ -34,7 +34,7 @@ export default defineComponent({
       <div>{{ this.ticket.openDate }}</div>
     </div>
     <div class="card-body">
-      <h4 class="card-title">{{ this.clientFullName }}</h4>
+      <h5 class="card-title">{{ this.clientFullName }}</h5>
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
     </div>
   </div>
@@ -42,4 +42,14 @@ export default defineComponent({
 
 <style scoped>
 @import url('../../../templates/style.css');
+.card-body {
+  height: 5rem;
+  width: 18rem;
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 </style>
