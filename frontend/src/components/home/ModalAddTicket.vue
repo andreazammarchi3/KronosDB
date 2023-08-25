@@ -1,0 +1,106 @@
+<script>
+import {defineComponent} from "vue";
+import axios from "axios";
+import {BASE_URL} from "@/main";
+
+export default defineComponent({
+  name: "ModalAddTicket",
+  data() {
+    return {
+      showModal: false,
+      clients: [],
+      technicians: []
+    };
+  },
+  methods: {
+    getClients() {
+      axios.get(`${BASE_URL}/allClients`).then(response => {
+        this.clients = response.data
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    getTechnicians() {
+      axios.get(`${BASE_URL}/allTechnicians`).then(response => {
+        this.technicians = response.data
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    addTicket() {
+      const idClient = document.getElementById("client").value.split(" ")[0];
+      const fullNameClient = document.getElementById("client").value.split(" - ")[1];
+      const clientRequest = document.getElementById("client-request").value;
+      const idTechnician = document.getElementById("technician").value.split(" ")[0] === "Nessuno" ?
+          null : document.getElementById("technician").value.split(" ")[0];
+
+      axios
+          .post(`${BASE_URL}/addTicket`, {
+            idClient,
+            fullNameClient,
+            clientRequest,
+            idTechnician,
+          })
+          .then((response) => {
+            console.log(response.data);
+            // Reset form fields and close modal
+            document.getElementById("client").selectedIndex = 0;
+            document.getElementById("client-request").value = "";
+            document.getElementById("technician").selectedIndex = 0;
+            this.showModal = false;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }
+  },
+  mounted() {
+    this.getClients()
+    this.getTechnicians()
+  }
+})
+</script>
+
+<template>
+  <div class="modal" id="modalExample">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Nuovo Ticket</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="client" class="form-label mt-4">Cliente</label>
+            <select class="form-select" id="client">
+              <option v-for="client in clients">{{ client.idClient }} - {{ client.fullName }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleTextarea" class="form-label mt-4">Richiesta/segnalazione</label>
+            <textarea class="form-control" id="client-request" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="client" class="form-label mt-4">Tecnico assegnato (facoltativo)</label>
+            <select class="form-select" id="technician">
+              <option>Nessuno</option>
+              <option v-for="technician in technicians">{{ technician.idTechnician }} - {{ technician.fullName }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-sm" @click="addTicket" data-bs-toggle="modal" >Apri Ticket</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Chiudi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+@import url('../../../templates/style.css');
+</style>
