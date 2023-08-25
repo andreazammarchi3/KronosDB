@@ -3,17 +3,32 @@ import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
 import TicketCard from "@/components/tickets/TicketCard.vue";
+import FilterBar from "@/components/tickets/FilterBar.vue";
 
 export default defineComponent({
   name: "TicketsList",
-  components: {TicketCard},
+  components: {FilterBar, TicketCard},
   data() {
     return {
-      BASE_URL: BASE_URL,
-      tickets: []
+      tickets: [],
+      sortBy: 'openDateMinToMax'
+    }
+  },
+  computed: {
+    sortedTickets() {
+      return this.tickets.sort((a, b) => {
+        if (this.sortBy === 'openDateMinToMax') {
+          return new Date(a.openDate) - new Date(b.openDate)
+        } else if (this.sortBy === 'openDateMaxToMin') {
+          return new Date(b.openDate) - new Date(a.openDate)
+        }
+      })
     }
   },
   methods: {
+    sortTickets(sortBy) {
+      this.sortBy = sortBy
+    },
     getTickets() {
       axios.get(`${BASE_URL}/allTickets`).then(response => {
         this.tickets = response.data
@@ -29,8 +44,9 @@ export default defineComponent({
 </script>
 
 <template>
+  <FilterBar @sort-by="sortTickets"></FilterBar>
   <div class="ticket-list">
-    <div v-for="ticket in tickets" style="margin: 0 1rem;">
+    <div v-for="ticket in sortedTickets" :key="ticket.idTicket">
       <TicketCard :ticket="ticket"></TicketCard>
     </div>
   </div>
@@ -44,4 +60,5 @@ export default defineComponent({
   flex-wrap: wrap;
   margin-top: 2rem;
 }
+
 </style>

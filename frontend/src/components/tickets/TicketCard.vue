@@ -9,7 +9,8 @@ export default defineComponent({
   data() {
     return {
       clientFullName: null,
-      routeName: "TicketDetails"
+      routeName: "TicketDetails",
+      completed: false,
     }
   },
   methods: {
@@ -19,17 +20,23 @@ export default defineComponent({
       }).catch(error => {
         console.log(error)
       })
+    },
+    checkIfTicketIsCompleted() {
+      if (this.ticket.closeDate !== '') {
+        this.completed = true
+      }
     }
   },
   mounted() {
     this.getClientFullName()
+    this.checkIfTicketIsCompleted()
   }
 })
 </script>
 
 <template>
-  <div class="card border-secondary mb-3" style="max-width: 20rem;">
-    <div class="card-header" style="display: flex; justify-content: space-between;">
+  <div class="card mb-3" :class="[completed ? 'border-secondary' : 'border-warning']">
+    <div class="card-header">
       <div>ID: {{ this.ticket.idTicket }}</div>
       <div>{{ this.ticket.openDate }}</div>
     </div>
@@ -42,14 +49,28 @@ export default defineComponent({
 
 <style scoped>
 @import url('../../../templates/style.css');
+
+.card {
+  max-width: 18rem;
+  margin: 0 1rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card-body {
-  height: 5rem;
+  height: 8rem;
   width: 18rem;
 }
 
 .card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: justify;
 }
 </style>
