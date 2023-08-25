@@ -10,15 +10,49 @@ exports.all_tickets = async(req, res) => {
     }
 }
 
+function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+
+function getBiggestTicketId() {
+    let biggestId = 0;
+    ticketsModel.find().then(tickets => {
+        tickets.forEach(ticket => {
+            if (ticket.idTicket > biggestId) {
+                biggestId = ticket.idTicket;
+            }
+        });
+    });
+    return biggestId;
+}
+
 exports.add_ticket = async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
-    const client = new ticketsModel(req.body);
+    const { idClient, fullNameClient, clientRequest, idTechnician } = req.body;
+
+    const newTicket = new ticketsModel({
+        idTicket: getBiggestTicketId() + 1,
+        openDate: formatDate(new Date()),
+        closeDate: "",
+        idClient: idClient,
+        fullNameClient: fullNameClient,
+        idTechnician: idTechnician === 0 ? null : req.body.idTechnician,
+        clientRequest: clientRequest,
+        workDone: null,
+        logActivities: null,
+        workingHours: null,
+        transferHours: null,
+        price: null
+    });
 
     try{
-        res.json(await client.save());
+        res.json(await newTicket.save());
     }catch (e) {
         res.json(e);
     }
