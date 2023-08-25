@@ -1,17 +1,18 @@
 <script>
 import {defineComponent} from 'vue'
-import HomeContainer from "@/components/home/HomeContainer.vue";
+
 import Header from "@/components/Header.vue";
+import TicketsList from "@/components/Tickets/TicketsList.vue";
 
 export default defineComponent({
-    name: "HomePage",
-    components: {Header, HomeContainer}
+  name: "HomePage",
+  components: {TicketsList, Header}
 })
 </script>
 
 <template>
   <Header></Header>
-  <HomeContainer></HomeContainer>
+  <TicketsList></TicketsList>
 </template>
 
 <style scoped>
