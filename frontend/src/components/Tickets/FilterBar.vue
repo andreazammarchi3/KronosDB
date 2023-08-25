@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       sortBy: 'openDateMinToMax'
+      // TODO: add other sort options
     }
   },
   watch: {
