@@ -5,6 +5,9 @@ const router = express.Router();
 router.route('/allClients')
     .get((req, res) => clientsController.all_clients(req, res));
 
+router.route('/getClient:id')
+    .get((req, res) => clientsController.get_client(req, res));
+
 router.route('/addClient')
     .post((req, res) => clientsController.add_client(req, res));
 

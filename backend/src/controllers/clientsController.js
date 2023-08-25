@@ -10,6 +10,15 @@ exports.all_clients = async(req, res) => {
     }
 }
 
+exports.get_client = async (req, res) => {
+    try{
+        res.header("Access-Control-Allow-Origin", "*");
+        res.json(await clientsModel.findOne({idClient: parseInt(req.params.id.slice(1))}));
+    }catch (e) {
+        res.json(e);
+    }
+}
+
 exports.add_client = async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
