@@ -93,7 +93,7 @@ export default defineComponent({
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-sm" @click="addTicket" data-bs-toggle="modal" >Apri Ticket</button>
+          <button type="button" class="btn btn-primary btn-sm" @click="addTicket">Apri Ticket</button>
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Chiudi</button>
         </div>
       </div>

@@ -18,15 +18,13 @@ function formatDate(date) {
 }
 
 function getBiggestTicketId() {
-    let biggestId = 0;
-    ticketsModel.find().then(tickets => {
-        tickets.forEach(ticket => {
-            if (ticket.idTicket > biggestId) {
-                biggestId = ticket.idTicket;
-            }
-        });
+    return ticketsModel.find().sort({ idTicket: -1 }).limit(1).then(tickets => {
+        if (tickets.length > 0) {
+            return tickets[0].idTicket;
+        } else {
+            return 0;
+        }
     });
-    return biggestId;
 }
 
 exports.add_ticket = async (req, res) => {
@@ -35,9 +33,10 @@ exports.add_ticket = async (req, res) => {
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
     const { idClient, fullNameClient, clientRequest, idTechnician } = req.body;
+    const biggestId = await getBiggestTicketId();
 
     const newTicket = new ticketsModel({
-        idTicket: getBiggestTicketId() + 1,
+        idTicket: biggestId + 1,
         openDate: formatDate(new Date()),
         closeDate: "",
         idClient: idClient,
