@@ -62,7 +62,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 </style>
