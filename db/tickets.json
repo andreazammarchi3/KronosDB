@@ -1,1 +1,32 @@
-{"idTicket": 1, "opendDate": "01-01-2023", "closeDate": "02-01-2023", "idClient": 1, "idTechnician": 1, "workDone": "Fix the computer", "notes": "Nessun problema", "workingHours": 1, "transferHours": 2, "price": 60}
+[{
+  "_id": {
+    "$oid": "64e7719694945aea5294ece2"
+  },
+  "idTicket": 1,
+  "closeDate": "02/01/2023",
+  "idClient": 1,
+  "idTechnician": 1,
+  "workDone": "Sostituito pulsante accensione",
+  "workingHours": 1,
+  "transferHours": 2,
+  "price": 60,
+  "clientRequest": "Problema al pc: non si accende",
+  "logActivities": "1. Pulsante accensione guasto, da sostituire",
+  "openDate": "01/01/2023"
+},
+{
+  "_id": {
+    "$oid": "64e8a49d49a78a3057d4d9fb"
+  },
+  "idTicket": 2,
+  "closeDate": "",
+  "idClient": 2,
+  "idTechnician": 2,
+  "workDone": "Sostituito mouse",
+  "workingHours": 1,
+  "transferHours": 2,
+  "price": 120,
+  "clientRequest": "Problema al mouse: non si sposta il cursore",
+  "logActivities": "1. Laser mouse guasto, da sostituire",
+  "openDate": "03/01/2023"
+}]

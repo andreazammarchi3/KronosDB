@@ -1,1 +1,22 @@
-{"idClient": 1, "fullName": "John Doe", "address": "Via dell'Estinzione, 1, Cesena", "cellphone": 0, "mail": "johndoe@gmail.com", "cards": []}
+[{
+  "_id": {
+    "$oid": "64e7719e94945aea5294ece4"
+  },
+  "idClient": 1,
+  "fullName": "John Doe",
+  "address": "Via dell'Estinzione, 1, Cesena",
+  "cellphone": 0,
+  "mail": "johndoe@gmail.com",
+  "cards": []
+},
+{
+  "_id": {
+    "$oid": "64e8a5ed49a78a3057d4d9ff"
+  },
+  "idClient": 2,
+  "fullName": "Jack Apple",
+  "address": "Via Garibaldi, 2, Washington DC",
+  "cellphone": 0,
+  "mail": "jackapple@gmail.com",
+  "cards": []
+}]

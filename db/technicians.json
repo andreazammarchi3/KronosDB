@@ -1,1 +1,18 @@
-{"idTechnician": 1, "fullName": "Sloppy Joe", "role": "BASE", "costPerHour": 20}
+[{
+  "_id": {
+    "$oid": "64e771a694945aea5294ece6"
+  },
+  "idTechnician": 1,
+  "fullName": "Bill Gates",
+  "role": "BASE",
+  "costPerHour": 20
+},
+{
+  "_id": {
+    "$oid": "64e8a5a149a78a3057d4d9fd"
+  },
+  "idTechnician": 2,
+  "fullName": "Tim Cook",
+  "role": "ADMIN",
+  "costPerHour": 30
+}]
