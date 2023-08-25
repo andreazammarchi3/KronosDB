@@ -12,7 +12,8 @@
   "price": 60,
   "clientRequest": "Problema al pc: non si accende",
   "logActivities": "1. Pulsante accensione guasto, da sostituire",
-  "openDate": "01/01/2023"
+  "openDate": "01/01/2023",
+  "fullNameClient": "John Doe"
 },
 {
   "_id": {
@@ -28,5 +29,6 @@
   "price": 120,
   "clientRequest": "Problema al mouse: non si sposta il cursore",
   "logActivities": "1. Laser mouse guasto, da sostituire",
-  "openDate": "03/01/2023"
+  "openDate": "03/01/2023",
+  "fullNameClient": "Jack Apple"
 }]

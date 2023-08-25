@@ -21,6 +21,10 @@ export default defineComponent({
           return new Date(a.openDate) - new Date(b.openDate)
         } else if (this.sortBy === 'openDateMaxToMin') {
           return new Date(b.openDate) - new Date(a.openDate)
+        } else if (this.sortBy === 'clientFullNameMinToMax') {
+          return a.fullNameClient.localeCompare(b.fullNameClient)
+        } else if (this.sortBy === 'clientFullNameMaxToMin') {
+          return b.fullNameClient.localeCompare(a.fullNameClient)
         }
       })
     }

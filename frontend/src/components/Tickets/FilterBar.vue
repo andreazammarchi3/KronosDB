@@ -20,6 +20,8 @@ export default {
     <select id="sort-by" v-model="sortBy">
       <option value="openDateMinToMax">Dal meno recente</option>
       <option value="openDateMaxToMin">Dal più recente</option>
+      <option value="clientFullNameMinToMax">Per cliente (A-Z)</option>
+      <option value="clientFullNameMaxToMin">Per cliente (Z-A)</option>
     </select>
   </div>
 </template>

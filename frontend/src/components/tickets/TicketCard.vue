@@ -8,19 +8,11 @@ export default defineComponent({
   props: ['ticket'],
   data() {
     return {
-      clientFullName: null,
       routeName: "TicketDetails",
       completed: false,
     }
   },
   methods: {
-    getClientFullName() {
-      axios.get(`${BASE_URL}/getClient:${this.ticket.idClient}`).then(response => {
-        this.clientFullName = response.data.fullName
-      }).catch(error => {
-        console.log(error)
-      })
-    },
     checkIfTicketIsCompleted() {
       if (this.ticket.closeDate !== '') {
         this.completed = true
@@ -28,7 +20,6 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.getClientFullName()
     this.checkIfTicketIsCompleted()
   }
 })
@@ -41,7 +32,7 @@ export default defineComponent({
       <div>{{ this.ticket.openDate }}</div>
     </div>
     <div class="card-body">
-      <h5 class="card-title">{{ this.clientFullName }}</h5>
+      <h5 class="card-title">{{ this.ticket.fullNameClient }}</h5>
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
     </div>
   </div>
