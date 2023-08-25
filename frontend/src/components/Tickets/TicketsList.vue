@@ -2,9 +2,11 @@
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
+import TicketCard from "@/components/tickets/TicketCard.vue";
 
 export default defineComponent({
   name: "TicketsList",
+  components: {TicketCard},
   data() {
     return {
       BASE_URL: BASE_URL,
@@ -27,7 +29,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
+
+  <div v-for="ticket in tickets">
+    <TicketCard :ticket="ticket"></TicketCard>
   </div>
 </template>
 
