@@ -54,7 +54,7 @@ export default defineComponent({
   <FilterBar @sort-by="sortTickets"></FilterBar>
   <div class="ticket-list">
     <div v-for="ticket in sortedTickets" :key="ticket.idTicket">
-      <TicketCard :ticket="ticket"></TicketCard>
+      <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
     </div>
   </div>
 </template>

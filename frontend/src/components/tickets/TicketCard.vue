@@ -6,6 +6,7 @@ export default defineComponent({
   name: "TicketCard",
   props: ['ticket'],
   components: {TicketDetails},
+  emits: ['ticketDeleted'],
   data() {
     return {
       completed: false,
@@ -41,7 +42,7 @@ export default defineComponent({
   </div>
 
   <div class="overlay" :class="{ 'd-flex': showDetails }">
-    <TicketDetails :ticket="ticket" @close="showDetails = false" />
+    <TicketDetails :ticket="ticket" @close="showDetails = false; $emit('ticketDeleted')" />
   </div>
 </template>
 

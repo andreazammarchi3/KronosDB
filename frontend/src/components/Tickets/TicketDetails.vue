@@ -12,6 +12,15 @@ export default defineComponent({
     }
   },
   methods: {
+    deleteTicket() {
+      axios.post(BASE_URL + '/removeTicket:' + this.ticket.idTicket)
+        .then(() => {
+          this.$emit('close')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
   },
   mounted() {
   }
@@ -40,7 +49,10 @@ export default defineComponent({
     </div>
     <div class="card-footer text-muted">
       <div><strong>Data chiusura</strong>: {{ this.ticket.closeDate }}</div>
-      <button type="button" class="btn btn-primary btn-sm" @click="$emit('close')">Chiudi</button>
+      <div>
+        <button type="button" class="btn btn-danger btn-sm" @click="deleteTicket">Elimina</button>
+        <button type="button" class="btn btn-primary btn-sm" @click="$emit('close')">Chiudi</button>
+      </div>
     </div>
   </div>
 </template>
@@ -56,5 +68,9 @@ export default defineComponent({
 .card-footer {
   display: flex;
   justify-content: space-between;
+}
+
+.card-footer button {
+  margin: 0 0.5rem;
 }
 </style>
