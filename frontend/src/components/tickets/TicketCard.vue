@@ -30,7 +30,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="card mb-3" :class="[completed ? 'border-secondary' : 'border-warning']" @click="showDetails = true">
+  <div class="card mb-3 border-secondary" @click="showDetails = true">
     <div class="card-header">
       <div>ID: {{ this.ticket.idTicket }}</div>
       <div>{{ this.ticket.openDate }}</div>
@@ -38,6 +38,9 @@ export default defineComponent({
     <div class="card-body">
       <h5 class="card-title">{{ this.ticket.fullNameClient }}</h5>
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
+    </div>
+    <div class="card-footer">
+      <span class="badge rounded-pill" :class="[completed ? 'bg-success' : 'bg-danger']"> {{ completed ? 'Chiuso' : 'Aperto' }} </span>
     </div>
   </div>
 
