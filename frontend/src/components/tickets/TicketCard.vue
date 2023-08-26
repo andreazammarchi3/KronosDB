@@ -1,15 +1,15 @@
 <script>
 import {defineComponent} from "vue";
-import {BASE_URL} from "@/main";
-import axios from "axios";
+import TicketDetails from "@/components/tickets/TicketDetails.vue";
 
 export default defineComponent({
   name: "TicketCard",
   props: ['ticket'],
+  components: {TicketDetails},
   data() {
     return {
-      routeName: "TicketDetails",
       completed: false,
+      showDetails: false
     }
   },
   methods: {
@@ -26,11 +26,10 @@ export default defineComponent({
 
 // TODO: use flags instead of highlighting
 // TODO: add page to update the ticket
-// TODO: add toast for more details
 </script>
 
 <template>
-  <div class="card mb-3" :class="[completed ? 'border-secondary' : 'border-warning']">
+  <div class="card mb-3" :class="[completed ? 'border-secondary' : 'border-warning']" @click="showDetails = true">
     <div class="card-header">
       <div>ID: {{ this.ticket.idTicket }}</div>
       <div>{{ this.ticket.openDate }}</div>
@@ -40,12 +39,16 @@ export default defineComponent({
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
     </div>
   </div>
+
+  <div class="overlay" :class="{ 'd-flex': showDetails }">
+    <TicketDetails :ticket="ticket" @close="showDetails = false" />
+  </div>
 </template>
 
 <style scoped>
 @import url('../../../templates/style.css');
 
-.card {
+.card:not(.overlay .card) {
   max-width: 18rem;
   margin: 0 1rem;
 }
@@ -67,5 +70,26 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: justify;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.overlay .card {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+  width: 50%;
 }
 </style>
