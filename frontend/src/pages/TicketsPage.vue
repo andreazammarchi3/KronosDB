@@ -12,9 +12,13 @@ export default defineComponent({
 
 <template>
   <Header></Header>
+  <h1 class="h1">Elenco Tickets</h1>
   <TicketsList></TicketsList>
 </template>
 
 <style scoped>
-
+@import url('../../templates/style.css');
+.h1 {
+  text-align: center;
+}
 </style>

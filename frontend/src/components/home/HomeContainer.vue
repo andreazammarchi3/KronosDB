@@ -28,7 +28,7 @@ export default defineComponent({
 .btn-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 100vh;
 }
