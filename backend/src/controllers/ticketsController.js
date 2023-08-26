@@ -10,6 +10,15 @@ exports.all_tickets = async(req, res) => {
     }
 }
 
+exports.get_ticket = async (req, res) => {
+    try{
+        res.header("Access-Control-Allow-Origin", "*");
+        res.json(await ticketsModel.findOne({idTicket: parseInt(req.params.id.split(":")[1])}));
+    }catch (e) {
+        res.json(e);
+    }
+}
+
 function formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');

@@ -8,29 +8,41 @@ export default defineComponent({
   props: ['ticket'],
   data() {
     return {
-
     }
   },
   methods: {
-    deleteTicket() {
-      axios.post(BASE_URL + '/removeTicket:' + this.ticket.idTicket)
-          .then(() => {
-            this.$emit('close')
-          })
-          .catch(error => {
-            console.log(error)
-          })
-    }
   },
   mounted() {
+
   }
 })
 </script>
 
 <template>
-
+  <form class="form">
+    <fieldset>
+      <label for="client" class="form-label mt-4">Cliente</label>
+      <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.ticket.fullNameClient">
+      <label for="openDate" class="form-label mt-4">Data apertura</label>
+      <input type="text" class="form-control" id="openDate" :placeholder="this.ticket.openDate">
+      <label for="closeDate" class="form-label mt-4">Data chiusura</label>
+      <input type="text" class="form-control" id="closeDate" :placeholder="this.ticket.closeDate">
+    </fieldset>
+  </form>
 </template>
 
 <style scoped>
 @import url('../../../templates/style.css');
+
+.form {
+  margin: 0 2rem;
+}
+
+.form-label {
+  padding: 0;
+}
+
+.form-control {
+  padding: 0;
+}
 </style>

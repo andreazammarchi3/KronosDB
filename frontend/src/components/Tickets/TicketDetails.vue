@@ -51,6 +51,7 @@ export default defineComponent({
       <div><strong>Data chiusura</strong>: {{ this.ticket.closeDate }}</div>
       <div>
         <button type="button" class="btn btn-danger btn-sm" @click="deleteTicket">Elimina</button>
+        <router-link type="button" class="btn btn-warning btn-sm" :to="{path: '/tickets/' + this.ticket.idTicket}">Modifica</router-link>
         <button type="button" class="btn btn-primary btn-sm" @click="$emit('close')">Chiudi</button>
       </div>
     </div>

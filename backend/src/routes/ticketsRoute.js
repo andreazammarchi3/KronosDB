@@ -5,6 +5,9 @@ const router = express.Router();
 router.route('/allTickets')
     .get((req, res) => ticketsController.all_tickets(req, res));
 
+router.route('/getTicket:id')
+    .get((req, res) => ticketsController.get_ticket(req, res));
+
 router.route('/addTicket')
     .post((req, res) => ticketsController.add_ticket(req, res));
 
