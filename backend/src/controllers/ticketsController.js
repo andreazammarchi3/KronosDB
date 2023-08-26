@@ -64,7 +64,8 @@ exports.remove_ticket = async (req, res) => {
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
     try{
-        res.json(await ticketsModel.deleteOne({idClient: req.params.id}));
+        console.log(parseInt(req.params.id.split(":")[1]));
+        res.json(await ticketsModel.deleteOne({idTicket: parseInt(req.params.id.split(":")[1])}));
     }catch (e) {
         res.json(e);
     }
@@ -82,7 +83,7 @@ exports.update_ticket = async (req, res) => {
     }
 
     try{
-        res.json(await ticketsModel.updateOne({idClient: req.params.id}, req.body));
+        res.json(await ticketsModel.updateOne({idTicket: req.params.id}, req.body));
     }catch (e) {
         res.json(e);
     }
