@@ -32,12 +32,15 @@ export default defineComponent({
       const clientRequest = document.getElementById("client-request").value;
       const idTechnician = document.getElementById("technician").value.split(" ")[0] === "Nessuno" ?
           null : document.getElementById("technician").value.split(" ")[0];
+      const fullnameTechnician = document.getElementById("technician").value.split(" - ")[0] === "Nessuno" ?
+          null : document.getElementById("technician").value.split(" - ")[1];
 
       axios.post(`${BASE_URL}/addTicket`, {
             idClient,
             fullNameClient,
             clientRequest,
             idTechnician,
+            fullnameTechnician
           })
           .then((response) => {
             console.log(response.data);

@@ -8,33 +8,12 @@ export default defineComponent({
   props: ['ticket'],
   data() {
     return {
-      completed: false,
       technician: null
     }
   },
   methods: {
-    checkIfTicketIsCompleted() {
-      if (this.ticket.closeDate !== '') {
-        this.completed = true
-      }
-    },
-    getTechnician() {
-      axios.get(BASE_URL + '/technicians:' + this.ticket.idTechnician)
-        .then(response => {
-          if (response.data === null) {
-            this.technician = 'Nessuno'
-          } else {
-            this.technician = response.data.fullName
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
   },
   mounted() {
-    this.checkIfTicketIsCompleted()
-    this.getTechnician()
   }
 })
 </script>
@@ -48,11 +27,11 @@ export default defineComponent({
     <div class="card-body">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><h4><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.ticket.fullNameClient }}</h4></li>
-        <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.technician }}</li>
+        <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.fullNameTechnician }}</li>
         <li class="list-group-item"><strong>Richiesta</strong>: {{ this.ticket.clientRequest }}</li>
         <li class="list-group-item"><strong>Lavoro svolto</strong>: {{ this.ticket.workDone }}</li>
         <li class="list-group-item"><strong>Log attività</strong>:
-          <textarea class="form-control" id="log-activities" rows="3" readonly="">{{ this.ticket.logActivities }}</textarea>
+          <textarea class="form-control" rows="3" readonly="">{{ this.ticket.logActivities }}</textarea>
         </li>
         <li class="list-group-item"><strong>Ore intervento</strong>: {{ this.ticket.workingHours }}</li>
         <li class="list-group-item"><strong>Ore trasferimento</strong>: {{ this.ticket.transferHours }}</li>

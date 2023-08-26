@@ -32,7 +32,7 @@ exports.add_ticket = async (req, res) => {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
-    const { idClient, fullNameClient, clientRequest, idTechnician } = req.body;
+    const { idClient, fullNameClient, clientRequest, idTechnician, fullNameTechnician } = req.body;
     const biggestId = await getBiggestTicketId();
 
     const newTicket = new ticketsModel({
@@ -41,7 +41,8 @@ exports.add_ticket = async (req, res) => {
         closeDate: "",
         idClient: idClient,
         fullNameClient: fullNameClient,
-        idTechnician: idTechnician === 0 ? null : req.body.idTechnician,
+        idTechnician: idTechnician === 0 ? null : idTechnician,
+        fullNameTechnician: fullNameTechnician === null ? "Nessuno" : fullNameTechnician,
         clientRequest: clientRequest,
         workDone: null,
         logActivities: null,
