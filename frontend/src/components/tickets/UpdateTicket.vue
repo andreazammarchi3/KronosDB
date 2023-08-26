@@ -22,11 +22,11 @@ export default defineComponent({
   <form class="form">
     <fieldset>
       <label for="client" class="form-label mt-4">Cliente</label>
-      <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.ticket.fullNameClient">
+      <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.ticket.fullNameClient" readonly>
       <label for="openDate" class="form-label mt-4">Data apertura</label>
-      <input type="text" class="form-control" id="openDate" :placeholder="this.ticket.openDate">
+      <input type="text" class="form-control" id="openDate" :value="this.ticket.openDate">
       <label for="closeDate" class="form-label mt-4">Data chiusura</label>
-      <input type="text" class="form-control" id="closeDate" :placeholder="this.ticket.closeDate">
+      <input type="text" class="form-control" id="closeDate" :value="this.ticket.closeDate">
     </fieldset>
   </form>
 </template>
