@@ -90,6 +90,6 @@ export default defineComponent({
   padding: 1rem;
   border-radius: 0.25rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
-  width: 50%;
+  width: 80%;
 }
 </style>
