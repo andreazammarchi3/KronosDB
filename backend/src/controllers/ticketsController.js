@@ -64,7 +64,6 @@ exports.remove_ticket = async (req, res) => {
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
     try{
-        console.log(parseInt(req.params.id.split(":")[1]));
         res.json(await ticketsModel.deleteOne({idTicket: parseInt(req.params.id.split(":")[1])}));
     }catch (e) {
         res.json(e);
