@@ -7,7 +7,6 @@ export default defineComponent({
   name: "ModalAddTicket",
   data() {
     return {
-      showModal: false,
       clients: [],
       technicians: []
     };
@@ -46,13 +45,17 @@ export default defineComponent({
             document.getElementById("client").selectedIndex = 0;
             document.getElementById("client-request").value = "";
             document.getElementById("technician").selectedIndex = 0;
-            this.showModal = false;
+            document.getElementById("closeBtn").click();
+
+            // Show alert with fade in and out
+            document.getElementById("alert").style.display = "block";
+            setTimeout(() => {
+              document.getElementById("alert").style.display = "none";
+            }, 3000);
           })
           .catch((error) => {
             console.log(error);
           });
-
-      // TODO: check if success then show notification
     }
   },
   mounted() {
@@ -81,7 +84,7 @@ export default defineComponent({
           </div>
 
           <div class="form-group">
-            <label for="exampleTextarea" class="form-label mt-4">Richiesta/segnalazione</label>
+            <label for="client-request" class="form-label mt-4">Richiesta/segnalazione</label>
             <textarea class="form-control" id="client-request" rows="3"></textarea>
           </div>
 
@@ -95,13 +98,22 @@ export default defineComponent({
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary btn-sm" @click="addTicket">Apri Ticket</button>
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Chiudi</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="closeBtn">Chiudi</button>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="alert alert-dismissible alert-success position-fixed top-0 start-50 translate-middle-x" id="alert">
+    Ticket creato correttamente.
   </div>
 </template>
 
 <style scoped>
 @import url('../../../templates/style.css');
+
+.alert {
+  display: none;
+  margin-top: 6rem;
+}
 </style>

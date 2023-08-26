@@ -45,6 +45,9 @@ export default defineComponent({
     this.getTickets()
   }
 })
+
+// TODO: add other filters
+// TODO: add search bar
 </script>
 
 <template>

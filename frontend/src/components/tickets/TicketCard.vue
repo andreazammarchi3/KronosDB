@@ -23,6 +23,10 @@ export default defineComponent({
     this.checkIfTicketIsCompleted()
   }
 })
+
+// TODO: use flags instead of highlighting
+// TODO: add page to update the ticket
+// TODO: add toast for more details
 </script>
 
 <template>
