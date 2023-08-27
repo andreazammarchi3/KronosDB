@@ -35,6 +35,8 @@ export default defineComponent({
     this.getTechnician()
   }
 })
+
+// TODO: add share btn for pdf, mail or print
 </script>
 
 <template>

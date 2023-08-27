@@ -25,8 +25,6 @@ export default defineComponent({
   }
 })
 
-// TODO: use flags instead of highlighting
-// TODO: add page to update the ticket
 </script>
 
 <template>
