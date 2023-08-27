@@ -53,6 +53,10 @@ export default defineComponent({
     this.getAllTechnicians()
     this.getTechnician()
   }
+
+  // TODO: add cards
+  // TODO: add ore residue
+  // TODO: add signature
 })
 </script>
 
@@ -90,6 +94,8 @@ export default defineComponent({
       <input type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price.toFixed(2)">
       <small id="priceComputed" class="form-text text-muted" v-if="this.technician">Prezzo calcolato in base alle ore: €{{ this.price.toFixed(2) }}</small>
     </fieldset>
+    <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
+    <router-link type="button" class="btn btn-secondary btn-sm" to="/tickets">Indietro</router-link>
   </form>
 </template>
 
@@ -100,11 +106,13 @@ export default defineComponent({
   margin: 0 2rem 2rem;
 }
 
-.form-label {
+.form-label, .form-select, .form-control {
   padding: 0;
 }
 
-.form-control {
-  padding: 0;
+.btn {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
 }
 </style>
