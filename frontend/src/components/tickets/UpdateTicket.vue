@@ -38,15 +38,12 @@ export default defineComponent({
     totalHours() {
       return this.workingHours + this.transferHours
     },
-    price() {
+    priceSuggested() {
       if (this.technician) {
         return this.totalHours * this.technician.costPerHour
       } else {
         return 0
       }
-    },
-    priceComputed() {
-      return this.totalHours * this.technician.costPerHour
     }
   },
   mounted() {
@@ -91,8 +88,9 @@ export default defineComponent({
       <label for="totalHours" class="form-label mt-4">Ore totali</label>
       <input type="number" class="form-control" id="totalHours" v-model="this.totalHours" readonly>
       <label for="price" class="form-label mt-4">Saldo (€)</label>
-      <input type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price.toFixed(2)">
-      <small id="priceComputed" class="form-text text-muted" v-if="this.technician">Prezzo calcolato in base alle ore: €{{ this.price.toFixed(2) }}</small>
+      <input type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price === null ? 0 : this.ticket.price.toFixed(2)">
+      <small id="priceComputed" class="form-text text-muted" v-show="technician !== null && !isNaN(priceSuggested)">Prezzo
+        calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small>
     </fieldset>
     <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
     <router-link type="button" class="btn btn-secondary btn-sm" to="/tickets">Indietro</router-link>
