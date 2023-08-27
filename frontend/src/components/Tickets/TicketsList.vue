@@ -31,7 +31,7 @@ export default defineComponent({
       })
     },
     filterClosedTickets() {
-      return this.tickets?.filter(ticket => ticket.closeDate === "") ?? this.tickets
+      return this.sortedTickets.filter(ticket => ticket.closeDate === "")
     },
     filteredTickets() {
       let filtered = this.closed ? this.sortedTickets : this.filterClosedTickets
