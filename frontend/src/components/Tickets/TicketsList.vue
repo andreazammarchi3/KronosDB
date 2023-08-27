@@ -11,7 +11,8 @@ export default defineComponent({
   data() {
     return {
       tickets: [],
-      sortBy: 'openDateMinToMax'
+      sortBy: 'openDateMinToMax',
+      closed: true
     }
   },
   computed: {
@@ -27,18 +28,29 @@ export default defineComponent({
           return b.fullNameClient.localeCompare(a.fullNameClient)
         }
       })
-    }
+    },
+    filterClosedTickets() {
+      return this.tickets?.filter(ticket => ticket.closeDate === "") ?? this.tickets
+    },
+    filteredTickets() {
+      return this.closed ? this.sortedTickets : this.filterClosedTickets
+    },
   },
   methods: {
     sortTickets(sortBy) {
       this.sortBy = sortBy
     },
-    getTickets() {
-      axios.get(`${BASE_URL}/allTickets`).then(response => {
-        this.tickets = response.data
-      }).catch(error => {
-        console.log(error)
-      })
+    async getTickets() {
+      try {
+        const response = await axios.get(`${BASE_URL}/allTickets`);
+        this.tickets = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    toggleClosed() {
+      this.closed = !this.closed
+      console.log(this.open, this.closed)
     }
   },
   mounted() {
@@ -51,9 +63,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <FilterBar @sort-by="sortTickets"></FilterBar>
+  <FilterBar @sort-by="sortTickets" @closed="toggleClosed"></FilterBar>
   <div class="ticket-list">
-    <div v-for="ticket in sortedTickets" :key="ticket.idTicket">
+    <div v-for="ticket in filteredTickets" :key="ticket.idTicket">
       <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
     </div>
   </div>

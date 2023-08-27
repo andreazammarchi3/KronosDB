@@ -4,12 +4,16 @@ export default {
   data() {
     return {
       sortBy: 'openDateMinToMax',
+      closed: true
     }
   },
   watch: {
     sortBy() {
       this.$emit('sort-by', this.sortBy)
     },
+    closed() {
+      this.$emit('closed', this.closed)
+    }
   }
 }
 </script>
@@ -24,9 +28,7 @@ export default {
     </select>
 
     <div class="btn-group" role="group">
-      <input type="checkbox" class="btn-check" id="open" checked autocomplete="off">
-      <label class="btn btn-danger" for="open">Aperti</label>
-      <input type="checkbox" class="btn-check" id="closed" checked autocomplete="off">
+      <input type="checkbox" class="btn-check" id="closed" checked autocomplete="off" v-model="closed">
       <label class="btn btn-success" for="closed">Chiusi</label>
     </div>
   </div>
