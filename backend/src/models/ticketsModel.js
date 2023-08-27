@@ -7,7 +7,6 @@ const ticketSchema = new mongoose.Schema({
     idClient: Number,
     fullNameClient: String,
     idTechnician: Number,
-    fullNameTechnician: String,
     clientRequest: String,
     workDone: String,
     logActivities: String,
