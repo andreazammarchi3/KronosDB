@@ -32,6 +32,40 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
+    },
+    updateTicket() {
+      const idTicket = this.ticket.idTicket
+      const openDate = document.getElementById('openDate').value
+      const closeDate = document.getElementById('closeDate').value
+      const idClient = this.ticket.idClient
+      const idTechnician = document.getElementById('technician').value.split(' - ')[0]
+      const clientRequest = document.getElementById('clientRequest').value
+      const workDone = document.getElementById('workDone').value
+      const logActivities = document.getElementById('logActivities').value
+      const workingHours = document.getElementById('workingHours').value
+      const transferHours = document.getElementById('transferHours').value
+      const price = document.getElementById('price').value
+
+      axios.post(BASE_URL + '/updateTicket:' + idTicket, {
+        idTicket: idTicket,
+        openDate: openDate,
+        closeDate: closeDate,
+        idClient: idClient,
+        idTechnician: idTechnician,
+        clientRequest: clientRequest,
+        workDone: workDone,
+        logActivities: logActivities,
+        workingHours: workingHours,
+        transferHours: transferHours,
+        price: price
+      })
+        .then(response => {
+          console.log(response)
+          this.$router.push('/tickets')
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   computed: {
@@ -54,11 +88,12 @@ export default defineComponent({
   // TODO: add cards
   // TODO: add ore residue
   // TODO: add signature
+  // TODO: fix price suggested when changing technician
 })
 </script>
 
 <template>
-  <form class="form">
+  <form class="form" @submit="updateTicket">
     <fieldset>
       <label for="idTicket" class="form-label mt-4">ID Ticket</label>
       <input type="text" class="form-control" id="idTicket" :placeholder="this.ticket.idTicket" readonly>
