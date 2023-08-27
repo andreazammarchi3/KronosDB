@@ -33,8 +33,9 @@ export default defineComponent({
           console.log(error)
         })
     },
-    updateTicket() {
-      const idTicket = this.ticket.idTicket
+    updateTicket(event) {
+      event.preventDefault();
+
       const openDate = document.getElementById('openDate').value
       const closeDate = document.getElementById('closeDate').value
       const idClient = this.ticket.idClient
@@ -46,11 +47,12 @@ export default defineComponent({
       const transferHours = document.getElementById('transferHours').value
       const price = document.getElementById('price').value
 
-      axios.post(BASE_URL + '/updateTicket:' + idTicket, {
-        idTicket: idTicket,
+      axios.post(BASE_URL + '/updateTicket:' + this.ticket.idTicket, {
+        idTicket: this.ticket.idTicket,
         openDate: openDate,
         closeDate: closeDate,
         idClient: idClient,
+        fullNameClient: this.ticket.fullNameClient,
         idTechnician: idTechnician,
         clientRequest: clientRequest,
         workDone: workDone,
@@ -93,7 +95,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="form" @submit="updateTicket">
+  <form class="form" @submit="updateTicket($event)">
     <fieldset>
       <label for="idTicket" class="form-label mt-4">ID Ticket</label>
       <input type="text" class="form-control" id="idTicket" :placeholder="this.ticket.idTicket" readonly>

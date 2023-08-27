@@ -8,7 +8,7 @@ export default defineComponent({
   props: ['ticket'],
   data() {
     return {
-      technician: null
+      technicianInfo: null
     }
   },
   methods: {
@@ -20,9 +20,19 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
+    },
+    getTechnician() {
+      axios.get(BASE_URL + '/getTechnician:' + this.ticket.idTechnician)
+        .then(response => {
+          this.technicianInfo = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   mounted() {
+    this.getTechnician()
   }
 })
 </script>
@@ -36,7 +46,7 @@ export default defineComponent({
     <div class="card-body">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><h4><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.ticket.fullNameClient }}</h4></li>
-        <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.fullNameTechnician }}</li>
+        <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.idTechnician }} - {{ technicianInfo ? technicianInfo.fullName : 'Caricamento...' }}</li>
         <li class="list-group-item"><strong>Richiesta</strong>: {{ this.ticket.clientRequest }}</li>
         <li class="list-group-item"><strong>Lavoro svolto</strong>: {{ this.ticket.workDone }}</li>
         <li class="list-group-item"><strong>Log attività</strong>:
