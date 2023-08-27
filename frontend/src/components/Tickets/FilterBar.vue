@@ -49,7 +49,7 @@ export default {
       <label class="btn btn-success" for="closed">Chiusi</label>
     </div>
 
-    <input class="form-control" id="searchBox" type="search" placeholder="Cerca" v-model="searchTerm">
+    <input class="form-control" id="searchBox" type="search" placeholder="Cerca cliente" v-model="searchTerm">
     <button class="btn btn-secondary search-btn" type="submit" @click="search">Cerca</button>
   </div>
 </template>
