@@ -50,7 +50,7 @@ export default {
     </div>
 
     <input class="form-control" id="searchBox" type="search" placeholder="Cerca cliente" v-model="searchTerm">
-    <button class="btn btn-secondary search-btn" type="submit" @click="search">Cerca</button>
+    <button class="btn btn-primary search-btn" type="submit" @click="search">Cerca</button>
   </div>
 </template>
 

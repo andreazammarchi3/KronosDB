@@ -1,3 +1,19 @@
+<template>
+  <div>
+    <FilterBar @sort-by="sortTickets" @closed="toggleClosed" @search="search"></FilterBar>
+    <div class="ticket-list">
+      <div v-for="ticket in paginatedTickets" :key="ticket.idTicket">
+        <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="btn btn-primary btn-sm" :disabled="currentPage === 1" @click="prevPage">Prev</button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button class="btn btn-primary btn-sm" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
+    </div>
+  </div>
+</template>
+
 <script>
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
@@ -13,7 +29,9 @@ export default defineComponent({
       tickets: [],
       sortBy: 'openDateMinToMax',
       closed: true,
-      searchTerm: ''
+      searchTerm: '',
+      currentPage: 1,
+      pageSize: 10,
     }
   },
   computed: {
@@ -42,6 +60,14 @@ export default defineComponent({
       }
       return filtered
     },
+    totalPages() {
+      return Math.ceil(this.filteredTickets.length / this.pageSize)
+    },
+    paginatedTickets() {
+      const startIndex = (this.currentPage - 1) * this.pageSize
+      const endIndex = startIndex + this.pageSize
+      return this.filteredTickets.slice(startIndex, endIndex)
+    }
   },
   methods: {
     sortTickets(sortBy) {
@@ -60,25 +86,23 @@ export default defineComponent({
     },
     search(searchTerm) {
       this.searchTerm = searchTerm
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--
+      }
     }
   },
   mounted() {
     this.getTickets()
   }
 })
-
-// TODO: add other filters
-// TODO: add search bar
 </script>
-
-<template>
-  <FilterBar @sort-by="sortTickets" @closed="toggleClosed" @search="search"></FilterBar>
-  <div class="ticket-list">
-    <div v-for="ticket in filteredTickets" :key="ticket.idTicket">
-      <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 @import url('../../../templates/style.css');
@@ -88,5 +112,12 @@ export default defineComponent({
   flex-wrap: wrap;
   margin-top: 1rem;
 }
-
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.pagination button {
+  margin: 0 0.5rem 1rem;
+}
 </style>
