@@ -5,6 +5,9 @@ const router = express.Router();
 router.route('/allTechnicians')
     .get((req, res) => techniciansController.all_technicians(req, res));
 
+router.route('/getTechnician:id')
+    .get((req, res) => techniciansController.get_technician(req, res));
+
 router.route('/addTechnician')
     .post((req, res) => techniciansController.add_technician(req, res));
 

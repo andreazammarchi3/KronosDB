@@ -91,7 +91,7 @@ exports.update_ticket = async (req, res) => {
     }
 
     try{
-        res.json(await ticketsModel.updateOne({idTicket: req.params.id}, req.body));
+        res.json(await ticketsModel.updateOne({idTicket: parseInt(req.params.id.split(":")[1])}, req.body));
     }catch (e) {
         res.json(e);
     }
