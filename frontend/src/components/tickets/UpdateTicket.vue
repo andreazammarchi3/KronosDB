@@ -87,7 +87,7 @@ export default defineComponent({
       <label for="totalHours" class="form-label mt-4">Ore totali</label>
       <input type="number" class="form-control" id="totalHours" v-model="this.totalHours" readonly>
       <label for="price" class="form-label mt-4">Saldo (€)</label>
-      <input type="number" class="form-control" step="0.01" id="price" :value="this.ticket.price.toFixed(2)">
+      <input type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price.toFixed(2)">
       <small id="priceComputed" class="form-text text-muted" v-if="this.technician">Prezzo calcolato in base alle ore: €{{ this.price.toFixed(2) }}</small>
     </fieldset>
   </form>
