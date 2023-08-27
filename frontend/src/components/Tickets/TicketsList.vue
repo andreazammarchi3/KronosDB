@@ -12,7 +12,8 @@ export default defineComponent({
     return {
       tickets: [],
       sortBy: 'openDateMinToMax',
-      closed: true
+      closed: true,
+      searchTerm: ''
     }
   },
   computed: {
@@ -33,7 +34,13 @@ export default defineComponent({
       return this.tickets?.filter(ticket => ticket.closeDate === "") ?? this.tickets
     },
     filteredTickets() {
-      return this.closed ? this.sortedTickets : this.filterClosedTickets
+      let filtered = this.closed ? this.sortedTickets : this.filterClosedTickets
+      if (this.searchTerm !== '' || this.searchTerm !== null) {
+        filtered = filtered.filter(ticket => {
+          return ticket.fullNameClient.includes(this.searchTerm)
+        })
+      }
+      return filtered
     },
   },
   methods: {
@@ -50,7 +57,9 @@ export default defineComponent({
     },
     toggleClosed() {
       this.closed = !this.closed
-      console.log(this.open, this.closed)
+    },
+    search(searchTerm) {
+      this.searchTerm = searchTerm
     }
   },
   mounted() {
@@ -63,7 +72,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <FilterBar @sort-by="sortTickets" @closed="toggleClosed"></FilterBar>
+  <FilterBar @sort-by="sortTickets" @closed="toggleClosed" @search="search"></FilterBar>
   <div class="ticket-list">
     <div v-for="ticket in filteredTickets" :key="ticket.idTicket">
       <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>

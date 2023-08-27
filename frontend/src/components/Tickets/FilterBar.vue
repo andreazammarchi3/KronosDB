@@ -4,7 +4,8 @@ export default {
   data() {
     return {
       sortBy: 'openDateMinToMax',
-      closed: true
+      closed: true,
+      searchTerm: ''
     }
   },
   watch: {
@@ -14,6 +15,22 @@ export default {
     closed() {
       this.$emit('closed', this.closed)
     }
+  },
+  computed: {
+  },
+  methods: {
+    search() {
+      this.$emit('search', this.searchTerm)
+    }
+  },
+  mounted() {
+    const inputBox = document.getElementById('searchBox');
+
+    inputBox.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default "Enter" key action
+      }
+    });
   }
 }
 </script>
@@ -31,6 +48,9 @@ export default {
       <input type="checkbox" class="btn-check" id="closed" checked autocomplete="off" v-model="closed">
       <label class="btn btn-success" for="closed">Chiusi</label>
     </div>
+
+    <input class="form-control" id="searchBox" type="search" placeholder="Cerca" v-model="searchTerm">
+    <button class="btn btn-secondary search-btn" type="submit" @click="search">Cerca</button>
   </div>
 </template>
 
@@ -43,10 +63,34 @@ export default {
 }
 
 .form-select {
-  max-width: 15rem;
+  width: 15rem;
 }
 
-.btn-group {
-  margin-left: 1rem;
+.filter-bar > * {
+  margin: 0 0.5rem;
 }
+
+.form-control {
+  width: 15rem;
+}
+
+.search-btn {
+  margin-left: 0;
+}
+
+@media screen and (max-width: 644px) {
+  .filter-bar {
+    flex-wrap: wrap;
+  }
+
+  .filter-bar > * {
+    margin: 0.5rem;
+  }
+
+  .form-control {
+    width: 15rem;
+    margin-left: 0.5rem;
+  }
+}
+
 </style>
