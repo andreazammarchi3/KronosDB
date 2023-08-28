@@ -12,7 +12,8 @@ const ticketSchema = new mongoose.Schema({
     logActivities: String,
     workingHours: Number,
     transferHours: Number,
-    price: Number
+    price: Number,
+    signatureClient: String,
 });
 
 module.exports = mongoose.model('tickets', ticketSchema);

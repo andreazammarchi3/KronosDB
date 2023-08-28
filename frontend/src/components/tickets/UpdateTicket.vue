@@ -1,17 +1,20 @@
 <script>
 import {defineComponent} from "vue";
+import VueSignaturePad from "../MySignaturePad.vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
 
 export default defineComponent({
   name: "UpdateTicket",
   props: ['ticket'],
+  components: { VueSignaturePad },
   data() {
     return {
       technicians: [],
       workingHours: this.ticket.workingHours,
       transferHours: this.ticket.transferHours,
-      technician: null
+      technician: null,
+      signaturePad: null,
     }
   },
   methods: {
@@ -68,6 +71,15 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
+    },
+    dataURLtoFile(dataurl) {
+      if (dataurl === null) {
+        return null
+      } else if (typeof dataurl === 'string') {
+        return dataurl;
+      } else {
+        return null;
+      }
     }
   },
   computed: {
@@ -80,11 +92,12 @@ export default defineComponent({
       } else {
         return 0
       }
-    }
+    },
   },
   mounted() {
     this.getAllTechnicians()
     this.getTechnician()
+    this.signaturePad = this.$refs.signaturePad;
   }
 
   // TODO: add cards
@@ -126,8 +139,14 @@ export default defineComponent({
       <input type="number" class="form-control" id="totalHours" v-model="this.totalHours" readonly>
       <label for="price" class="form-label mt-4">Saldo (€)</label>
       <input type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price === null ? 0 : this.ticket.price.toFixed(2)">
-      <small id="priceComputed" class="form-text text-muted" v-show="technician !== null && !isNaN(priceSuggested)">Prezzo
-        calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small>
+      <small id="priceComputed" class="form-text text-muted" v-show="technician !== null && !isNaN(priceSuggested)">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small>
+      <div class="form-group">
+        <label for="signature" class="form-label mt-4">Firma del cliente</label>
+        <button type="button" class="btn btn-primary btn-sm">{{ this.ticket.signatureClient ? 'Modifica ' : '' }}firma</button>
+        <div class="form-group">
+          <img class="figure-img" id="signature" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature">
+        </div>
+      </div>
     </fieldset>
     <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
     <router-link type="button" class="btn btn-secondary btn-sm" to="/tickets">Indietro</router-link>
@@ -148,6 +167,17 @@ export default defineComponent({
 .btn {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
+}
+
+.figure-img {
+  width: auto;
+  height: 100px;
+  border: 1px solid #000;
+  margin: 0 auto;
+}
+
+.form-group > .btn {
+  margin-left: 1rem;
 }
 </style>
