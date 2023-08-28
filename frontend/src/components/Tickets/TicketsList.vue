@@ -1,19 +1,3 @@
-<template>
-  <div>
-    <FilterBar @sort-by="sortTickets" @closed="toggleClosed" @search="search"></FilterBar>
-    <div class="ticket-list">
-      <div v-for="ticket in paginatedTickets" :key="ticket.idTicket">
-        <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
-      </div>
-    </div>
-    <div class="pagination">
-      <button class="btn btn-primary btn-sm" :disabled="currentPage === 1" @click="prevPage">Prev</button>
-      <span>{{ currentPage }} / {{ totalPages }}</span>
-      <button class="btn btn-primary btn-sm" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
-    </div>
-  </div>
-</template>
-
 <script>
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
@@ -27,6 +11,7 @@ export default defineComponent({
   data() {
     return {
       tickets: [],
+      clients: [],
       sortBy: 'openDateMinToMax',
       closed: true,
       searchTerm: '',
@@ -55,7 +40,10 @@ export default defineComponent({
       let filtered = this.closed ? this.sortedTickets : this.filterClosedTickets
       if (this.searchTerm !== '' || this.searchTerm !== null) {
         filtered = filtered.filter(ticket => {
-          return ticket.fullNameClient.includes(this.searchTerm)
+          const client = this.clients.find(client => client.idClient === ticket.idClient)
+          if (client && client.fullName) {
+            return client.fullName.includes(this.searchTerm)
+          }
         })
       }
       return filtered
@@ -96,13 +84,39 @@ export default defineComponent({
       if (this.currentPage > 1) {
         this.currentPage--
       }
-    }
+    },
+    getClients() {
+      axios.get(BASE_URL + '/allClients')
+        .then(response => {
+          this.clients = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
   },
   mounted() {
     this.getTickets()
+    this.getClients()
   }
 })
 </script>
+
+<template>
+  <div>
+    <FilterBar @sort-by="sortTickets" @closed="toggleClosed" @search="search"></FilterBar>
+    <div class="ticket-list">
+      <div v-for="ticket in paginatedTickets" :key="ticket.idTicket">
+        <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="btn btn-primary btn-sm" :disabled="currentPage === 1" @click="prevPage">Prev</button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button class="btn btn-primary btn-sm" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 @import url('../../../templates/style.css');

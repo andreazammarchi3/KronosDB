@@ -28,14 +28,12 @@ export default defineComponent({
     },
     addTicket() {
       const idClient = document.getElementById("client").value.split(" ")[0];
-      const fullNameClient = document.getElementById("client").value.split(" - ")[1];
       const clientRequest = document.getElementById("client-request").value;
       const idTechnician = document.getElementById("technician").value.split(" ")[0] === "Nessuno" ?
           null : document.getElementById("technician").value.split(" ")[0];
 
       axios.post(`${BASE_URL}/addTicket`, {
             idClient,
-            fullNameClient,
             clientRequest,
             idTechnician
           })

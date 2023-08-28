@@ -1,6 +1,8 @@
 <script>
 import {defineComponent} from "vue";
 import TicketDetails from "@/components/tickets/TicketDetails.vue";
+import axios from "axios";
+import {BASE_URL} from "@/main";
 
 export default defineComponent({
   name: "TicketCard",
@@ -10,7 +12,8 @@ export default defineComponent({
   data() {
     return {
       completed: false,
-      showDetails: false
+      showDetails: false,
+      client: null
     }
   },
   methods: {
@@ -18,10 +21,20 @@ export default defineComponent({
       if (this.ticket.closeDate !== '') {
         this.completed = true
       }
-    }
+    },
+    getClient() {
+      axios.get(BASE_URL + '/getClient:' + this.ticket.idClient)
+        .then(response => {
+          this.client = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
   },
   mounted() {
     this.checkIfTicketIsCompleted()
+    this.getClient()
   }
 })
 
@@ -34,7 +47,7 @@ export default defineComponent({
       <div>{{ this.ticket.openDate }}</div>
     </div>
     <div class="card-body">
-      <h5 class="card-title">{{ this.ticket.fullNameClient }}</h5>
+      <h5 class="card-title" v-if="client">{{ this.client.fullName }}</h5>
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
     </div>
     <div class="card-footer">
