@@ -17,7 +17,4 @@ export default defineComponent({
 
 <style scoped>
 @import url('../../templates/style.css');
-.h1 {
-  text-align: center;
-}
 </style>

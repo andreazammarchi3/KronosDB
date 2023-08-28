@@ -3,11 +3,13 @@ import HomePage from "@/pages/HomePage.vue";
 import NotFound from "@/pages/NotFound.vue";
 import TicketsPage from "@/pages/TicketsPage.vue";
 import UpdateTicketPage from "@/pages/UpdateTicketPage.vue";
+import ClientsPage from "@/pages/ClientsPage.vue";
 
 const routes = [
     {path: '/', name: 'Home', component: HomePage},
     {path: '/tickets', name: 'Tickets', component: TicketsPage},
     {path: '/tickets/:id', name: 'Ticket', component: UpdateTicketPage},
+    {path: '/clients', name: 'Clients', component: ClientsPage},
     {path: '/404', name: 'NotFound', component: NotFound},
     {path: '/:catchAll(.*)', redirect: '/404'}
 ];
