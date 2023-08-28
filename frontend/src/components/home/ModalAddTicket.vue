@@ -48,9 +48,11 @@ export default defineComponent({
             document.getElementById("closeBtn").click();
 
             // Show alert with fade in and out
-            document.getElementById("alert").style.display = "block";
+            document.getElementById("alertTicket").style.display = "block";
             setTimeout(() => {
-              document.getElementById("alert").style.display = "none";
+              if (document.getElementById("alertTicket")) {
+                document.getElementById("alertTicket").style.display = "none";
+              }
             }, 3000);
           })
           .catch((error) => {
@@ -104,7 +106,7 @@ export default defineComponent({
     </div>
   </div>
 
-  <div class="alert alert-dismissible alert-success position-fixed top-0 start-50 translate-middle-x" id="alert">
+  <div class="alert alert-dismissible alert-success position-fixed top-0 start-50 translate-middle-x" id="alertTicket">
     Ticket creato correttamente.
   </div>
 </template>
@@ -117,7 +119,7 @@ export default defineComponent({
   margin-top: 6rem;
 }
 
-.form-label, .form-control {
+.form-label {
   line-height: 0;
 }
 
