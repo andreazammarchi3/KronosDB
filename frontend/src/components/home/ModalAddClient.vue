@@ -30,10 +30,15 @@ export default defineComponent({
             document.getElementById("mail").value = "";
             document.getElementById("address").value = "";
 
+            document.getElementById("closeBtnClient").click()
+
             // Show alert with fade in and out
-            document.getElementById("alert").style.display = "block";
+            document.getElementById("alertClient").style.display = "block";
             setTimeout(() => {
-              document.getElementById("alert").style.display = "none";
+              // do next line only if element exists
+              if (document.getElementById("alertClient")) {
+                document.getElementById("alertClient").style.display = "none";
+              }
             }, 3000);
           })
           .catch((error) => {
@@ -79,13 +84,13 @@ export default defineComponent({
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary btn-sm" @click="addClient">Aggiungi Cliente</button>
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="closeBtn">Chiudi</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="closeBtnClient">Chiudi</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="alert alert-dismissible alert-success position-fixed top-0 start-50 translate-middle-x" id="alert">
+  <div class="alert alert-dismissible alert-success position-fixed top-0 start-50 translate-middle-x" id="alertClient">
     Cliente aggiunto correttamente.
   </div>
 </template>
