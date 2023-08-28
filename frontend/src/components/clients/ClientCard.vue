@@ -1,11 +1,14 @@
 <script>
 import {defineComponent} from "vue";
+import ClientDetails from "@/components/clients/ClientDetails.vue";
 
 export default defineComponent({
   name: "ClientCard",
   props: ['client'],
+  components: {ClientDetails},
   data() {
     return {
+      showDetails: false
     }
   },
   methods: {
@@ -17,7 +20,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="card mb-3 border-secondary">
+  <div class="card mb-3 border-secondary" @click="showDetails = true">
     <div class="card-header">ID: {{ this.client.idClient }}</div>
     <div class="card-body">
       <h5 class="card-title">{{ this.client.fullName }}</h5>
@@ -27,6 +30,10 @@ export default defineComponent({
     </div>
     <div class="card-footer">
     </div>
+  </div>
+
+  <div class="overlay" :class="{ 'd-flex': showDetails }">
+    <ClientDetails :client="client" @close="showDetails = false" />
   </div>
 </template>
 
