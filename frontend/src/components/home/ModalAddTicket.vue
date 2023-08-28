@@ -66,7 +66,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="modal" id="modalExample">
+  <div class="modal" id="addTicket">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -77,19 +77,19 @@ export default defineComponent({
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label for="client" class="form-label mt-4">Cliente</label>
+            <label for="client" class="form-label">Cliente</label>
             <select class="form-select" id="client">
               <option v-for="client in clients">{{ client.idClient }} - {{ client.fullName }}</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="client-request" class="form-label mt-4">Richiesta/segnalazione</label>
+            <label for="client-request" class="form-label">Richiesta/segnalazione</label>
             <textarea class="form-control" id="client-request" rows="3"></textarea>
           </div>
 
           <div class="form-group">
-            <label for="client" class="form-label mt-4">Tecnico assegnato (facoltativo)</label>
+            <label for="client" class="form-label">Tecnico assegnato (facoltativo)</label>
             <select class="form-select" id="technician">
               <option>Nessuno</option>
               <option v-for="technician in technicians">{{ technician.idTechnician }} - {{ technician.fullName }}</option>
@@ -115,5 +115,14 @@ export default defineComponent({
 .alert {
   display: none;
   margin-top: 6rem;
+}
+
+.form-label, .form-control {
+  line-height: 0;
+}
+
+.form-control, .form-select {
+  padding: 0.25rem 0;
+  margin-bottom: 1rem;
 }
 </style>

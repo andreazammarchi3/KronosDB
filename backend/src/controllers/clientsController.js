@@ -1,5 +1,6 @@
 const clientsModel = require('../models/clientsModel');
 const index = require('../../src/index');
+const ticketsModel = require("../models/ticketsModel");
 
 exports.all_clients = async(req, res) => {
     try{
@@ -19,15 +20,35 @@ exports.get_client = async (req, res) => {
     }
 }
 
+function getBiggestClientId() {
+    return clientsModel.find().sort({ idClient: -1 }).limit(1).then(clients => {
+        if (clients.length > 0) {
+            return clients[0].idClient;
+        } else {
+            return 0;
+        }
+    });
+}
+
 exports.add_client = async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
-    const client = new clientsModel(req.body);
+    const { fullName, cellphone, mail, address } = req.body;
+    const biggestId = await getBiggestClientId();
+
+    const newClient = new clientsModel({
+        idClient: biggestId + 1,
+        fullName: fullName,
+        address: address,
+        cellphone: cellphone,
+        mail: mail,
+        cards: []
+    });
 
     try{
-        res.json(await client.save());
+        res.json(await newClient.save());
     }catch (e) {
         res.json(e);
     }

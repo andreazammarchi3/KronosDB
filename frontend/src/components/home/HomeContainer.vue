@@ -1,13 +1,13 @@
 <script>
 import {defineComponent} from "vue";
 import ModalAddTicket from "@/components/home/ModalAddTicket.vue";
+import ModalAddClient from "@/components/home/ModalAddClient.vue";
 
 export default defineComponent({
   name: "HomeContainer",
-  components: {ModalAddTicket},
+  components: {ModalAddTicket, ModalAddClient},
   data() {
     return {
-      showModal: false
     };
   }
 })
@@ -15,11 +15,13 @@ export default defineComponent({
 
 <template>
     <div class="btn-container">
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalExample">Nuovo Ticket</button>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTicket">Nuovo Ticket</button>
       <router-link class="btn btn-primary" :to="{path: '/tickets'}">Elenco Ticket</router-link>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClient">Nuovo Cliente</button>
       <router-link class="btn btn-primary" :to="{path: '/clients'}">Elenco clienti</router-link>
 
       <ModalAddTicket></ModalAddTicket>
+      <ModalAddClient></ModalAddClient>
     </div>
 </template>
 
