@@ -1,7 +1,12 @@
-<script setup>
-
+<script>
 import Header from "@/components/Header.vue";
 import ClientsList from "@/components/clients/ClientsList.vue";
+import {defineComponent} from "vue";
+
+export default defineComponent({
+  name: "ClientsPage",
+  components: {ClientsList, Header}
+})
 </script>
 
 <template>

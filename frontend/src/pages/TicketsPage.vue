@@ -5,7 +5,7 @@ import Header from "@/components/Header.vue";
 import TicketsList from "@/components/tickets/TicketsList.vue";
 
 export default defineComponent({
-  name: "TicketPage",
+  name: "TicketsPage",
   components: {TicketsList, Header}
 })
 </script>

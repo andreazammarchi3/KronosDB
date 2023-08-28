@@ -1,3 +1,11 @@
+<script>
+import {defineComponent} from "vue";
+
+export default defineComponent({
+  name: "Header"
+})
+</script>
+
 <template>
   <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
