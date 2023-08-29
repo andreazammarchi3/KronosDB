@@ -153,7 +153,7 @@ export default defineComponent({
       <div class="form-group" v-if="this.ticket.signatureClient">
         <label class="form-label mt-4">Firma del cliente</label>
         <div class="form-group">
-          <img class="figure-img" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature">
+          <img class="figure-img" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature"/>
         </div>
         <button type="button" class="btn btn-secondary btn-sm" @click="deleteSignature">Cancella firma</button>
       </div>

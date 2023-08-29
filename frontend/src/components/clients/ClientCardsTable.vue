@@ -37,7 +37,15 @@ export default defineComponent({
         return this.sortedCards.filter(card => card.totalHours - card.usedHours > 0);
       }
     },
-  }
+  },
+  methods: {
+    editCard(card) {
+      // Implement your edit card logic here
+    },
+    deleteCard(card) {
+      // Implement your delete card logic here
+    },
+  },
 });
 
 </script>
@@ -54,20 +62,29 @@ export default defineComponent({
     <table class="table">
       <thead>
       <tr>
-        <th class="th" @click="sortColumn = 'totalHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
+        <th class="th text-center" @click="sortColumn = 'number'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
+          Numero tessera
+          <span v-if="sortColumn === 'totalHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+        </th>
+        <th class="th text-center" @click="sortColumn = 'totalHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
           Ore totali
           <span v-if="sortColumn === 'totalHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
         </th>
-        <th class="th" @click="sortColumn = 'usedHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
+        <th class="th text-center" @click="sortColumn = 'usedHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
           Ore utilizzate
           <span v-if="sortColumn === 'usedHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
         </th>
+        <th class="th text-center"></th>
+        <th class="th text-center"></th>
       </tr>
       </thead>
       <tbody class="table-body">
       <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }">
-        <td>{{ card.totalHours }}</td>
-        <td>{{ card.usedHours }}</td>
+        <td class="text-center">{{ card.number }}</td>
+        <td class="text-center">{{ card.totalHours }}</td>
+        <td class="text-center">{{ card.usedHours }}</td>
+        <td class="text-center"><button class="btn btn-primary btn-sm" @click="editCard(card)"><i class="bi bi-pencil"></i></button></td>
+        <td class="text-center"><button class="btn btn-danger btn-sm" @click="deleteCard(card)"><i class="bi bi-x-lg"></i></button></td>
       </tr>
       </tbody>
     </table>
@@ -87,7 +104,7 @@ export default defineComponent({
 
 .th {
   cursor: pointer;
-  width: 50%;
+  width: 20%;
 }
 
 .form-check {
@@ -96,6 +113,11 @@ export default defineComponent({
 
 .table-container {
   margin-top: 0;
+}
+
+.table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
 }
 
 .table-body {

@@ -7,6 +7,7 @@ const clientSchema = new mongoose.Schema({
     cellphone: Number,
     mail: String,
     cards: [{
+        number: Number,
         totalHours: Number,
         usedHours: Number
     }]
