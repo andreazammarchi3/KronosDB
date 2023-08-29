@@ -112,7 +112,6 @@ export default defineComponent({
 
   // TODO: add cards
   // TODO: add ore residue
-  // TODO: add signature
   // TODO: fix price suggested when changing technician
 })
 </script>
