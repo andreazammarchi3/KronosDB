@@ -50,26 +50,28 @@ export default defineComponent({
       Mostra tessere completate
     </label>
   </div>
-  <table class="table">
-    <thead>
-    <tr>
-      <th class="th" @click="sortColumn = 'totalHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
-        Ore totali
-        <span v-if="sortColumn === 'totalHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-      </th>
-      <th class="th" @click="sortColumn = 'usedHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
-        Ore utilizzate
-        <span v-if="sortColumn === 'usedHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }">
-      <td>{{ card.totalHours }}</td>
-      <td>{{ card.usedHours }}</td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="table-container" style="max-height: 15rem; overflow-y: auto;">
+    <table class="table">
+      <thead>
+      <tr>
+        <th class="th" @click="sortColumn = 'totalHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
+          Ore totali
+          <span v-if="sortColumn === 'totalHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+        </th>
+        <th class="th" @click="sortColumn = 'usedHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
+          Ore utilizzate
+          <span v-if="sortColumn === 'usedHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+        </th>
+      </tr>
+      </thead>
+      <tbody class="table-body">
+      <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }">
+        <td>{{ card.totalHours }}</td>
+        <td>{{ card.usedHours }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <style scoped>
@@ -90,6 +92,14 @@ export default defineComponent({
 
 .form-check {
   margin-left: 1rem;
+}
+
+.table-container {
+  margin-top: 0;
+}
+
+.table-body {
+  width: 100%;
 }
 
 </style>
