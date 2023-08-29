@@ -11,7 +11,8 @@ export default defineComponent({
   components: {UpdateTicket, Header},
   data() {
     return {
-      ticket: null
+      ticket: null,
+      client: null
     }
   },
   methods: {
@@ -22,10 +23,19 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
+    },
+    async getClient() {
+      try {
+        const response = await axios.get(`${BASE_URL}/getClient:${this.ticket.idClient}`);
+        this.client = response.data;
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   async mounted() {
     await this.getTicket();
+    await this.getClient();
   }
 })
 </script>
@@ -33,7 +43,7 @@ export default defineComponent({
 <template>
   <Header></Header>
   <h1 class="h1">Modifica Ticket</h1>
-  <UpdateTicket v-if="ticket" :ticket="this.ticket"></UpdateTicket>
+  <UpdateTicket v-if="ticket" :ticket="this.ticket" :client="this.client"></UpdateTicket>
 </template>
 
 <style scoped>
