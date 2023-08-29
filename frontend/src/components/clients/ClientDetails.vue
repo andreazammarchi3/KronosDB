@@ -29,7 +29,7 @@ export default defineComponent({
         <li class="list-group-item"><strong>Indirizzo</strong>: {{ this.client.address }}</li>
       </ul>
 
-      <ClientCardsTable :client="client" ></ClientCardsTable>
+      <ClientCardsTable v-if="client.cards.length !== 0" :client="client" ></ClientCardsTable>
     </div>
     <div class="card-footer text-muted">
       <span></span>

@@ -1,5 +1,7 @@
 <script>
 import { defineComponent } from "vue";
+import axios from "axios";
+import {BASE_URL} from "@/main";
 
 export default defineComponent({
   name: "ClientCardsTable",
@@ -41,9 +43,21 @@ export default defineComponent({
   methods: {
     editCard(card) {
       // Implement your edit card logic here
+
     },
-    deleteCard(card) {
-      // Implement your delete card logic here
+    deleteCard(number) {
+      this.client.cards = this.client.cards.filter(c => c.number !== number);
+      console.log(this.client.cards)
+      axios.post(BASE_URL + '/updateClient:' + this.client.idClient, {
+        cards: this.client.cards,
+      })
+          .then(response => {
+            console.log(response)
+            this.$router.push('/clients')
+          })
+          .catch(error => {
+            console.log(error)
+          })
     },
   },
 });
@@ -83,8 +97,8 @@ export default defineComponent({
         <td class="text-center">{{ card.number }}</td>
         <td class="text-center">{{ card.totalHours }}</td>
         <td class="text-center">{{ card.usedHours }}</td>
-        <td class="text-center"><button class="btn btn-primary btn-sm" @click="editCard(card)"><i class="bi bi-pencil"></i></button></td>
-        <td class="text-center"><button class="btn btn-danger btn-sm" @click="deleteCard(card)"><i class="bi bi-x-lg"></i></button></td>
+        <td class="text-center"><button class="btn btn-warning btn-sm" @click="editCard(card)"><i class="bi bi-pencil"></i></button></td>
+        <td class="text-center"><button class="btn btn-danger btn-sm" @click="deleteCard(card.number)"><i class="bi bi-x-lg"></i></button></td>
       </tr>
       </tbody>
     </table>

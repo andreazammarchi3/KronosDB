@@ -83,3 +83,23 @@ exports.update_client = async (req, res) => {
         res.json(e);
     }
 }
+
+exports.update_client_cards = async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
+
+    if (req.method === "OPTIONS") {
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+    } else {
+        res.header('Access-Control-Allow-Origin', '*');
+    }
+
+    const { cards } = req.body;
+
+    try{
+        res.json(await clientsModel.updateOne({idClient: parseInt(req.params.id.split(":")[1])}, {cards: cards}));
+    }catch (e) {
+        res.json(e);
+    }
+}
