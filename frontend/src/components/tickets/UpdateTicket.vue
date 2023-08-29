@@ -8,7 +8,7 @@ import MySignaturePad from "@/components/tickets/MySignaturePad.vue";
 
 export default defineComponent({
   name: "UpdateTicket",
-  props: ['ticket'],
+  props: ['ticket', 'client'],
   components: {MySignaturePad, TicketDetails, VueSignaturePad },
   data() {
     return {
@@ -85,11 +85,10 @@ export default defineComponent({
       }
     },
     saveSignature(data) {
-      console.log(data);
       this.ticket.signatureClient = data
+      this.showSignaturePad = false;
     },
     deleteSignature() {
-      console.log('deleted');
       this.ticket.signatureClient = null;
       this.showSignaturePad = true;
     },
@@ -119,7 +118,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="form" @submit="updateTicket($event)">
+  <form class="form" @submit="updateTicket($event)" v-if="this.client">
     <fieldset>
       <label for="idTicket" class="form-label mt-4">ID Ticket</label>
       <input type="text" class="form-control" id="idTicket" :placeholder="this.ticket.idTicket" readonly>
@@ -128,7 +127,7 @@ export default defineComponent({
       <label for="closeDate" class="form-label mt-4">Data chiusura</label>
       <input type="text" class="form-control" id="closeDate" :value="this.ticket.closeDate">
       <label for="client" class="form-label mt-4">Cliente</label>
-      <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.ticket.fullNameClient" readonly>
+      <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.client.fullName" readonly>
       <label for="technician" class="form-label mt-4">Tecnico assegnato</label>
       <select class="form-select" id="technician">
         <option v-for="technician in technicians" :value="technician.idTechnician" :selected="technician.idTechnician === this.ticket.idTechnician">
@@ -154,13 +153,13 @@ export default defineComponent({
 
       <div class="form-group" v-if="this.ticket.signatureClient">
         <label class="form-label mt-4">Firma del cliente</label>
-        <button type="button" class="btn btn-secondary btn-sm" @click="deleteSignature">Cancella firma</button>
         <div class="form-group">
           <img class="figure-img" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature">
         </div>
+        <button type="button" class="btn btn-secondary btn-sm" @click="deleteSignature">Cancella firma</button>
       </div>
 
-      <div v-if="!ticket.signatureClient || showSignaturePad">
+      <div class="form-group" v-if="!ticket.signatureClient || showSignaturePad">
         <MySignaturePad @save="saveSignature"/>
       </div>
     </fieldset>
@@ -191,9 +190,5 @@ export default defineComponent({
   height: 100px;
   border: 1px solid #000;
   margin: 0 auto;
-}
-
-.form-group > .btn {
-  margin-left: 1rem;
 }
 </style>
