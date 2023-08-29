@@ -12,6 +12,7 @@ export default defineComponent({
       sortDirection: "asc",
       showUncompleted: true,
       editingCard: null,
+      addingCard: false,
     }
   },
   computed: {
@@ -40,6 +41,15 @@ export default defineComponent({
         return this.sortedCards.filter(card => card.totalHours - card.usedHours > 0);
       }
     },
+    getBiggestCardNumber() {
+      let biggestNumber = 0;
+      this.client.cards.forEach(card => {
+        if (card.number > biggestNumber) {
+          biggestNumber = parseInt(card.number);
+        }
+      });
+      return biggestNumber + 1;
+    }
   },
   methods: {
     editCard(card) {
@@ -78,7 +88,21 @@ export default defineComponent({
           .catch(error => {
             console.log(error)
           });
-    }
+    },
+    addCard() {
+      if (this.addingCard) {
+        this.addingCard = false;
+        const newCard = {
+          number: document.getElementById('number').value,
+          totalHours: document.getElementById('totalHours').value,
+          usedHours: document.getElementById('usedHours').value,
+        };
+        this.client.cards.push(newCard);
+        this.updateClientCards(this.client.cards)
+      } else {
+        this.addingCard = true;
+      }
+    },
   },
 });
 
@@ -86,11 +110,21 @@ export default defineComponent({
 
 <template>
   <h4 class="mt-3">Tessere</h4>
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" :id="'showUncompletedCards-' + this.client.idClient" v-model="showUncompleted">
-    <label class="form-check-label" :for="'showUncompletedCards-' + this.client.idClient">
-      Mostra tessere completate
-    </label>
+  <div class="d-flex justify-content-between flex-wrap align-items-center">
+    <div class="form-check form-switch align-items-center">
+      <input class="form-check-input" type="checkbox" :id="'showUncompletedCards-' + this.client.idClient" v-model="showUncompleted">
+      <label class="form-check-label" :for="'showUncompletedCards-' + this.client.idClient">
+        Mostra tessere completate
+      </label>
+    </div>
+    <button class="btn btn-sm margin-btn" :class="addingCard ? 'btn-success' : 'btn-primary'" @click="addCard">{{ addingCard ? 'Aggiungi tessera' : 'Nuova tessera' }}</button>
+
+    <div class="card-adder" v-if="addingCard">
+      <input class="form-control" type="number" :value="getBiggestCardNumber" readonly id="number">
+      <input class="form-control" type="number" placeholder="Ore totali" id="totalHours">
+      <input class="form-control" type="number" placeholder="Ore utilizzate" id="usedHours">
+    </div>
+
   </div>
   <div class="table-container" style="max-height: 15rem; overflow-y: auto;">
     <table class="table">
@@ -113,7 +147,7 @@ export default defineComponent({
       </tr>
       </thead>
       <tbody class="table-body">
-      <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }">
+      <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }" class="align-middle">
         <td class="text-center">{{ card.number }}</td>
         <td class="text-center">{{ card.totalHours }}</td>
         <td class="text-center">
@@ -171,6 +205,27 @@ export default defineComponent({
 
 .table-body {
   width: 100%;
+}
+
+.d-flex .btn {
+  margin: 0;
+}
+
+.card-adder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0.5rem;
+}
+
+.margin-btn {
+  margin: 0.5rem !important;
+}
+
+.form-check-label {
+  margin-left: 0.5rem;
 }
 
 </style>
