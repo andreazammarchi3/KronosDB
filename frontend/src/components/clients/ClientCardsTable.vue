@@ -8,7 +8,7 @@ export default defineComponent({
     return {
       sortColumn: "",
       sortDirection: "asc",
-      showCompleted: true,
+      showUncompleted: true,
     }
   },
   computed: {
@@ -31,10 +31,10 @@ export default defineComponent({
       });
     },
     filteredCards() {
-      if (this.showCompleted) {
+      if (this.showUncompleted) {
         return this.sortedCards;
       } else {
-        return this.sortedCards.filter(card => card.totalHours - card.usedHours <= 0);
+        return this.sortedCards.filter(card => card.totalHours - card.usedHours > 0);
       }
     },
   }
@@ -45,8 +45,8 @@ export default defineComponent({
 <template>
   <h4 class="mt-3">Tessere</h4>
   <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" :id="'showCompletedCards-' + this.client.idClient" v-model="showCompleted">
-    <label class="form-check-label" :for="'showCompletedCards-' + this.client.idClient">
+    <input class="form-check-input" type="checkbox" :id="'showUncompletedCards-' + this.client.idClient" v-model="showUncompleted">
+    <label class="form-check-label" :for="'showUncompletedCards-' + this.client.idClient">
       Mostra tessere completate
     </label>
   </div>
