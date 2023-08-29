@@ -42,13 +42,12 @@ export default defineComponent({
   },
   methods: {
     editCard(card) {
-      // Implement your edit card logic here
+      // show a modal with the card form
 
     },
     deleteCard(number) {
       this.client.cards = this.client.cards.filter(c => c.number !== number);
-      console.log(this.client.cards)
-      axios.post(BASE_URL + '/updateClient:' + this.client.idClient, {
+      axios.post(BASE_URL + '/updateClientCards:' + this.client.idClient, {
         cards: this.client.cards,
       })
           .then(response => {
@@ -97,8 +96,8 @@ export default defineComponent({
         <td class="text-center">{{ card.number }}</td>
         <td class="text-center">{{ card.totalHours }}</td>
         <td class="text-center">{{ card.usedHours }}</td>
-        <td class="text-center"><button class="btn btn-warning btn-sm" @click="editCard(card)"><i class="bi bi-pencil"></i></button></td>
-        <td class="text-center"><button class="btn btn-danger btn-sm" @click="deleteCard(card.number)"><i class="bi bi-x-lg"></i></button></td>
+        <td class="text-center"><button class="btn btn-warning btn-sm" @click="editCard(card)" title="Modifica"><i class="bi bi-pencil"></i></button></td>
+        <td class="text-center"><button class="btn btn-danger btn-sm" @click="deleteCard(card.number)" title="Elimina"><i class="bi bi-x-lg"></i></button></td>
       </tr>
       </tbody>
     </table>
