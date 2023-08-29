@@ -7,7 +7,6 @@ const clientSchema = new mongoose.Schema({
     cellphone: Number,
     mail: String,
     cards: [{
-        idCard: Number,
         totalHours: Number,
         usedHours: Number
     }]
