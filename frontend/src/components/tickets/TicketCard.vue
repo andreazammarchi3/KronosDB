@@ -56,7 +56,7 @@ export default defineComponent({
   </div>
 
   <div class="overlay" :class="{ 'd-flex': showDetails }">
-    <TicketDetails :ticket="ticket" @close="showDetails = false; $emit('ticketDeleted')" />
+    <TicketDetails :ticket="ticket" :client="client" @close="showDetails = false; $emit('ticketDeleted')" />
   </div>
 </template>
 

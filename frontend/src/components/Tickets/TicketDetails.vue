@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default defineComponent({
   name: "TicketDetails",
-  props: ['ticket'],
+  props: ['ticket', 'client'],
   data() {
     return {
       technicianInfo: null
@@ -40,14 +40,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="card mb-3">
+  <div class="card mb-3" v-if="client">
     <div class="card-header">
       <h3><strong>ID</strong>: {{ this.ticket.idTicket }}</h3>
       <h3>{{ this.ticket.openDate }}</h3>
     </div>
     <div class="card-body">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><h4><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.ticket.fullNameClient }}</h4></li>
+        <li class="list-group-item"><h4><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.client.fullName }}</h4></li>
         <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.idTechnician }} - {{ technicianInfo ? technicianInfo.fullName : 'Caricamento...' }}</li>
         <li class="list-group-item"><strong>Richiesta</strong>: {{ this.ticket.clientRequest }}</li>
         <li class="list-group-item"><strong>Lavoro svolto</strong>: {{ this.ticket.workDone }}</li>
