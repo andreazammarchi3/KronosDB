@@ -123,8 +123,9 @@ export default defineComponent({
     </span>
         </td>
         <td class="text-center">
-          <button class="btn btn-warning btn-sm" @click="editCard(card)" title="Modifica">
-            <i class="bi bi-pencil"></i>
+          <button class="btn btn-sm" :class="editingCard === card.number ? 'btn-success' : 'btn-warning'" @click="editCard(card)" :title="editingCard ? 'Applica' : 'Modifica'">
+            <i v-if="editingCard !== card.number" class="bi bi-pencil"></i>
+            <i v-else class="bi bi-check-circle"></i>
           </button>
         </td>
         <td class="text-center">
