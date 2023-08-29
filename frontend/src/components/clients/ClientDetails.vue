@@ -49,7 +49,7 @@ export default defineComponent({
 
 .card-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .card-footer button {

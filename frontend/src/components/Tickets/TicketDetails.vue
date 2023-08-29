@@ -50,6 +50,7 @@ export default defineComponent({
         <li class="list-group-item"><h4><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.client.fullName }}</h4></li>
         <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.idTechnician }} - {{ technicianInfo ? technicianInfo.fullName : 'Caricamento...' }}</li>
         <li class="list-group-item"><strong>Richiesta</strong>: {{ this.ticket.clientRequest }}</li>
+        <li class="list-group-item"><strong>Data chiusura</strong>: {{ this.ticket.closeDate }}</li>
         <li class="list-group-item"><strong>Lavoro svolto</strong>: {{ this.ticket.workDone }}</li>
         <li class="list-group-item"><strong>Log attività</strong>:
           <textarea class="form-control" rows="3" readonly="">{{ this.ticket.logActivities }}</textarea>
@@ -60,12 +61,9 @@ export default defineComponent({
       </ul>
     </div>
     <div class="card-footer text-muted">
-      <div><strong>Data chiusura</strong>: {{ this.ticket.closeDate }}</div>
-      <div>
         <button type="button" class="btn btn-danger btn-sm" @click="deleteTicket">Elimina</button>
         <router-link type="button" class="btn btn-warning btn-sm" :to="{path: '/tickets/' + this.ticket.idTicket}">Modifica</router-link>
         <button type="button" class="btn btn-primary btn-sm" @click="$emit('close')">Chiudi</button>
-      </div>
     </div>
   </div>
 </template>
@@ -80,10 +78,10 @@ export default defineComponent({
 
 .card-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.card-footer button {
+.card-footer .btn-sm {
   margin: 0 0.5rem;
 }
 </style>
