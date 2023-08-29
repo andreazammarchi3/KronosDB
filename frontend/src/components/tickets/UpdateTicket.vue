@@ -1,20 +1,22 @@
 <script>
 import {defineComponent} from "vue";
-import VueSignaturePad from "../MySignaturePad.vue";
+import VueSignaturePad from "./MySignaturePad.vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
+import TicketDetails from "@/components/tickets/TicketDetails.vue";
+import MySignaturePad from "@/components/tickets/MySignaturePad.vue";
 
 export default defineComponent({
   name: "UpdateTicket",
   props: ['ticket'],
-  components: { VueSignaturePad },
+  components: {MySignaturePad, TicketDetails, VueSignaturePad },
   data() {
     return {
       technicians: [],
       workingHours: this.ticket.workingHours,
       transferHours: this.ticket.transferHours,
       technician: null,
-      signaturePad: null,
+      showSignaturePad: false
     }
   },
   methods: {
@@ -62,7 +64,8 @@ export default defineComponent({
         logActivities: logActivities,
         workingHours: workingHours,
         transferHours: transferHours,
-        price: price
+        price: price,
+        signatureClient: this.ticket.signatureClient
       })
         .then(response => {
           console.log(response)
@@ -80,7 +83,16 @@ export default defineComponent({
       } else {
         return null;
       }
-    }
+    },
+    saveSignature(data) {
+      console.log(data);
+      this.ticket.signatureClient = data
+    },
+    deleteSignature() {
+      console.log('deleted');
+      this.ticket.signatureClient = null;
+      this.showSignaturePad = true;
+    },
   },
   computed: {
     totalHours() {
@@ -97,7 +109,6 @@ export default defineComponent({
   mounted() {
     this.getAllTechnicians()
     this.getTechnician()
-    this.signaturePad = this.$refs.signaturePad;
   }
 
   // TODO: add cards
@@ -140,12 +151,17 @@ export default defineComponent({
       <label for="price" class="form-label mt-4">Saldo (€)</label>
       <input type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price === null ? 0 : this.ticket.price.toFixed(2)">
       <small id="priceComputed" class="form-text text-muted" v-show="technician !== null && !isNaN(priceSuggested)">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small>
-      <div class="form-group">
-        <label for="signature" class="form-label mt-4">Firma del cliente</label>
-        <button type="button" class="btn btn-primary btn-sm">{{ this.ticket.signatureClient ? 'Modifica ' : '' }}firma</button>
+
+      <div class="form-group" v-if="this.ticket.signatureClient">
+        <label class="form-label mt-4">Firma del cliente</label>
+        <button type="button" class="btn btn-secondary btn-sm" @click="deleteSignature">Cancella firma</button>
         <div class="form-group">
-          <img class="figure-img" id="signature" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature">
+          <img class="figure-img" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature">
         </div>
+      </div>
+
+      <div v-if="!ticket.signatureClient || showSignaturePad">
+        <MySignaturePad @save="saveSignature"/>
       </div>
     </fieldset>
     <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
