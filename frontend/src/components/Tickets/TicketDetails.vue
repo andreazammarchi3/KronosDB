@@ -46,8 +46,9 @@ export default defineComponent({
       <h3>{{ this.ticket.openDate }}</h3>
     </div>
     <div class="card-body">
+      <h4 class="mt-3">Dettagli</h4>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><h4><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.client.fullName }}</h4></li>
+        <li class="list-group-item"><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.client.fullName }}</li>
         <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.idTechnician }} - {{ technicianInfo ? technicianInfo.fullName : 'Caricamento...' }}</li>
         <li class="list-group-item"><strong>Richiesta</strong>: {{ this.ticket.clientRequest }}</li>
         <li class="list-group-item"><strong>Data chiusura</strong>: {{ this.ticket.closeDate }}</li>
@@ -83,5 +84,10 @@ export default defineComponent({
 
 .card-footer .btn-sm {
   margin: 0 0.5rem;
+}
+
+.card {
+  max-height: 80%;
+  overflow-y: auto;
 }
 </style>

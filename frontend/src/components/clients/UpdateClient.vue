@@ -2,9 +2,11 @@
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
+import ClientCardsTable from "@/components/clients/ClientCardsTable.vue";
 
 export default defineComponent({
   name: "UpdateClient",
+  components: {ClientCardsTable},
   props: ['client'],
   data() {
     return {
@@ -47,7 +49,8 @@ export default defineComponent({
 <template>
   <form class="form" @submit="updateClient($event)">
     <fieldset>
-      <label for="idClient" class="form-label mt-4">ID Client</label>
+      <h4 class="mt-3">Dettagli</h4>
+      <label for="idClient" class="form-label mt-1">ID Client</label>
       <input type="text" class="form-control" id="idClient" :placeholder="this.client.idClient" readonly>
       <label for="fullName" class="form-label mt-4">Nome</label>
       <input type="text" class="form-control" id="fullName" :value="this.client.fullName">
@@ -57,6 +60,8 @@ export default defineComponent({
       <input type="email" class="form-control" id="mail" :value="this.client.mail">
       <label for="address" class="form-label mt-4">Indirizzo</label>
       <input type="text" class="form-control" id="address" :value="this.client.address">
+
+      <ClientCardsTable :client="client"></ClientCardsTable>
     </fieldset>
     <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
     <router-link type="button" class="btn btn-secondary btn-sm" to="/clients">Indietro</router-link>
@@ -70,13 +75,11 @@ export default defineComponent({
   margin: 0 2rem 2rem;
 }
 
-.form-label, .form-select, .form-control {
+.form-label, .form-control {
   padding: 0;
 }
 
 .btn {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin: 1rem 1rem 1rem 0;
 }
 </style>

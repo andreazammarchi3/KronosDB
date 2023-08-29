@@ -29,7 +29,7 @@ export default defineComponent({
         <li class="list-group-item"><strong>Indirizzo</strong>: {{ this.client.address }}</li>
       </ul>
 
-      <ClientCardsTable v-if="client.cards.length !== 0" :client="client" ></ClientCardsTable>
+      <ClientCardsTable :client="client" ></ClientCardsTable>
     </div>
     <div class="card-footer text-muted">
       <span></span>
@@ -61,6 +61,5 @@ export default defineComponent({
 .card {
   max-height: 80%;
   overflow-y: auto;
-
 }
 </style>

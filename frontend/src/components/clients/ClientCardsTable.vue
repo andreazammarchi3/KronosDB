@@ -111,7 +111,7 @@ export default defineComponent({
 <template>
   <h4 class="mt-3">Tessere</h4>
   <div class="d-flex justify-content-between flex-wrap align-items-center">
-    <div class="form-check form-switch align-items-center">
+    <div class="form-check form-switch align-items-center" v-if="client.cards.length !== 0">
       <input class="form-check-input" type="checkbox" :id="'showUncompletedCards-' + this.client.idClient" v-model="showUncompleted">
       <label class="form-check-label" :for="'showUncompletedCards-' + this.client.idClient">
         Mostra tessere completate
@@ -126,7 +126,7 @@ export default defineComponent({
     </div>
 
   </div>
-  <div class="table-container" style="max-height: 15rem; overflow-y: auto;">
+  <div class="table-container" v-if="client.cards.length !== 0" style="max-height: 15rem; overflow-y: auto;">
     <table class="table">
       <thead>
       <tr>
@@ -221,7 +221,7 @@ export default defineComponent({
 }
 
 .margin-btn {
-  margin: 0.5rem !important;
+  margin: 0.5rem 0.5rem 0.5rem 0 !important;
 }
 
 .form-check-label {
