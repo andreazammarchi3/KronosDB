@@ -11,6 +11,7 @@ export default defineComponent({
       sortColumn: "",
       sortDirection: "asc",
       showUncompleted: true,
+      editingCard: null,
     }
   },
   computed: {
@@ -42,13 +43,33 @@ export default defineComponent({
   },
   methods: {
     editCard(card) {
-      // show a modal with the card form
+      if (this.editingCard) {
+        this.saveCardEdit(card);
+      } else {
+        this.editingCard = card.number;
+      }
+    },
+    saveCardEdit(card) {
+      this.cancelCardEdit();
 
+      const cards = this.client.cards.filter(c => c.number !== card.number);
+      cards.push({
+        number: card.number,
+        totalHours: card.totalHours,
+        usedHours: card.usedHours,
+      });
+      this.updateClientCards(cards);
+    },
+    cancelCardEdit() {
+      this.editingCard = null;
     },
     deleteCard(number) {
       this.client.cards = this.client.cards.filter(c => c.number !== number);
+      this.updateClientCards(this.client.cards);
+    },
+    updateClientCards(cards) {
       axios.post(BASE_URL + '/updateClientCards:' + this.client.idClient, {
-        cards: this.client.cards,
+        cards: cards,
       })
           .then(response => {
             console.log(response)
@@ -56,8 +77,8 @@ export default defineComponent({
           })
           .catch(error => {
             console.log(error)
-          })
-    },
+          });
+    }
   },
 });
 
@@ -95,10 +116,24 @@ export default defineComponent({
       <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }">
         <td class="text-center">{{ card.number }}</td>
         <td class="text-center">{{ card.totalHours }}</td>
-        <td class="text-center">{{ card.usedHours }}</td>
-        <td class="text-center"><button class="btn btn-warning btn-sm" @click="editCard(card)" title="Modifica"><i class="bi bi-pencil"></i></button></td>
-        <td class="text-center"><button class="btn btn-danger btn-sm" @click="deleteCard(card.number)" title="Elimina"><i class="bi bi-x-lg"></i></button></td>
+        <td class="text-center">
+          <span v-if="editingCard !== card.number">{{ card.usedHours }}</span>
+          <span v-else>
+      <input type="number" v-model="card.usedHours">
+    </span>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-warning btn-sm" @click="editCard(card)" title="Modifica">
+            <i class="bi bi-pencil"></i>
+          </button>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-danger btn-sm" @click="deleteCard(card.number)" title="Elimina">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </td>
       </tr>
+
       </tbody>
     </table>
   </div>
