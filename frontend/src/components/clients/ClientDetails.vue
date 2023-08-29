@@ -57,4 +57,10 @@ export default defineComponent({
 .card-footer button {
   margin: 0 0.5rem;
 }
+
+.card {
+  max-height: 80%;
+  overflow-y: auto;
+
+}
 </style>
