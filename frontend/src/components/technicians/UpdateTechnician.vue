@@ -51,13 +51,13 @@ export default defineComponent({
       <input type="text" class="form-control" id="fullName" :value="this.technician.fullName">
       <label for="role" class="form-label mt-4">Ruolo</label>
       <select class="form-select" id="role">
-        <option value="BASE"></option>
-        <option value="JUNIOR"></option>
-        <option value="SENIOR"></option>
-        <option value="ADMIN"></option>
+        <option value="BASE" :selected="technician.role === 'BASE'">BASE</option>
+        <option value="JUNIOR" :selected="technician.role === 'JUNIOR'">JUNIOR</option>
+        <option value="SENIOR" :selected="technician.role === 'SENIOR'">SENIOR</option>
+        <option value="ADMIN" :selected="technician.role === 'ADMIN'">ADMIN</option>
       </select>
       <label for="costPerHour" class="form-label mt-4">Prezzo all'ora</label>
-      <input type="number" class="form-control" id="costPerHour" :value="this.technician.mail">
+      <input type="number" class="form-control" id="costPerHour" :value="this.technician.costPerHour" min="0">
 
     </fieldset>
     <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
@@ -72,7 +72,7 @@ export default defineComponent({
   margin: 0 2rem 2rem;
 }
 
-.form-label, .form-control {
+.form-label, .form-control, .form-select {
   padding: 0;
 }
 

@@ -27,7 +27,7 @@ export default defineComponent({
             console.log(response.data);
             // Reset form fields and close modal
             document.getElementById("fullNameTechnician").value = "";
-            document.getElementById("role").selectedIndex = 0;
+            document.getElementById("role").selectedIndex = -1;
             document.getElementById("costPerHour").value = 0;
 
             document.getElementById("closeBtnTechnician").click()
@@ -78,7 +78,7 @@ export default defineComponent({
 
           <div class="form-group">
             <label class="col-form-label" for="costPerHour">Prezzo all'ora</label>
-            <input type="number" class="form-control" placeholder="0" id="costPerHour">
+            <input type="number" class="form-control" placeholder="0" id="costPerHour" min="0">
           </div>
         </div>
         <div class="modal-footer">

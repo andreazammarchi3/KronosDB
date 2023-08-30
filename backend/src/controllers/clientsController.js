@@ -1,6 +1,5 @@
 const clientsModel = require('../models/clientsModel');
 const index = require('../../src/index');
-const ticketsModel = require("../models/ticketsModel");
 
 exports.all_clients = async(req, res) => {
     try{

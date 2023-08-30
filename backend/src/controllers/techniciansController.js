@@ -1,7 +1,5 @@
 const techniciansModel = require('../models/techniciansModel');
 const index = require('../../src/index');
-const ticketsModel = require("../models/ticketsModel");
-const clientsModel = require("../models/clientsModel");
 
 exports.all_technicians = async(req, res) => {
     try{
@@ -22,7 +20,7 @@ exports.get_technician = async (req, res) => {
 }
 
 function getBiggestTechnicianId() {
-    return techniciansModel.find().sort({ idClient: -1 }).limit(1).then(technicians => {
+    return techniciansModel.find().sort({ idTechnician: -1 }).limit(1).then(technicians => {
         if (technicians.length > 0) {
             return technicians[0].idTechnician;
         } else {
