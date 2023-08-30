@@ -12,7 +12,8 @@ export default defineComponent({
   data() {
     return {
       ticket: null,
-      client: null
+      client: null,
+      technician: null
     }
   },
   methods: {
@@ -31,6 +32,14 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
+    },
+    async getTechnician() {
+      try {
+        const response = await axios.get(`${BASE_URL}/getTechnician:${this.ticket.idTechnician}`);
+        this.technician = response.data;
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   async mounted() {
@@ -43,7 +52,7 @@ export default defineComponent({
 <template>
   <Header></Header>
   <h1 class="h1">Modifica Ticket</h1>
-  <UpdateTicket v-if="ticket" :ticket="this.ticket" :client="this.client"></UpdateTicket>
+  <UpdateTicket v-if="ticket" :ticket="this.ticket" :client="this.client" :technician="this.technician"></UpdateTicket>
 </template>
 
 <style scoped>

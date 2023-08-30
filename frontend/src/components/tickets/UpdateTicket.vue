@@ -8,15 +8,15 @@ import MySignaturePad from "@/components/tickets/MySignaturePad.vue";
 
 export default defineComponent({
   name: "UpdateTicket",
-  props: ['ticket', 'client'],
+  props: ['ticket', 'client', 'technician'],
   components: {MySignaturePad, TicketDetails, VueSignaturePad },
   data() {
     return {
       technicians: [],
       workingHours: this.ticket.workingHours,
       transferHours: this.ticket.transferHours,
-      technician: null,
-      showSignaturePad: false
+      showSignaturePad: false,
+      priceSuggested: 0,
     }
   },
   methods: {
@@ -24,15 +24,6 @@ export default defineComponent({
       axios.get(BASE_URL + '/allTechnicians')
         .then(response => {
           this.technicians = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    getTechnician() {
-      axios.get(BASE_URL + '/getTechnician:' + this.ticket.idTechnician)
-        .then(response => {
-          this.technician = response.data
         })
         .catch(error => {
           console.log(error)
@@ -100,18 +91,11 @@ export default defineComponent({
     totalHours() {
       return this.workingHours + this.transferHours
     },
-    priceSuggested() {
-      if (this.technician) {
-        return this.totalHours * this.technician.costPerHour
-      } else {
-        return 0
-      }
-    },
   },
   mounted() {
     this.getAllTechnicians()
-    this.getTechnician()
-  }
+
+  },
 
   // TODO: add cards
   // TODO: add ore residue
@@ -131,12 +115,14 @@ export default defineComponent({
       <label for="client" class="form-label mt-4">Cliente</label>
       <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.client.fullName" readonly>
       <label for="technician" class="form-label mt-4">Tecnico assegnato</label>
+
       <select class="form-select" id="technician">
         <option v-for="technician in technicians" :value="technician.idTechnician" :selected="technician.idTechnician === this.ticket.idTechnician">
           {{ technician.idTechnician + ' - ' + technician.fullName }}
           {{ technician.idTechnician === this.ticket.idTechnician ? ' (attuale)' : '' }}
         </option>
       </select>
+
       <label for="clientRequest" class="form-label mt-4">Richiesta del cliente</label>
       <textarea class="form-control" id="clientRequest" rows="3">{{ this.ticket.clientRequest }}</textarea>
       <label for="workDone" class="form-label mt-4">Lavoro svolto</label>
@@ -151,7 +137,7 @@ export default defineComponent({
       <input type="number" class="form-control" id="totalHours" v-model="this.totalHours" readonly>
       <label for="price" class="form-label mt-4">Saldo (€)</label>
       <input type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price === null ? 0 : this.ticket.price.toFixed(2)">
-      <small id="priceComputed" class="form-text text-muted" v-show="technician !== null && !isNaN(priceSuggested)">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small>
+      <!-- <small id="priceComputed" class="form-text text-muted">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small> -->
     </fieldset>
     <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
     <router-link type="button" class="btn btn-secondary btn-sm" to="/tickets">Indietro</router-link>
