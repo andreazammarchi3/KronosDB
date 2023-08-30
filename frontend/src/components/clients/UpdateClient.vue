@@ -48,7 +48,7 @@ export default defineComponent({
   <form class="form" @submit="updateClient($event)">
     <fieldset>
       <h4 class="mt-3">Dettagli</h4>
-      <label for="idClient" class="form-label mt-1">ID Client</label>
+      <label for="idClient" class="form-label mt-1">ID Cliente</label>
       <input type="text" class="form-control" id="idClient" :placeholder="this.client.idClient" readonly>
       <label for="fullName" class="form-label mt-4">Nome</label>
       <input type="text" class="form-control" id="fullName" :value="this.client.fullName">

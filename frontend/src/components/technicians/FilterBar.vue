@@ -3,17 +3,13 @@ export default {
   name: 'FilterBar',
   data() {
     return {
-      sortBy: 'openDateMinToMax',
-      closed: true,
+      sortBy: 'technicianFullNameMinToMax',
       searchTerm: ''
     }
   },
   watch: {
     sortBy() {
       this.$emit('sort-by', this.sortBy)
-    },
-    closed() {
-      this.$emit('closed', this.closed)
     }
   },
   computed: {
@@ -32,26 +28,17 @@ export default {
       }
     });
   }
-
-  // TODO: Add filter by technician
 }
 </script>
 
 <template>
   <div class="filter-bar">
     <select class="form-select" id="sort-by" v-model="sortBy">
-      <option value="openDateMinToMax">Dal meno recente</option>
-      <option value="openDateMaxToMin">Dal più recente</option>
-      <option value="clientFullNameMinToMax">Per cliente (A-Z)</option>
-      <option value="clientFullNameMaxToMin">Per cliente (Z-A)</option>
+      <option value="technicianFullNameMinToMax">Per nome (A-Z)</option>
+      <option value="technicianFullNameMaxToMin">Per nome (Z-A)</option>
     </select>
 
-    <div class="btn-group" role="group">
-      <input type="checkbox" class="btn-check" id="closed" checked autocomplete="off" v-model="closed">
-      <label class="btn btn-success" for="closed">Chiusi</label>
-    </div>
-
-    <input class="form-control" id="searchBox" type="search" placeholder="Cerca cliente" v-model="searchTerm">
+    <input class="form-control" id="searchBox" type="search" placeholder="Cerca tecnico" v-model="searchTerm">
     <button class="btn btn-primary search-btn" type="submit" @click="search">Cerca</button>
   </div>
 </template>
@@ -80,7 +67,7 @@ export default {
   margin-left: 0;
 }
 
-@media screen and (max-width: 644px) {
+@media screen and (max-width: 543px) {
   .filter-bar {
     flex-wrap: wrap;
   }

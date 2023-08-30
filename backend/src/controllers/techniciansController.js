@@ -1,6 +1,7 @@
 const techniciansModel = require('../models/techniciansModel');
 const index = require('../../src/index');
 const ticketsModel = require("../models/ticketsModel");
+const clientsModel = require("../models/clientsModel");
 
 exports.all_technicians = async(req, res) => {
     try{
@@ -20,15 +21,33 @@ exports.get_technician = async (req, res) => {
     }
 }
 
+function getBiggestTechnicianId() {
+    return techniciansModel.find().sort({ idClient: -1 }).limit(1).then(technicians => {
+        if (technicians.length > 0) {
+            return technicians[0].idTechnician;
+        } else {
+            return 0;
+        }
+    });
+}
+
 exports.add_technician = async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
-    const client = new techniciansModel(req.body);
+    const { fullName, role, costPerHour } = req.body;
+    const biggestId = await getBiggestTechnicianId();
+
+    const newTechnician = new techniciansModel({
+        idTechnician: biggestId + 1,
+        fullName: fullName,
+        role: role,
+        costPerHour: costPerHour,
+    });
 
     try{
-        res.json(await client.save());
+        res.json(await newTechnician.save());
     }catch (e) {
         res.json(e);
     }

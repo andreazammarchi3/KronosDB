@@ -2,17 +2,17 @@
 import {defineComponent} from "vue";
 import ModalAddTicket from "@/components/home/ModalAddTicket.vue";
 import ModalAddClient from "@/components/home/ModalAddClient.vue";
+import ModalAddTechnician from "@/components/home/ModalAddTechnician.vue";
 
 export default defineComponent({
   name: "HomeContainer",
-  components: {ModalAddTicket, ModalAddClient},
+  components: {ModalAddTechnician, ModalAddTicket, ModalAddClient},
   data() {
     return {
     };
   }
 })
 
-// TODO: Add technicians
 </script>
 
 <template>
@@ -24,9 +24,12 @@ export default defineComponent({
       <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addClient">Nuovo Cliente</button>
       <router-link class="btn btn-warning" :to="{path: '/clients'}">Elenco clienti</router-link>
       <h2>Tecnici</h2>
+      <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addTechnician">Nuovo Tecnico</button>
+      <router-link class="btn btn-info" :to="{path: '/technicians'}">Elenco tecnici</router-link>
 
       <ModalAddTicket></ModalAddTicket>
       <ModalAddClient></ModalAddClient>
+      <ModalAddTechnician></ModalAddTechnician>
     </div>
 </template>
 

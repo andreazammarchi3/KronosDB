@@ -1,0 +1,82 @@
+<script>
+import {defineComponent} from "vue";
+import {BASE_URL} from "@/main";
+import axios from "axios";
+
+export default defineComponent({
+  name: "UpdateTechnician",
+  components: {},
+  props: ['technician'],
+  data() {
+    return {
+    }
+  },
+  methods: {
+    updateTechnician(event) {
+      event.preventDefault();
+
+      const fullName = document.getElementById('fullName').value
+      const role = document.getElementById('role').value
+      const costPerHour = document.getElementById('costPerHour').value
+
+      axios.post(BASE_URL + '/updateTechnician:' + this.technician.idTechnician, {
+        idTechnician: this.technician.idTechnician,
+        fullName: fullName,
+        role: role,
+        costPerHour: costPerHour
+      })
+        .then(response => {
+          console.log(response)
+          this.$router.push('/technicians')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  },
+  computed: {
+  },
+  mounted() {
+  }
+})
+</script>
+
+<template>
+  <form class="form" @submit="updateTechnician($event)">
+    <fieldset>
+      <h4 class="mt-3">Dettagli</h4>
+      <label for="idTechnician" class="form-label mt-1">ID Tecnico</label>
+      <input type="text" class="form-control" id="idTechnician" :placeholder="this.technician.idTechnician" readonly>
+      <label for="fullName" class="form-label mt-4">Nome</label>
+      <input type="text" class="form-control" id="fullName" :value="this.technician.fullName">
+      <label for="role" class="form-label mt-4">Ruolo</label>
+      <select class="form-select" id="role">
+        <option value="BASE"></option>
+        <option value="JUNIOR"></option>
+        <option value="SENIOR"></option>
+        <option value="ADMIN"></option>
+      </select>
+      <label for="costPerHour" class="form-label mt-4">Prezzo all'ora</label>
+      <input type="number" class="form-control" id="costPerHour" :value="this.technician.mail">
+
+    </fieldset>
+    <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
+    <router-link type="button" class="btn btn-secondary btn-sm" to="/technicians">Indietro</router-link>
+  </form>
+</template>
+
+<style scoped>
+@import url('../../../templates/style.css');
+
+.form {
+  margin: 0 2rem 2rem;
+}
+
+.form-label, .form-control {
+  padding: 0;
+}
+
+.btn {
+  margin: 1rem 1rem 1rem 0;
+}
+</style>
