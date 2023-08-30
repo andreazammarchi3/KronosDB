@@ -41,8 +41,6 @@ export default defineComponent({
   },
   mounted() {
   }
-
-  // TODO: add cards
 })
 </script>
 
