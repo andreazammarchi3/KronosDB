@@ -2,11 +2,14 @@
 import {defineComponent} from "vue";
 import axios from "axios";
 import {BASE_URL} from "@/main";
+import Alert from "@/components/Alert.vue";
 
 export default defineComponent({
   name: "ModalAddClient",
+  components: {Alert},
   data() {
     return {
+      showAlertBool: false
     };
   },
   methods: {
@@ -32,18 +35,17 @@ export default defineComponent({
 
             document.getElementById("closeBtnClient").click()
 
-            // Show alert with fade in and out
-            document.getElementById("alertClient").style.display = "block";
-            setTimeout(() => {
-              // do next line only if element exists
-              if (document.getElementById("alertClient")) {
-                document.getElementById("alertClient").style.display = "none";
-              }
-            }, 3000);
+            this.showAlert();
           })
           .catch((error) => {
             console.log(error);
           });
+    },
+    showAlert() {
+      this.showAlertBool = true;
+      setTimeout(() => {
+        this.showAlertBool = false;
+      }, 2000);
     }
   },
   mounted() {
@@ -90,18 +92,11 @@ export default defineComponent({
     </div>
   </div>
 
-  <div class="alert alert-dismissible alert-success position-fixed top-0 start-50 translate-middle-x" id="alertClient">
-    Cliente aggiunto correttamente.
-  </div>
+  <Alert v-if="showAlertBool" :message="'Cliente aggiunto correttamente'"></Alert>
 </template>
 
 <style scoped>
 @import url('../../../templates/style.css');
-
-.alert {
-  display: none;
-  margin-top: 6rem;
-}
 
 .col-form-label, .form-control {
   line-height: 0;

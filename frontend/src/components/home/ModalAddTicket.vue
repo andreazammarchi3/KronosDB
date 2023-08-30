@@ -2,13 +2,16 @@
 import {defineComponent} from "vue";
 import axios from "axios";
 import {BASE_URL} from "@/main";
+import Alert from "@/components/Alert.vue";
 
 export default defineComponent({
   name: "ModalAddTicket",
+  components: {Alert},
   data() {
     return {
       clients: [],
-      technicians: []
+      technicians: [],
+      showAlertBool: false
     };
   },
   methods: {
@@ -45,17 +48,17 @@ export default defineComponent({
             document.getElementById("technician").selectedIndex = 0;
             document.getElementById("closeBtn").click();
 
-            // Show alert with fade in and out
-            document.getElementById("alertTicket").style.display = "block";
-            setTimeout(() => {
-              if (document.getElementById("alertTicket")) {
-                document.getElementById("alertTicket").style.display = "none";
-              }
-            }, 3000);
+            this.showAlert();
           })
           .catch((error) => {
             console.log(error);
           });
+    },
+    showAlert() {
+      this.showAlertBool = true;
+      setTimeout(() => {
+        this.showAlertBool = false;
+      }, 2000);
     }
   },
   mounted() {
@@ -104,9 +107,7 @@ export default defineComponent({
     </div>
   </div>
 
-  <div class="alert alert-dismissible alert-success position-fixed top-0 start-50 translate-middle-x" id="alertTicket">
-    Ticket creato correttamente.
-  </div>
+  <Alert v-if="showAlertBool" :message="'Ticket creato correttamente'"></Alert>
 </template>
 
 <style scoped>
