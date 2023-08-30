@@ -17,10 +17,13 @@ export default defineComponent({
 
 <template>
     <div class="btn-container">
+      <h2>Tickets</h2>
       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTicket">Nuovo Ticket</button>
       <router-link class="btn btn-primary" :to="{path: '/tickets'}">Elenco Ticket</router-link>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClient">Nuovo Cliente</button>
-      <router-link class="btn btn-primary" :to="{path: '/clients'}">Elenco clienti</router-link>
+      <h2>Clienti</h2>
+      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addClient">Nuovo Cliente</button>
+      <router-link class="btn btn-warning" :to="{path: '/clients'}">Elenco clienti</router-link>
+      <h2>Tecnici</h2>
 
       <ModalAddTicket></ModalAddTicket>
       <ModalAddClient></ModalAddClient>
@@ -41,5 +44,9 @@ export default defineComponent({
 .btn {
   margin: 0.5rem 1rem;
   width: 15rem;
+}
+
+h2 {
+  margin-top: 1rem;
 }
 </style>
