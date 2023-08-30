@@ -19,6 +19,7 @@ export default defineComponent({
       try {
         const response = await axios.get(`${BASE_URL}/getTechnician:${this.$route.params.id}`);
         this.technician = response.data;
+        console.log(this.technician);
       } catch (error) {
         console.log(error);
       }

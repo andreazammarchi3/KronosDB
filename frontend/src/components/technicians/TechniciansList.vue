@@ -82,7 +82,7 @@ export default defineComponent({
     <FilterBar @sort-by="sortTechnicians" @search="search"></FilterBar>
     <div class="technicians-list">
       <div v-for="technician in paginatedTechnicians" :key="technician.idTechnician">
-        <TechnicianCard :technician="technician"></TechnicianCard>
+        <TechnicianCard :technician="technician" @technicianDeleted="getTechnicians"></TechnicianCard>
       </div>
     </div>
     <div class="pagination">

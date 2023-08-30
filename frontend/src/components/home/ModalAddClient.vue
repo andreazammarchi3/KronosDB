@@ -81,7 +81,7 @@ export default defineComponent({
 
           <div class="form-group">
             <label class="col-form-label" for="address">Indirizzo</label>
-            <input type="text" class="form-control" placeholder="Via, Numero Civico, Città" id="address">
+            <input type="text" class="form-control" placeholder="Via, Numero Civico, Città" id="address" autocomplete="on">
           </div>
         </div>
         <div class="modal-footer">

@@ -1,5 +1,7 @@
 <script>
 import {defineComponent} from "vue";
+import axios from "axios";
+import {BASE_URL} from "@/main";
 
 export default defineComponent({
   name: "TechnicianCard",
@@ -11,6 +13,15 @@ export default defineComponent({
     }
   },
   methods: {
+    deleteTechnician() {
+      axios.post(BASE_URL + '/removeTechnician:' + this.technician.idTechnician)
+          .then(() => {
+            this.$emit('technicianDeleted')
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    },
   },
   mounted() {
   }
@@ -27,6 +38,12 @@ export default defineComponent({
       <p class="card-text"><strong>Prezzo all'ora</strong>: {{ this.technician.costPerHour }}</p>
     </div>
     <div class="card-footer">
+      <router-link type="button" class="btn btn-warning btn-sm" :to="{path: '/technicians/' + this.technician.idTechnician}">
+        <i class="bi bi-pencil"></i>
+      </router-link>
+      <button class="btn btn-sm btn-danger" @click="deleteTechnician" title="Elimina">
+        <i class="bi bi-x-lg"></i>
+      </button>
     </div>
   </div>
 </template>
@@ -57,5 +74,9 @@ export default defineComponent({
   text-overflow: ellipsis;
   text-align: justify;
   margin: 0;
+}
+
+.btn {
+  margin: 0 0.75rem 0 0.25rem;
 }
 </style>
