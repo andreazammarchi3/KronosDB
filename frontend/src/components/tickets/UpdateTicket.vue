@@ -39,7 +39,9 @@ export default defineComponent({
         })
     },
     updateTicket(event) {
-      event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
 
       const openDate = document.getElementById('openDate').value
       const closeDate = document.getElementById('closeDate').value
@@ -69,7 +71,6 @@ export default defineComponent({
       })
         .then(response => {
           console.log(response)
-          this.$router.push('/tickets')
         })
         .catch(error => {
           console.log(error)
@@ -87,10 +88,12 @@ export default defineComponent({
     saveSignature(data) {
       this.ticket.signatureClient = data
       this.showSignaturePad = false;
+      this.updateTicket()
     },
     deleteSignature() {
       this.ticket.signatureClient = null;
       this.showSignaturePad = true;
+      this.updateTicket()
     },
   },
   computed: {
@@ -149,28 +152,34 @@ export default defineComponent({
       <label for="price" class="form-label mt-4">Saldo (€)</label>
       <input type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price === null ? 0 : this.ticket.price.toFixed(2)">
       <small id="priceComputed" class="form-text text-muted" v-show="technician !== null && !isNaN(priceSuggested)">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small>
-
-      <div class="form-group" v-if="this.ticket.signatureClient">
-        <label class="form-label mt-4">Firma del cliente</label>
-        <div class="form-group">
-          <img class="figure-img" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature"/>
-        </div>
-        <button type="button" class="btn btn-secondary btn-sm" @click="deleteSignature">Cancella firma</button>
-      </div>
-
-      <div class="form-group" v-if="!ticket.signatureClient || showSignaturePad">
-        <MySignaturePad @save="saveSignature"/>
-      </div>
     </fieldset>
     <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
     <router-link type="button" class="btn btn-secondary btn-sm" to="/tickets">Indietro</router-link>
   </form>
+
+  <div class="signature-container">
+    <div class="form-group" v-if="this.ticket.signatureClient">
+      <label class="form-label mt-4">Firma del cliente</label>
+      <div class="form-group">
+        <img class="figure-img" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature"/>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" @click="deleteSignature">Cancella firma</button>
+    </div>
+
+    <div class="form-group" v-if="!ticket.signatureClient || showSignaturePad">
+      <MySignaturePad @save="saveSignature"/>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 @import url('../../../templates/style.css');
 
 .form {
+  margin: 0 2rem;
+}
+
+.signature-container {
   margin: 0 2rem 2rem;
 }
 

@@ -6,13 +6,15 @@ export default defineComponent({
   name: 'MySignaturePad',
   components: { VueSignaturePad },
   methods: {
-    saveSignature() {
+    saveSignature(event) {
+      event.preventDefault();
       const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
       if (!isEmpty) {
         this.$emit('save', data);
       }
     },
-    clearSignature() {
+    clearSignature(event) {
+      event.preventDefault();
       this.$refs.signaturePad.clearSignature();
     }
   }
