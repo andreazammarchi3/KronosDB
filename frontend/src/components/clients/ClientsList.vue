@@ -1,19 +1,3 @@
-<template>
-  <div>
-    <FilterBar @sort-by="sortClients" @search="search"></FilterBar>
-    <div class="client-list">
-      <div v-for="client in paginatedClients" :key="client.idClient">
-        <ClientCard :client="client"></ClientCard>
-      </div>
-    </div>
-    <div class="pagination">
-      <button class="btn btn-primary btn-sm" :disabled="currentPage === 1" @click="prevPage">Prev</button>
-      <span>{{ currentPage }} / {{ totalPages }}</span>
-      <button class="btn btn-primary btn-sm" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
-    </div>
-  </div>
-</template>
-
 <script>
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
@@ -92,6 +76,22 @@ export default defineComponent({
   }
 })
 </script>
+
+<template>
+  <div>
+    <FilterBar @sort-by="sortClients" @search="search"></FilterBar>
+    <div class="client-list">
+      <div v-for="client in paginatedClients" :key="client.idClient">
+        <ClientCard :client="client"></ClientCard>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="btn btn-primary btn-sm" :disabled="currentPage === 1" @click="prevPage">Prev</button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button class="btn btn-primary btn-sm" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 @import url('../../../templates/style.css');
