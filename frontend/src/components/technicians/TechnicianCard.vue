@@ -45,7 +45,7 @@ export default defineComponent({
 }
 
 .card-body {
-  height: 10rem;
+  height: 7rem;
   width: 18rem;
 }
 

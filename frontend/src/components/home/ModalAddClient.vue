@@ -28,7 +28,7 @@ export default defineComponent({
           .then((response) => {
             console.log(response.data);
             // Reset form fields and close modal
-            document.getElementById("fullName").value = "";
+            document.getElementById("fullNameClient").value = "";
             document.getElementById("cellphone").value = 0;
             document.getElementById("mail").value = "";
             document.getElementById("address").value = "";
@@ -65,8 +65,8 @@ export default defineComponent({
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="col-form-label" for="fullName">Nome</label>
-            <input type="text" class="form-control" placeholder="Cognome Nome" id="fullName">
+            <label class="col-form-label" for="fullNameClient">Nome</label>
+            <input type="text" class="form-control" placeholder="Cognome Nome" id="fullNameClient">
           </div>
 
           <div class="form-group">

@@ -14,7 +14,7 @@ export default defineComponent({
   },
   methods: {
     addTechnician() {
-      const fullName = document.getElementById("fullName").value;
+      const fullName = document.getElementById("fullNameTechnician").value;
       const role = document.getElementById("role").value;
       const costPerHour = document.getElementById("costPerHour").value;
 
@@ -26,7 +26,7 @@ export default defineComponent({
           .then((response) => {
             console.log(response.data);
             // Reset form fields and close modal
-            document.getElementById("fullName").value = "";
+            document.getElementById("fullNameTechnician").value = "";
             document.getElementById("role").selectedIndex = 0;
             document.getElementById("costPerHour").value = 0;
 
@@ -62,17 +62,17 @@ export default defineComponent({
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="col-form-label" for="fullName">Nome</label>
-            <input type="text" class="form-control" placeholder="Cognome Nome" id="fullName">
+            <label class="col-form-label" for="fullNameTechnician">Nome</label>
+            <input type="text" class="form-control" placeholder="Cognome Nome" id="fullNameTechnician">
           </div>
 
           <div class="form-group">
             <label for="role" class="form-label">Ruolo</label>
             <select class="form-select" id="role">
-              <option value="BASE"></option>
-              <option value="JUNIOR"></option>
-              <option value="SENIOR"></option>
-              <option value="ADMIN"></option>
+              <option value="BASE">BASE</option>
+              <option value="JUNIOR">JUNIOR</option>
+              <option value="SENIOR">SENIOR</option>
+              <option value="ADMIN">ADMIN</option>
             </select>
           </div>
 
@@ -95,7 +95,7 @@ export default defineComponent({
 <style scoped>
 @import url('../../../templates/style.css');
 
-.col-form-label, .form-control {
+.col-form-label, .form-control, .form-select {
   line-height: 0;
 }
 
