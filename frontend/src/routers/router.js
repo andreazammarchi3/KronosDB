@@ -14,8 +14,8 @@ const routes = [
     {path: '/tickets/:id', name: 'Ticket', component: UpdateTicketPage},
     {path: '/clients', name: 'Clients', component: ClientsPage},
     {path: '/clients/:id', name: 'Client', component: UpdateClientPage},
-    {path: '/technicians', name: 'Clients', component: TechniciansPage},
-    {path: '/technicians/:id', name: 'Client', component: UpdateTechniciansPage},
+    {path: '/technicians', name: 'Technicians', component: TechniciansPage},
+    {path: '/technicians/:id', name: 'Technician', component: UpdateTechniciansPage},
     {path: '/404', name: 'NotFound', component: NotFound},
     {path: '/:catchAll(.*)', redirect: '/404'}
 ];
