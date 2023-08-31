@@ -49,32 +49,35 @@ export default defineComponent({
         event.preventDefault();
       }
 
-      const openDate = document.getElementById('openDate').value
-      const closeDate = document.getElementById('closeDate').value
-      const idClient = this.ticket.idClient
-      const idTechnician = document.getElementById('technician').value.split(' - ')[0]
-      const clientRequest = document.getElementById('clientRequest').value
-      const workDone = document.getElementById('workDone').value
-      const logActivities = document.getElementById('logActivities').value
-      const workingHours = document.getElementById('workingHours').value
-      const transferHours = document.getElementById('transferHours').value
-      const paymentMethod = document.getElementById('paymentMethod').value
-      let price = null
-      let cardNumber = null
-      let cardUsedHours = null
+      const openDate = document.getElementById('openDate').value;
+      const closeDate = document.getElementById('closeDate').value;
+      const idClient = this.ticket.idClient;
+      const idTechnician = document.getElementById('technician').value.split(' - ')[0];
+      const clientRequest = document.getElementById('clientRequest').value;
+      const workDone = document.getElementById('workDone').value;
+      const logActivities = document.getElementById('logActivities').value;
+      const workingHours = document.getElementById('workingHours').value;
+      const transferHours = document.getElementById('transferHours').value;
+      const paymentMethod = document.getElementById('paymentMethod').value;
+      let price = null;
+      let cardNumber = null;
+      let cardUsedHours = null;
 
       if (paymentMethod === 'TESSERA') {
-        cardNumber = document.getElementById('card').value.split(' - ')[0]
-        cardUsedHours = this.workingHours + this.transferHours
+        cardNumber = document.getElementById('card').value.split(' - ')[0];
+        cardUsedHours = this.workingHours + this.transferHours;
       } else if (paymentMethod === 'SALDO') {
-        price = document.getElementById('price').value
+        price = document.getElementById('price').value;
       } else if (paymentMethod === 'TESSERA + SALDO') {
-        cardNumber = document.getElementById('card').value.split(' - ')[0]
-        cardUsedHours = this.workingHours + this.transferHours
-        price = document.getElementById('price').value
+        cardNumber = document.getElementById('card').value.split(' - ')[0];
+        cardUsedHours = this.workingHours + this.transferHours;
+        price = document.getElementById('price').value;
       }
 
-      const card = this.client.cards.find(card => card.number === cardNumber);
+      const card = this.client.cards.find(c => c.number === parseInt(cardNumber));
+      console.log('client cards: ', this.client.cards);
+      console.log('cardNumber: ', cardNumber, typeof cardNumber);
+      console.log('card: ', card);
       if (card !== undefined) {
         if (!this.checkIfCardUsedHoursAreValid(cardUsedHours, card.usedHours, card.totalHours)) {
           this.excessUsedHoursLabel = true;
@@ -83,13 +86,13 @@ export default defineComponent({
           this.excessUsedHoursLabel = false;
         }
         card.usedHours += cardUsedHours;
-        const cards = this.client.cards
+        const cards = this.client.cards;
         console.log('cards: ', cards);
         cards.forEach(cardC => {
           if (cardC.number === cardNumber) {
-            cards.splice(cards.indexOf(cardC), 1)
-            cards.push(card)
-            this.updateClientCards(cards)
+            cards.splice(cards.indexOf(cardC), 1);
+            cards.push(card);
+            this.updateClientCards(cards);
           }
         })
       } else {
@@ -113,11 +116,9 @@ export default defineComponent({
         cardNumber: cardNumber,
         cardUsedHours: card.usedHours,
         signatureClient: this.ticket.signatureClient
-      })
-        .then(response => {
+      }).then(response => {
           console.log(response)
-        })
-        .catch(error => {
+        }).catch(error => {
           console.log(error)
         })
     },
@@ -221,12 +222,13 @@ export default defineComponent({
 
       <label for="paymentMethod" class="form-label mt-4">Metodo di pagamento</label>
       <select class="form-select" id="paymentMethod" v-model="this.paymentMethod">
+        <option value="NON PAGATO">NON PAGATO</option>
         <option value="TESSERA">TESSERA</option>
         <option value="SALDO">SALDO</option>
         <option value="TESSERA + SALDO">TESSERA + SALDO</option>
       </select>
 
-      <div v-if="this.paymentMethod !== 'SALDO'" class="form-group">
+      <div v-if="this.paymentMethod === 'TESSERA' || this.paymentMethod === 'TESSERA + SALDO'" class="form-group">
         <label for="card" class="form-label mt-4">Tessera</label>
         <button type="button" class="btn btn-sm margin-btn" :class="addingCard ? 'btn-success' : 'btn-primary'" @click="addCard">{{ addingCard ? 'Aggiungi tessera' : 'Nuova tessera' }}</button>
         <div class="card-adder" v-if="addingCard">
@@ -238,11 +240,11 @@ export default defineComponent({
           </option>
           <option v-if="validCards.length === 0" disabled  selected>Nessuna tessera valida</option>
         </select>
-        <small v-show="this.excessUsedHoursLabel" id="excessUsedHours" class="form-text text-danger">Le ore totali di intervento superano le ore utilizzabili per la tessera selezionata</small>
+        <small v-if="this.excessUsedHoursLabel" id="excessUsedHours" class="form-text text-danger">Le ore totali di intervento superano le ore utilizzabili per la tessera selezionata</small>
       </div>
 
-      <label v-if="this.paymentMethod !== 'TESSERA'" for="price" class="form-label mt-4">Saldo (€)</label>
-      <input v-if="this.paymentMethod !== 'TESSERA'" type="number" class="form-control" step="0.05" id="price" v-model="this.price" min="0">
+      <label v-if="this.paymentMethod === 'SALDO' || this.paymentMethod === 'TESSERA + SALDO'" for="price" class="form-label mt-4">Saldo (€)</label>
+      <input v-if="this.paymentMethod === 'SALDO' || this.paymentMethod === 'TESSERA + SALDO'" type="number" class="form-control" step="0.05" id="price" v-model="this.price" min="0">
       <!-- <small id="priceComputed" class="form-text text-muted">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small> -->
 
       <div class="form-group" v-if="this.ticket.signatureClient">
