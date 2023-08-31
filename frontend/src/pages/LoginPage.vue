@@ -11,7 +11,7 @@ export default defineComponent({
 <template>
   <Header></Header>
   <h1>Login</h1>
-  
+
 </template>
 
 <style scoped>

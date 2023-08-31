@@ -1,8 +1,8 @@
 <script>
 import {defineComponent} from "vue";
-import ModalAddTicket from "@/components/home/ModalAddTicket.vue";
-import ModalAddClient from "@/components/home/ModalAddClient.vue";
-import ModalAddTechnician from "@/components/home/ModalAddTechnician.vue";
+import ModalAddTicket from "@/components/tickets/ModalAddTicket.vue";
+import ModalAddClient from "@/components/clients/ModalAddClient.vue";
+import ModalAddTechnician from "@/components/technicians/ModalAddTechnician.vue";
 
 export default defineComponent({
   name: "HomeContainer",
