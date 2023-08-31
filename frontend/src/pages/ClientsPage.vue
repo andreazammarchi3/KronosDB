@@ -5,7 +5,15 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "ClientsPage",
-  components: {ClientsList, Header}
+  data() {
+    return {
+    }
+  },
+  components: {ClientsList, Header},
+  mounted() {
+    const role = sessionStorage.getItem('role');
+    if (role === 'BASE') this.$router.push('/401');
+  }
 })
 </script>
 

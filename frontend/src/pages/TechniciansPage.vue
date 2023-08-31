@@ -5,7 +5,11 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "TechniciansPage",
-  components: {TechniciansList, Header}
+  components: {TechniciansList, Header},
+  mounted() {
+    const role = sessionStorage.getItem('role');
+    if (role === 'BASE') this.$router.push('/401');
+  }
 })
 </script>
 

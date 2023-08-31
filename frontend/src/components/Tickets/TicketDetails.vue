@@ -8,7 +8,8 @@ export default defineComponent({
   props: ['ticket', 'client'],
   data() {
     return {
-      technicianInfo: null
+      technicianInfo: null,
+      role: null
     }
   },
   methods: {
@@ -32,6 +33,7 @@ export default defineComponent({
     }
   },
   mounted() {
+    this.role = sessionStorage.getItem("role");
     this.getTechnician()
   }
 })
@@ -66,8 +68,8 @@ export default defineComponent({
       </ul>
     </div>
     <div class="card-footer text-muted">
-        <button type="button" class="btn btn-danger btn-sm" @click="deleteTicket">Elimina</button>
-        <router-link type="button" class="btn btn-warning btn-sm" :to="{path: '/tickets/' + this.ticket.idTicket}">Modifica</router-link>
+        <button v-if="this.role !== 'BASE'" type="button" class="btn btn-danger btn-sm" @click="deleteTicket">Elimina</button>
+        <router-link v-if="this.role !== 'BASE'" type="button" class="btn btn-warning btn-sm" :to="{path: '/tickets/' + this.ticket.idTicket}">Modifica</router-link>
         <button type="button" class="btn btn-primary btn-sm" @click="$emit('close')">Chiudi</button>
     </div>
   </div>

@@ -10,6 +10,7 @@ export default defineComponent({
   },
   data() {
     return {
+      role: null
     }
   },
   methods: {
@@ -24,6 +25,7 @@ export default defineComponent({
     },
   },
   mounted() {
+    this.role = sessionStorage.getItem('role');
   }
 })
 
@@ -38,10 +40,10 @@ export default defineComponent({
       <p class="card-text"><strong>Prezzo all'ora</strong>: {{ this.technician.costPerHour }}</p>
     </div>
     <div class="card-footer">
-      <router-link type="button" class="btn btn-warning btn-sm" :to="{path: '/technicians/' + this.technician.idTechnician}">
+      <router-link v-if="this.role === 'ADMIN'" type="button" class="btn btn-warning btn-sm" :to="{path: '/technicians/' + this.technician.idTechnician}">
         <i class="bi bi-pencil"></i>
       </router-link>
-      <button class="btn btn-sm btn-danger" @click="deleteTechnician" title="Elimina">
+      <button v-if="this.role === 'ADMIN'" class="btn btn-sm btn-danger" @click="deleteTechnician" title="Elimina">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>

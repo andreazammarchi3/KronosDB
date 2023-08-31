@@ -3,8 +3,14 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "Header",
+  methods: {
+    logout() {
+      sessionStorage.clear();
+      this.$router.push({name: "Login"});
+    }
+  },
   mounted() {
-    if (sessionStorage.getItem('idTechnician') === null) {
+    if (sessionStorage.getItem("idTechnician") === null) {
       this.$router.push({name: "Login"});
     }
   }
@@ -24,6 +30,8 @@ export default defineComponent({
             <router-link class="nav-link active" :to="{path: '/'}">Home
               <span class="visually-hidden">(current)</span>
             </router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link active" :to="{path: '/login'}">Logout
               <span class="visually-hidden">(current)</span>
             </router-link>

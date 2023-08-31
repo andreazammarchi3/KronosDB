@@ -8,12 +8,16 @@ export default defineComponent({
   props: ["client"],
   data() {
     return {
+      role: null,
     };
   },
   methods: {
   },
   computed: {
   },
+  mounted() {
+    this.role = sessionStorage.getItem('role');
+  }
 });
 </script>
 
@@ -35,7 +39,7 @@ export default defineComponent({
     <div class="card-footer text-muted">
       <span></span>
       <div>
-        <router-link type="button" class="btn btn-warning btn-sm" :to="{path: '/clients/' + this.client.idClient}">Modifica</router-link>
+        <router-link v-if="this.role === 'JUNIOR' || this.role === 'SENIOR' || this.role === 'ADMIN'" type="button" class="btn btn-warning btn-sm" :to="{path: '/clients/' + this.client.idClient}">Modifica</router-link>
         <button type="button" class="btn btn-primary btn-sm" @click="$emit('close')">Chiudi</button>
       </div>
     </div>

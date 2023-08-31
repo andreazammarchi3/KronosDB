@@ -25,6 +25,8 @@ export default defineComponent({
     }
   },
   async mounted() {
+    const role = sessionStorage.getItem('role');
+    if (role === 'BASE') this.$router.push('/401');
     await this.getClient();
   }
 })
