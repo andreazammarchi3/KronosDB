@@ -150,7 +150,6 @@ export default defineComponent({
           totalHours: document.getElementById('totalHoursAddingCard').value,
           usedHours: 0,
         };
-        console.log(newCard)
         if (newCard.totalHours !== '') {
           this.client.cards.push(newCard);
           this.updateClientCards(this.client.cards)
