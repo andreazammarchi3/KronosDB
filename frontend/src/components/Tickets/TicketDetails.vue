@@ -58,7 +58,11 @@ export default defineComponent({
         </li>
         <li class="list-group-item"><strong>Ore intervento</strong>: {{ this.ticket.workingHours }}</li>
         <li class="list-group-item"><strong>Ore trasferimento</strong>: {{ this.ticket.transferHours }}</li>
-        <li class="list-group-item"><strong>Saldo</strong>: €{{ this.ticket.price }}</li>
+
+        <li class="list-group-item"><strong>Metodo di pagamento</strong>: {{ this.ticket.paymentMethod }}</li>
+
+        <li v-if="this.ticket.paymentMethod === 'TESSERA' || this.ticket.paymentMethod === 'TESSERA + SALDO'" class="list-group-item"><strong>Tessera</strong>: numero {{ this.ticket.cardNumber }}, ore utilizzate {{ this.ticket.cardUsedHours }}</li>
+        <li v-if="this.ticket.paymentMethod === 'SALDO' || this.ticket.paymentMethod === 'TESSERA + SALDO'" class="list-group-item"><strong>Saldo</strong>: €{{ this.ticket.price }}</li>
       </ul>
     </div>
     <div class="card-footer text-muted">
