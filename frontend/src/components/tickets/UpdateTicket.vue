@@ -63,21 +63,15 @@ export default defineComponent({
       let cardNumber = null;
       let cardUsedHours = null;
 
-      if (paymentMethod === 'TESSERA') {
+      if (paymentMethod === 'TESSERA' || paymentMethod === 'TESSERA + SALDO') {
         cardNumber = document.getElementById('card').value.split(' - ')[0];
         cardUsedHours = this.workingHours + this.transferHours;
-      } else if (paymentMethod === 'SALDO') {
-        price = document.getElementById('price').value;
-      } else if (paymentMethod === 'TESSERA + SALDO') {
-        cardNumber = document.getElementById('card').value.split(' - ')[0];
-        cardUsedHours = this.workingHours + this.transferHours;
+      }
+      if (paymentMethod === 'SALDO' || paymentMethod === 'TESSERA + SALDO') {
         price = document.getElementById('price').value;
       }
 
       const card = this.client.cards.find(c => c.number === parseInt(cardNumber));
-      console.log('client cards: ', this.client.cards);
-      console.log('cardNumber: ', cardNumber, typeof cardNumber);
-      console.log('card: ', card);
       if (card !== undefined) {
         if (!this.checkIfCardUsedHoursAreValid(cardUsedHours, card.usedHours, card.totalHours)) {
           this.excessUsedHoursLabel = true;
@@ -87,16 +81,13 @@ export default defineComponent({
         }
         card.usedHours += cardUsedHours;
         const cards = this.client.cards;
-        console.log('cards: ', cards);
         cards.forEach(cardC => {
-          if (cardC.number === cardNumber) {
+          if (cardC.number === parseInt(cardNumber)) {
             cards.splice(cards.indexOf(cardC), 1);
             cards.push(card);
             this.updateClientCards(cards);
           }
         })
-      } else {
-        return;
       }
 
       axios.post(BASE_URL + '/updateTicket:' + this.ticket.idTicket, {
@@ -113,8 +104,8 @@ export default defineComponent({
         transferHours: transferHours,
         paymentMethod: paymentMethod,
         price: price,
-        cardNumber: cardNumber,
-        cardUsedHours: card.usedHours,
+        cardNumber: card === undefined ? null : cardNumber,
+        cardUsedHours: card === undefined ? null : card.usedHours,
         signatureClient: this.ticket.signatureClient
       }).then(response => {
           console.log(response)
