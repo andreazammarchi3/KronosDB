@@ -12,7 +12,7 @@ export default defineComponent({
 
 <template>
   <Header></Header>
-  <h1 class="h1">Tickets</h1>
+  <h1>Tickets</h1>
   <TicketsList></TicketsList>
 </template>
 

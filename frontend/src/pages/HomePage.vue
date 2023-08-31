@@ -11,7 +11,7 @@ export default defineComponent({
 
 <template>
   <Header></Header>
-  <h1 class="h1">KronosDB</h1>
+  <h1>KronosDB</h1>
   <HomeContainer></HomeContainer>
 </template>
 
