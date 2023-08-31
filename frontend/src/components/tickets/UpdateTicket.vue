@@ -72,6 +72,7 @@ export default defineComponent({
       }
 
       const card = this.client.cards.find(c => c.number === parseInt(cardNumber));
+      console.log(card);
       if (card !== undefined) {
         if (!this.checkIfCardUsedHoursAreValid(cardUsedHours, card.usedHours, card.totalHours)) {
           this.excessUsedHoursLabel = true;
@@ -80,14 +81,9 @@ export default defineComponent({
           this.excessUsedHoursLabel = false;
         }
         card.usedHours += cardUsedHours;
-        const cards = this.client.cards;
-        cards.forEach(cardC => {
-          if (cardC.number === parseInt(cardNumber)) {
-            cards.splice(cards.indexOf(cardC), 1);
-            cards.push(card);
-            this.updateClientCards(cards);
-          }
-        })
+        this.client.cards = this.client.cards.filter(c => c.number !== card.number);
+        this.client.cards.push(card);
+        this.updateClientCards(this.client.cards);
       }
 
       axios.post(BASE_URL + '/updateTicket:' + this.ticket.idTicket, {
@@ -206,9 +202,9 @@ export default defineComponent({
       <label for="logActivities" class="form-label mt-4">Log attività</label>
       <textarea class="form-control" id="logActivities" rows="3" v-model="this.logActivities"></textarea>
       <label for="workingHours" class="form-label mt-4">Ore intervento</label>
-      <input type="number" class="form-control" id="workingHours" v-model="this.workingHours">
+      <input type="number" class="form-control" id="workingHours" v-model="this.workingHours" min="0">
       <label for="transferHours" class="form-label mt-4">Ore trasferimento</label>
-      <input type="number" class="form-control" id="transferHours" v-model="this.transferHours">
+      <input type="number" class="form-control" id="transferHours" v-model="this.transferHours" min="0">
 
       <label for="paymentMethod" class="form-label mt-4">Metodo di pagamento</label>
       <select class="form-select" id="paymentMethod" v-model="this.paymentMethod">
