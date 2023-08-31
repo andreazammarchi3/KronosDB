@@ -36,8 +36,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <h4 class="text-center">Accedi</h4>
   <div class="login-group">
+    <h4 class="text-center">Accedi</h4>
     <div class="form-group" :class="error ? 'has-danger' : ''">
       <input type="text" class="form-control" :class="error ? 'is-invalid' : ''" id="idTechnician" placeholder="ID Tecnico" autocomplete="on" v-model="id">
     </div>
@@ -54,8 +54,7 @@ export default defineComponent({
 <style scoped>
 @import url('../../templates/style.css');
 .login-group {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 10% auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
