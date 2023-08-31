@@ -32,8 +32,6 @@ export default {
       }
     });
   }
-
-  // TODO: Add filter by technician
 }
 </script>
 
