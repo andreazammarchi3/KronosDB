@@ -14,8 +14,8 @@ const ticketSchema = new mongoose.Schema({
     transferHours: Number,
     paymentMethod: {
         type: String,
-        enum: ['TESSERA', 'SALDO', 'TESSERA + SALDO'],
-        default: 'SALDO'
+        enum: ['TESSERA', 'SALDO', 'TESSERA + SALDO', 'NON PAGATO'],
+        default: 'NON PAGATO'
     },
     cardNumber: Number,
     cardUsedHours: Number,
