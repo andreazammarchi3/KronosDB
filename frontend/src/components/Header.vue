@@ -2,7 +2,12 @@
 import {defineComponent} from "vue";
 
 export default defineComponent({
-  name: "Header"
+  name: "Header",
+  mounted() {
+    if (sessionStorage.getItem('idTechnician') === null) {
+      this.$router.push({name: "Login"});
+    }
+  }
 })
 </script>
 
@@ -17,6 +22,9 @@ export default defineComponent({
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
             <router-link class="nav-link active" :to="{path: '/'}">Home
+              <span class="visually-hidden">(current)</span>
+            </router-link>
+            <router-link class="nav-link active" :to="{path: '/login'}">Logout
               <span class="visually-hidden">(current)</span>
             </router-link>
           </li>
