@@ -83,7 +83,7 @@ export default defineComponent({
       })
           .then(response => {
             console.log(response)
-            this.$router.push('/clients')
+            // this.$router.push('/clients')
           })
           .catch(error => {
             console.log(error)
@@ -95,10 +95,15 @@ export default defineComponent({
         const newCard = {
           number: document.getElementById('number').value,
           totalHours: document.getElementById('totalHours').value,
-          usedHours: document.getElementById('usedHours').value,
+          usedHours: document.getElementById('usedHours').value
         };
-        this.client.cards.push(newCard);
-        this.updateClientCards(this.client.cards)
+        if (newCard.totalHours !== null && newCard.totalHours !== 0) {
+          if (newCard.usedHours === null) {
+            newCard.usedHours = 0;
+          }
+          this.client.cards.push(newCard);
+          this.updateClientCards(this.client.cards)
+        }
       } else {
         this.addingCard = true;
       }
@@ -109,7 +114,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <h4 class="mt-3">Tessere</h4>
   <div class="d-flex justify-content-between flex-wrap align-items-center">
     <div class="form-check form-switch align-items-center" v-if="client.cards.length !== 0">
       <input class="form-check-input" type="checkbox" :id="'showUncompletedCards-' + this.client.idClient" v-model="showUncompleted">
