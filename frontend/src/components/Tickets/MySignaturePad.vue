@@ -26,8 +26,8 @@ export default defineComponent({
     <label class="form-label mt-4">Firma del cliente</label>
     <VueSignaturePad class="signature-pad" ref="signaturePad" width="400px" height="100px"/>
     <div>
-      <button type="button" class="btn btn-primary btn-sm" @click="saveSignature">Salva</button>
-      <button type="button" class="btn btn-secondary btn-sm" @click="clearSignature">Cancella</button>
+      <button type="button" class="btn btn-primary btn-sm" @click="saveSignature">Salva firma</button>
+      <button type="button" class="btn btn-secondary btn-sm" @click="clearSignature">Pulisci firma</button>
     </div>
   </div>
 </template>

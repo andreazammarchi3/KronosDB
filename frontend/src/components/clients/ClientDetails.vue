@@ -29,6 +29,7 @@ export default defineComponent({
         <li class="list-group-item"><strong>Indirizzo</strong>: {{ this.client.address }}</li>
       </ul>
 
+      <h4 class="mt-3">Tessere</h4>
       <ClientCardsTable :client="client" ></ClientCardsTable>
     </div>
     <div class="card-footer text-muted">

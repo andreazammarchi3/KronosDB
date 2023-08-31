@@ -25,6 +25,9 @@ export default defineComponent({
       cardNumber: this.ticket.cardNumber,
       cardUsedHours: this.ticket.cardUsedHours,
       price: this.ticket.price,
+      addingCard: false,
+      totalHoursAddingCard: null,
+      usedHoursAddingCard: null,
     }
   },
   methods: {
@@ -36,6 +39,9 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
+    },
+    checkIfCardUsedHoursAreValid(ticketHours, usedHours, totalHours) {
+      return ticketHours + usedHours <= totalHours;
     },
     updateTicket(event) {
       if (event) {
@@ -52,7 +58,39 @@ export default defineComponent({
       const workingHours = document.getElementById('workingHours').value
       const transferHours = document.getElementById('transferHours').value
       const paymentMethod = document.getElementById('paymentMethod').value
-      const price = document.getElementById('price').value
+      let price = null
+      let cardNumber = null
+      let cardUsedHours = null
+
+      if (paymentMethod === 'TESSERA') {
+        cardNumber = document.getElementById('card').value.split(' - ')[0]
+        cardUsedHours = this.workingHours + this.transferHours
+      } else if (paymentMethod === 'SALDO') {
+        price = document.getElementById('price').value
+      } else if (paymentMethod === 'TESSERA + SALDO') {
+        cardNumber = document.getElementById('card').value.split(' - ')[0]
+        cardUsedHours = this.workingHours + this.transferHours
+        price = document.getElementById('price').value
+      }
+
+      const card = this.client.cards.find(card => card.number === cardNumber);
+      if (card !== undefined) {
+        if (!this.checkIfCardUsedHoursAreValid(cardUsedHours, card.usedHours, card.totalHours)) {
+          alert('Le ore usate superano le ore totali della tessera');
+          return;
+        }
+        card.usedHours += cardUsedHours;
+        const cards = this.client.cards
+        cards.forEach(cardC => {
+          if (cardC.number === cardNumber) {
+            cards.remove(cardC)
+            cards.push(card)
+            this.updateClientCards(cards)
+          }
+        })
+      } else {
+        return;
+      }
 
       axios.post(BASE_URL + '/updateTicket:' + this.ticket.idTicket, {
         idTicket: this.ticket.idTicket,
@@ -68,6 +106,8 @@ export default defineComponent({
         transferHours: transferHours,
         paymentMethod: paymentMethod,
         price: price,
+        cardNumber: cardNumber,
+        cardUsedHours: card.usedHours,
         signatureClient: this.ticket.signatureClient
       })
         .then(response => {
@@ -89,25 +129,58 @@ export default defineComponent({
     saveSignature(data) {
       this.ticket.signatureClient = data
       this.showSignaturePad = false;
-      this.updateTicket()
     },
     deleteSignature() {
       this.ticket.signatureClient = null;
       this.showSignaturePad = true;
-      this.updateTicket()
+    },
+    updateClientCards(cards) {
+      axios.post(BASE_URL + '/updateClientCards:' + this.client.idClient, {
+        cards: cards,
+      })
+          .then(response => {
+            console.log(response)
+            // this.$router.push('/clients')
+          })
+          .catch(error => {
+            console.log(error)
+          });
+    },
+    addCard() {
+      if (this.addingCard) {
+        this.addingCard = false;
+        const newCard = {
+          number: document.getElementById('numberAddingCard'),
+          totalHours: document.getElementById('totalHoursAddingCard').value,
+          usedHours: 0,
+        };
+        console.log(newCard)
+        if (newCard.totalHours !== '') {
+          this.client.cards.push(newCard);
+          this.updateClientCards(this.client.cards)
+        }
+      } else {
+        this.addingCard = true;
+      }
     },
   },
   computed: {
-    totalHours() {
-      return this.workingHours + this.transferHours
+    validCards() {
+      return this.client.cards.filter(card => card.totalHours - card.usedHours > 0);
+    },
+    getBiggestCardNumber() {
+      let biggestNumber = 0;
+      this.client.cards.forEach(card => {
+        if (card.number > biggestNumber) {
+          biggestNumber = parseInt(card.number);
+        }
+      });
+      return biggestNumber + 1;
     },
   },
   mounted() {
     this.getAllTechnicians()
-
   },
-
-  // TODO: add select card option + correct update of card when saving ticket
 })
 </script>
 
@@ -141,8 +214,6 @@ export default defineComponent({
       <input type="number" class="form-control" id="workingHours" v-model="this.workingHours">
       <label for="transferHours" class="form-label mt-4">Ore trasferimento</label>
       <input type="number" class="form-control" id="transferHours" v-model="this.transferHours">
-      <label for="totalHours" class="form-label mt-4">Ore totali</label>
-      <input type="number" class="form-control" id="totalHours" v-model="this.totalHours" readonly>
 
       <label for="paymentMethod" class="form-label mt-4">Metodo di pagamento</label>
       <select class="form-select" id="paymentMethod" v-model="this.paymentMethod">
@@ -151,38 +222,48 @@ export default defineComponent({
         <option value="TESSERA + SALDO">TESSERA + SALDO</option>
       </select>
 
-      <label for="price" class="form-label mt-4">Saldo (€)</label>
-      <input :disabled="this.paymentMethod === 'TESSERA'" type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price === null ? 0 : this.ticket.price.toFixed(2)">
+      <div v-if="this.paymentMethod !== 'SALDO'" class="form-group">
+        <label for="card" class="form-label mt-4">Tessera</label>
+
+        <button type="button" class="btn btn-sm margin-btn" :class="addingCard ? 'btn-success' : 'btn-primary'" @click="addCard">{{ addingCard ? 'Aggiungi tessera' : 'Nuova tessera' }}</button>
+        <div class="card-adder" v-if="addingCard">
+          <input class="form-control" type="number" :value="getBiggestCardNumber" readonly id="numberAddingCard">
+          <input class="form-control" type="number" placeholder="Ore totali" v-model="totalHoursAddingCard" id="totalHoursAddingCard"></div>
+
+        <select class="form-select" id="card">
+          <option v-for="card in validCards" v-if="validCards.length > 0">
+            {{ card.number }} - Ore totali: {{ card.totalHours }} - Ore usate: {{ card.usedHours }}
+          </option>
+          <option v-if="validCards.length === 0" disabled  selected>Nessuna tessera valida</option>
+        </select>
+      </div>
+
+      <label v-if="this.paymentMethod !== 'TESSERA'" for="price" class="form-label mt-4">Saldo (€)</label>
+      <input v-if="this.paymentMethod !== 'TESSERA'" type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price === null ? 0 : this.ticket.price.toFixed(2)">
       <!-- <small id="priceComputed" class="form-text text-muted">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small> -->
+
+      <div class="form-group" v-if="this.ticket.signatureClient">
+        <label class="form-label mt-4">Firma del cliente</label>
+        <div class="form-group">
+          <img class="figure-img" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature"/>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" @click="deleteSignature">Cancella firma</button>
+      </div>
+
+      <div class="form-group" v-if="!ticket.signatureClient || showSignaturePad">
+        <MySignaturePad @save="saveSignature"/>
+      </div>
     </fieldset>
     <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
     <router-link type="button" class="btn btn-secondary btn-sm" to="/tickets">Indietro</router-link>
   </form>
-
-  <div class="signature-container">
-    <div class="form-group" v-if="this.ticket.signatureClient">
-      <label class="form-label mt-4">Firma del cliente</label>
-      <div class="form-group">
-        <img class="figure-img" v-if="this.ticket.signatureClient" :src="dataURLtoFile(this.ticket.signatureClient, 'signature.png')" alt="Client signature"/>
-      </div>
-      <button type="button" class="btn btn-secondary btn-sm" @click="deleteSignature">Cancella firma</button>
-    </div>
-
-    <div class="form-group" v-if="!ticket.signatureClient || showSignaturePad">
-      <MySignaturePad @save="saveSignature"/>
-    </div>
-  </div>
 </template>
 
 <style scoped>
 @import url('../../../templates/style.css');
 
 .form {
-  margin: 0 2rem;
-}
-
-.signature-container {
-  margin: 0 2rem 2rem;
+  margin: 0 5%;
 }
 
 .form-label, .form-select, .form-control {
@@ -200,5 +281,20 @@ export default defineComponent({
   height: 100px;
   border: 1px solid #000;
   margin: 0 auto;
+}
+
+.card-adder .form-control {
+  padding-bottom: 0.5rem
+}
+
+.margin-btn {
+  margin-left: 1rem;
+}
+
+.card-adder {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #000;
 }
 </style>
