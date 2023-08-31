@@ -8,7 +8,8 @@ const technicianSchema = new mongoose.Schema({
         enum: ['BASE', 'JUNIOR', 'SENIOR', 'ADMIN'],
         default: 'BASE'
     },
-    costPerHour: Number
+    costPerHour: Number,
+    password: String,
 });
 
 module.exports = mongoose.model('technicians', technicianSchema);

@@ -7,9 +7,11 @@ import ClientsPage from "@/pages/ClientsPage.vue";
 import UpdateClientPage from "@/pages/UpdateClientPage.vue";
 import TechniciansPage from "@/pages/TechniciansPage.vue";
 import UpdateTechniciansPage from "@/pages/UpdateTechniciansPage.vue";
+import LoginPage from "@/pages/LoginPage.vue";
 
 const routes = [
     {path: '/', name: 'Home', component: HomePage},
+    {path: '/login', name: 'Login', component: LoginPage},
     {path: '/tickets', name: 'Tickets', component: TicketsPage},
     {path: '/tickets/:id', name: 'Ticket', component: UpdateTicketPage},
     {path: '/clients', name: 'Clients', component: ClientsPage},

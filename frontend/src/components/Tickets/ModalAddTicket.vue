@@ -111,7 +111,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('style.css');
+@import url('../../../templates/style.css');
 
 .alert {
   display: none;

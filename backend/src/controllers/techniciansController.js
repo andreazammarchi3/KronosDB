@@ -34,11 +34,12 @@ exports.add_technician = async (req, res) => {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
-    const { fullName, role, costPerHour } = req.body;
+    const { fullName, password, role, costPerHour } = req.body;
     const biggestId = await getBiggestTechnicianId();
 
     const newTechnician = new techniciansModel({
         idTechnician: biggestId + 1,
+        password: password,
         fullName: fullName,
         role: role,
         costPerHour: costPerHour,
