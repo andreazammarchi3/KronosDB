@@ -28,6 +28,7 @@ export default defineComponent({
       addingCard: false,
       totalHoursAddingCard: null,
       usedHoursAddingCard: null,
+      excessUsedHoursLabel: false
     }
   },
   methods: {
@@ -76,14 +77,17 @@ export default defineComponent({
       const card = this.client.cards.find(card => card.number === cardNumber);
       if (card !== undefined) {
         if (!this.checkIfCardUsedHoursAreValid(cardUsedHours, card.usedHours, card.totalHours)) {
-          alert('Le ore usate superano le ore totali della tessera');
+          this.excessUsedHoursLabel = true;
           return;
+        } else {
+          this.excessUsedHoursLabel = false;
         }
         card.usedHours += cardUsedHours;
         const cards = this.client.cards
+        console.log('cards: ', cards);
         cards.forEach(cardC => {
           if (cardC.number === cardNumber) {
-            cards.remove(cardC)
+            cards.splice(cards.indexOf(cardC), 1)
             cards.push(card)
             this.updateClientCards(cards)
           }
@@ -150,7 +154,7 @@ export default defineComponent({
       if (this.addingCard) {
         this.addingCard = false;
         const newCard = {
-          number: document.getElementById('numberAddingCard'),
+          number: document.getElementById('numberAddingCard').value,
           totalHours: document.getElementById('totalHoursAddingCard').value,
           usedHours: 0,
         };
@@ -224,22 +228,21 @@ export default defineComponent({
 
       <div v-if="this.paymentMethod !== 'SALDO'" class="form-group">
         <label for="card" class="form-label mt-4">Tessera</label>
-
         <button type="button" class="btn btn-sm margin-btn" :class="addingCard ? 'btn-success' : 'btn-primary'" @click="addCard">{{ addingCard ? 'Aggiungi tessera' : 'Nuova tessera' }}</button>
         <div class="card-adder" v-if="addingCard">
           <input class="form-control" type="number" :value="getBiggestCardNumber" readonly id="numberAddingCard">
-          <input class="form-control" type="number" placeholder="Ore totali" v-model="totalHoursAddingCard" id="totalHoursAddingCard"></div>
-
+          <input class="form-control" type="number" placeholder="Ore totali" v-model="totalHoursAddingCard" id="totalHoursAddingCard" min="0"></div>
         <select class="form-select" id="card">
           <option v-for="card in validCards" v-if="validCards.length > 0">
             {{ card.number }} - Ore totali: {{ card.totalHours }} - Ore usate: {{ card.usedHours }}
           </option>
           <option v-if="validCards.length === 0" disabled  selected>Nessuna tessera valida</option>
         </select>
+        <small v-show="this.excessUsedHoursLabel" id="excessUsedHours" class="form-text text-danger">Le ore totali di intervento superano le ore utilizzabili per la tessera selezionata</small>
       </div>
 
       <label v-if="this.paymentMethod !== 'TESSERA'" for="price" class="form-label mt-4">Saldo (€)</label>
-      <input v-if="this.paymentMethod !== 'TESSERA'" type="number" class="form-control" step="0.05" id="price" :value="this.ticket.price === null ? 0 : this.ticket.price.toFixed(2)">
+      <input v-if="this.paymentMethod !== 'TESSERA'" type="number" class="form-control" step="0.05" id="price" v-model="this.price" min="0">
       <!-- <small id="priceComputed" class="form-text text-muted">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small> -->
 
       <div class="form-group" v-if="this.ticket.signatureClient">
