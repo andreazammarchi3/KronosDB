@@ -52,9 +52,8 @@ export default {
           text: this.newMessage.trim(),
         };
         this.activeChat.messages.push(newMessage);
-        axios.post(BASE_URL + '/newMessage:' + this.activeTopicName, this.activeChat.messages).then(response => {
-          this.chats = this.chats.filter(c => c.topic !== this.activeChat.topic);
-          this.chats.push(this.activeChat);
+        axios.post(BASE_URL + '/newMessage:' + this.activeTopicName, {messages: this.activeChat.messages}).then(response => {
+          console.log(response.data);
         }).catch(error => {
           console.log(error);
         });
@@ -103,7 +102,7 @@ export default {
   <div v-if="this.chats.length !== 0 && this.technicians.length !== 0" class="group-chat">
     <div class="chat-sidebar" :class="{ 'hidden': !sidebarVisible, 'overlay': sidebarOverlay }">
       <ul class="topic-list">
-        <li v-for="chat in this.chats" :key="chat.topic" :class="{ 'active': chat.topic === activeTopicName }" @click="setActiveTopic(chat.topic)">
+        <li v-for="chat in this.chats" :class="{ 'active': chat.topic === activeTopicName }" @click="setActiveTopic(chat.topic)">
           {{ chat.topic }}
         </li>
       </ul>
@@ -125,8 +124,8 @@ export default {
         </div>
       </div>
       <div class="chat-input">
-        <input type="text" v-model="newMessage" placeholder="Type your message...">
-        <button @click="sendMessage">Send</button>
+        <input type="text" id="textMsg" v-model="newMessage" placeholder="Digita messaggio..." @keyup.enter="sendMessage">
+        <button @click="sendMessage"><i class="bi bi-send-fill"></i></button>
       </div>
     </div>
   </div>
@@ -182,7 +181,7 @@ div *:not(Header) {
 }
 
 .topic-list li.active {
-  background-color: #297045;
+  background-color: #279AF1;
   color: #fff;
 }
 
@@ -193,7 +192,7 @@ div *:not(Header) {
 }
 
 .chat-header {
-  background-color: #297045;
+  background-color: #AF982E;
   color: #fff;
   padding-right: 15px;
   padding-top: 10px;
@@ -255,10 +254,13 @@ div *:not(Header) {
 }
 
 .chat-input button {
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-radius: 20px;
   border: none;
-  background-color: #2F2F2F;
+  background-color: #279AF1;
   color: #fff;
   cursor: pointer;
 }
