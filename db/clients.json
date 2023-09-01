@@ -3,20 +3,70 @@
     "$oid": "64e7719e94945aea5294ece4"
   },
   "idClient": 1,
-  "fullName": "John Doe",
+  "fullName": "Doe John",
   "address": "Via dell'Estinzione, 1, Cesena",
-  "cellphone": 0,
+  "cellphone": {
+    "$numberLong": "9998877665"
+  },
   "mail": "johndoe@gmail.com",
-  "cards": []
+  "cards": [
+    {
+      "number": 2,
+      "totalHours": 20,
+      "usedHours": 20,
+      "_id": {
+        "$oid": "64ee1b65d1ad4ffa51df0295"
+      }
+    },
+    {
+      "number": 3,
+      "totalHours": 20,
+      "usedHours": 15,
+      "_id": {
+        "$oid": "64ee1bdbd1ad4ffa51df02a7"
+      }
+    },
+    {
+      "number": 4,
+      "totalHours": 5,
+      "usedHours": 0,
+      "_id": {
+        "$oid": "64f08c50face5492b8cd6036"
+      }
+    }
+  ]
 },
 {
   "_id": {
     "$oid": "64e8a5ed49a78a3057d4d9ff"
   },
   "idClient": 2,
-  "fullName": "Jack Apple",
+  "fullName": "Apple Jack",
   "address": "Via Garibaldi, 2, Washington DC",
-  "cellphone": 0,
+  "cellphone": 1112233445,
   "mail": "jackapple@gmail.com",
   "cards": []
+},
+{
+  "_id": {
+    "$oid": "64ecc0f5101be4ea782a541c"
+  },
+  "idClient": 3,
+  "fullName": "Zammarchi Andrea",
+  "address": "via tosi",
+  "cellphone": {
+    "$numberLong": "3928120209"
+  },
+  "mail": "zammadbz@gmail.com",
+  "cards": [
+    {
+      "number": 1,
+      "totalHours": 5,
+      "usedHours": 4,
+      "_id": {
+        "$oid": "64f096d990349d3613d89ce0"
+      }
+    }
+  ],
+  "__v": 0
 }]
