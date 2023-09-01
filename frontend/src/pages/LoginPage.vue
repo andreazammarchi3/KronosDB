@@ -21,6 +21,7 @@ export default defineComponent({
         this.technicians.forEach(t => {
           if (t.idTechnician == parseInt(this.id) && t.password == sha256(this.password)) {
             sessionStorage.setItem("idTechnician", t.idTechnician);
+            sessionStorage.setItem("fullName", t.fullName);
             sessionStorage.setItem("role", t.role);
             this.error = false;
             this.$router.push({name: "Home"});

@@ -1,62 +1,16 @@
-<template>
-  <Header></Header>
-  <div class="group-chat">
-    <div class="chat-sidebar" :class="{ 'hidden': !sidebarVisible, 'overlay': sidebarOverlay }">
-      <ul class="topic-list">
-        <li v-for="topic in topics" :key="topic.id" :class="{ 'active': topic.id === activeTopicId }" @click="setActiveTopic(topic.id)">
-          {{ topic.name }}
-        </li>
-      </ul>
-    </div>
-    <div class="chat-main">
-      <div class="chat-header">
-        <button class="toggle-button" v-if="sidebarToggleVisible" @click="toggleSidebar">{{ sidebarVisible ? 'Hide Topics' : 'Show Topics' }}</button>
-        <h2>{{ activeTopic.name }}</h2>
-      </div>
-      <div class="chat-messages">
-        <div v-for="message in activeTopic.messages" :key="message.id" class="message">
-          <div class="message-header">
-            <span class="message-sender">{{ message.sender }}</span>
-            <span class="message-time">{{ message.time }}</span>
-          </div>
-          <div class="message-body">
-            {{ message.text }}
-          </div>
-        </div>
-      </div>
-      <div class="chat-input">
-        <input type="text" v-model="newMessage" placeholder="Type your message...">
-        <button @click="sendMessage">Send</button>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import Header from "@/components/Header.vue";
+import axios from "axios";
+import {BASE_URL} from "@/main";
 
 export default {
   name: 'GroupChat',
   components: {Header},
   data() {
     return {
-      topics: [
-        { id: 1, name: 'Topic 1', messages: [
-            { id: 1, sender: 'John', time: '10:00 AM', text: 'Hello everyone!' },
-            { id: 2, sender: 'Mary', time: '10:05 AM', text: 'Hi John!' },
-            { id: 3, sender: 'Bob', time: '10:10 AM', text: 'How are you all doing?' },
-          ]},
-        { id: 2, name: 'Topic 2', messages: [
-            { id: 1, sender: 'John', time: '11:00 AM', text: 'Topic 2 message 1' },
-            { id: 2, sender: 'Mary', time: '11:05 AM', text: 'Topic 2 message 2' },
-          ]},
-        { id: 3, name: 'Topic 3', messages: [
-            { id: 1, sender: 'John', time: '12:00 PM', text: 'Topic 3 message 1' },
-            { id: 2, sender: 'Mary', time: '12:05 PM', text: 'Topic 3 message 2' },
-            { id: 3, sender: 'Bob', time: '12:10 PM', text: 'Topic 3 message 3' },
-          ]},
-      ],
-      activeTopicId: 1,
+      technicians: [],
+      chats: [],
+      activeTopicName: null,
       newMessage: '',
       sidebarVisible: true,
       sidebarToggleVisible: true,
@@ -64,24 +18,46 @@ export default {
     }
   },
   computed: {
-    activeTopic() {
-      return this.topics.find(topic => topic.id === this.activeTopicId);
+    activeChat() {
+      return this.chats.find(chat => chat.topic === this.activeTopicName);
     },
+    formattedTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
   },
   methods: {
-    setActiveTopic(topicId) {
-      this.activeTopicId = topicId;
+    getTechnicians() {
+      axios.get(BASE_URL + '/allTechnicians').then(response => {
+        this.technicians = response.data;
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+    setActiveTopic(topic) {
+      this.activeTopicName = topic;
     },
     sendMessage() {
       if (this.newMessage.trim() !== '') {
-        const newId = this.activeTopic.messages.length + 1;
+        const newId = this.activeChat.messages.length + 1;
         const newMessage = {
           id: newId,
-          sender: 'You',
-          time: new Date().toLocaleTimeString(),
+          sender: sessionStorage.getItem("fullName"),
+          time: this.formattedTime,
           text: this.newMessage.trim(),
         };
-        this.activeTopic.messages.push(newMessage);
+        this.activeChat.messages.push(newMessage);
+        axios.post(BASE_URL + '/newMessage:' + this.activeTopicName, this.activeChat.messages).then(response => {
+          this.chats = this.chats.filter(c => c.topic !== this.activeChat.topic);
+          this.chats.push(this.activeChat);
+        }).catch(error => {
+          console.log(error);
+        });
         this.newMessage = '';
       }
     },
@@ -98,19 +74,63 @@ export default {
         this.sidebarOverlay = true;
       }
     },
+    getChats() {
+      axios.get(BASE_URL + '/allChats').then(response => {
+        this.chats = response.data;
+        this.activeTopicName = this.chats[0].topic;
+      }).catch(error => {
+        console.log(error);
+      });
+    }
   },
-  mounted() {
+  created() {
     if (sessionStorage.getItem("idTechnician") === null) {
       this.$router.push({name: "Login"});
     }
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
+    this.getChats();
+    this.getTechnicians();
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
   },
 };
 </script>
+
+<template>
+  <Header></Header>
+  <div v-if="this.chats.length !== 0 && this.technicians.length !== 0" class="group-chat">
+    <div class="chat-sidebar" :class="{ 'hidden': !sidebarVisible, 'overlay': sidebarOverlay }">
+      <ul class="topic-list">
+        <li v-for="chat in this.chats" :key="chat.topic" :class="{ 'active': chat.topic === activeTopicName }" @click="setActiveTopic(chat.topic)">
+          {{ chat.topic }}
+        </li>
+      </ul>
+    </div>
+    <div class="chat-main">
+      <div class="chat-header">
+        <button class="toggle-button" v-if="sidebarToggleVisible" @click="toggleSidebar">{{ sidebarVisible ? 'Hide Topics' : 'Show Topics' }}</button>
+        <h2>{{ activeTopicName }}</h2>
+      </div>
+      <div class="chat-messages">
+        <div v-for="message in activeChat.messages" :key="message.id" class="message">
+          <div class="message-header">
+            <span class="message-sender">{{ message.sender }}</span>
+            <span class="message-time">{{ message.time }}</span>
+          </div>
+          <div class="message-body">
+            {{ message.text }}
+          </div>
+        </div>
+      </div>
+      <div class="chat-input">
+        <input type="text" v-model="newMessage" placeholder="Type your message...">
+        <button @click="sendMessage">Send</button>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 div *:not(Header) {
