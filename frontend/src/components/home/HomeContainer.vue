@@ -27,7 +27,7 @@ export default defineComponent({
         <router-link class="btn btn-primary" :to="{path: '/tickets'}">Elenco Ticket</router-link>
         <ModalAddTicket></ModalAddTicket>
       </div>
-      <div class="btn-container" v-if="this.role !== 'BASE'">
+      <div class="btn-container">
         <h2>Clienti</h2>
         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addClient">Nuovo Cliente</button>
         <router-link class="btn btn-warning" :to="{path: '/clients'}">Elenco clienti</router-link>

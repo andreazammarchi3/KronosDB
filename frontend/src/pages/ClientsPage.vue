@@ -11,8 +11,6 @@ export default defineComponent({
   },
   components: {ClientsList, Header},
   mounted() {
-    const role = sessionStorage.getItem('role');
-    if (role === 'BASE') this.$router.push('/401');
   }
 })
 </script>
