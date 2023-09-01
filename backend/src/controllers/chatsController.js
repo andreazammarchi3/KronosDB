@@ -13,7 +13,7 @@ exports.all_chats = async(req, res) => {
 exports.get_chat = async (req, res) => {
     try{
         res.header("Access-Control-Allow-Origin", "*");
-        res.json(await chatsModel.findOne({topic: parseInt(req.params.topic.slice(1))}));
+        res.json(await chatsModel.findOne({topic: req.params.topic.slice(1)}));
     }catch (e) {
         res.json(e);
     }
@@ -44,7 +44,7 @@ exports.remove_chat = async (req, res) => {
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
     try{
-        res.json(await chatsModel.deleteOne({topic: parseInt(req.params.topic.slice(1))}));
+        res.json(await chatsModel.deleteOne({topic: req.params.topic.slice(1)}));
     }catch (e) {
         res.json(e);
     }
@@ -64,7 +64,7 @@ exports.new_message = async (req, res) => {
     const { messages } = req.body;
 
     try{
-        res.json(await chatsModel.updateOne({topic: parseInt(req.params.topic.slice(1))}, {messages: messages}));
+        res.json(await chatsModel.updateOne({topic: req.params.topic.slice(1)}, {messages: messages}));
     }catch (e) {
         res.json(e);
     }

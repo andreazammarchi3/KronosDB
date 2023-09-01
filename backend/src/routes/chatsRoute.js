@@ -14,7 +14,7 @@ router.route('/addChat')
 router.route('/removeChat:topic')
     .post((req, res) => chatsController.remove_chat(req, res));
 
-router.route('/newMessage')
+router.route('/newMessage:topic')
     .post((req, res) => chatsController.new_message(req, res));
 
 module.exports = router;
