@@ -40,8 +40,9 @@ export default defineComponent({
       <img class="header-logo" src="@/assets/img/logo.png" alt="logo">
     </router-link>
     <div class="menu-container">
-      <i class="bi bi-bell-fill notifications-icon" :class="{'red-color': newNotifications}" @click="shakeNotification"></i>
-      <i class="bi bi-person-circle menu-icon" id="menu-btn" @click="this.showMenuBox"></i>
+      <i class="bi bi-chat icon chat-icon" id="chat-btn" title="Chat" @click="this.$router.push('/chat')"></i>
+      <i class="bi bi-bell-fill icon notifications-icon" :class="{'red-color': newNotifications}" title="Notifiche" @click="shakeNotification"></i>
+      <i class="bi bi-person-circle icon menu-icon" id="menu-btn" title="Menu" @click="this.showMenuBox"></i>
       <div class="overlay-box" v-if="showOverlayBox">
         <div class="menu-item mt-3" @click="logout"><i class="bi bi-box-arrow-left"></i>Logout</div>
       </div>
@@ -66,13 +67,13 @@ export default defineComponent({
   height: 40px;
 }
 
-.menu-icon, .notifications-icon {
+.icon {
   font-size: 30px;
   color: #fff;
   cursor: pointer;
 }
 
-.notifications-icon{
+.notifications-icon, .chat-icon {
   margin-right: 15px;
 }
 
