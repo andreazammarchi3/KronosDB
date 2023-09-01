@@ -113,9 +113,13 @@ export default {
 </script>
 
 <style scoped>
+div *:not(Header) {
+  font-family: Overpass, sans-serif;
+}
+
 .group-chat {
   display: flex;
-  height: 100%;
+  height: calc(100vh - 60px);
 }
 
 .chat-sidebar {
@@ -131,7 +135,7 @@ export default {
 
 .chat-sidebar.overlay {
   position: absolute;
-  top: 0;
+  top: 60px;
   left: 0;
   height: 100%;
   z-index: 1;
@@ -174,6 +178,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 60px;
+}
+
+.chat-header h2 {
+  font-size: 30px;
 }
 
 .chat-messages {
