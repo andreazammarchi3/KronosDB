@@ -4,6 +4,7 @@ const cors = require('cors');
 const clientsRouter = require('./routes/clientsRoute');
 const techniciansRouter = require('./routes/techniciansRoute');
 const ticketsRouter = require('./routes/ticketsRoute');
+const chatsRouter = require('./routes/chatsRoute');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(clientsRouter);
 app.use(techniciansRouter);
 app.use(ticketsRouter);
+app.use(chatsRouter);
 
 mongoose.connect('mongodb://127.0.0.1:27017/kronosDB').then(() => {
    console.log('Connected to DB');
