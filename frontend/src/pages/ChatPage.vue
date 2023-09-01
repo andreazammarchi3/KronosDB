@@ -135,10 +135,11 @@ div *:not(Header) {
 
 .chat-sidebar.overlay {
   position: absolute;
-  top: 60px;
+  top: 120px;
   left: 0;
-  height: 100%;
+  height: calc(100% - 120px);
   z-index: 1;
+  width: 200px;
 }
 
 .toggle-button {
@@ -161,7 +162,7 @@ div *:not(Header) {
 }
 
 .topic-list li.active {
-  background-color: #2F2F2F;
+  background-color: #297045;
   color: #fff;
 }
 
@@ -172,9 +173,10 @@ div *:not(Header) {
 }
 
 .chat-header {
-  background-color: #2F2F2F;
+  background-color: #297045;
   color: #fff;
-  padding: 10px;
+  padding-right: 15px;
+  padding-top: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -183,6 +185,8 @@ div *:not(Header) {
 
 .chat-header h2 {
   font-size: 30px;
+  margin-left: auto;
+  margin-right: 3px;
 }
 
 .chat-messages {
