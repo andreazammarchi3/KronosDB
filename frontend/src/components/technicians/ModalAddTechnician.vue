@@ -15,7 +15,7 @@ export default defineComponent({
   methods: {
     addTechnician() {
       const fullName = document.getElementById("fullNameTechnician").value;
-      const role = document.getElementById("role").value;
+      const role = document.getElementById("roleAdd").value;
       const costPerHour = document.getElementById("costPerHour").value;
 
       axios.post(`${BASE_URL}/addTechnician`, {
@@ -27,7 +27,7 @@ export default defineComponent({
             console.log(response.data);
             // Reset form fields and close modal
             document.getElementById("fullNameTechnician").value = "";
-            document.getElementById("role").selectedIndex = -1;
+            document.getElementById("roleAdd").selectedIndex = -1;
             document.getElementById("costPerHour").value = 0;
 
             document.getElementById("closeBtnTechnician").click()
@@ -67,8 +67,8 @@ export default defineComponent({
           </div>
 
           <div class="form-group">
-            <label for="role" class="form-label">Ruolo</label>
-            <select class="form-select" id="role">
+            <label for="roleAdd" class="form-label">Ruolo</label>
+            <select class="form-select" id="roleAdd">
               <option value="BASE">BASE</option>
               <option value="JUNIOR">JUNIOR</option>
               <option value="SENIOR">SENIOR</option>
@@ -95,12 +95,17 @@ export default defineComponent({
 <style scoped>
 @import url('../../../templates/style.css');
 
-.col-form-label, .form-control, .form-select {
+.col-form-label, .form-control {
   line-height: 0;
 }
 
 .form-control {
   padding: 0.25rem 0;
   margin-bottom: 1rem;
+}
+
+.form-select {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 </style>

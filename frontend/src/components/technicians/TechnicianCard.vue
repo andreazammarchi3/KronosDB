@@ -37,7 +37,7 @@ export default defineComponent({
     <div class="card-body">
       <h5 class="card-title">{{ this.technician.fullName }}</h5>
       <p class="card-text"><strong>Ruolo</strong>: {{ this.technician.role }}</p>
-      <p class="card-text"><strong>Prezzo all'ora</strong>: {{ this.technician.costPerHour }}</p>
+      <p v-if="this.technician.role !== 'BASE'" class="card-text"><strong>Prezzo all'ora</strong>: {{ this.technician.costPerHour }}</p>
     </div>
     <div class="card-footer">
       <router-link v-if="this.role === 'ADMIN'" type="button" class="btn btn-warning btn-sm" :to="{path: '/technicians/' + this.technician.idTechnician}">

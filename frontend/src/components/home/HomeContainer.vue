@@ -3,10 +3,11 @@ import {defineComponent} from "vue";
 import ModalAddTicket from "@/components/tickets/ModalAddTicket.vue";
 import ModalAddClient from "@/components/clients/ModalAddClient.vue";
 import ModalAddTechnician from "@/components/technicians/ModalAddTechnician.vue";
+import ModalEditPricePerHourTechnicians from "@/components/technicians/ModalEditPricePerHourTechnicians.vue";
 
 export default defineComponent({
   name: "HomeContainer",
-  components: {ModalAddTechnician, ModalAddTicket, ModalAddClient},
+  components: {ModalEditPricePerHourTechnicians, ModalAddTechnician, ModalAddTicket, ModalAddClient},
   data() {
     return {
       role: null
@@ -37,7 +38,9 @@ export default defineComponent({
       <h2>Tecnici</h2>
         <button v-if="this.role === 'ADMIN'" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addTechnician">Nuovo Tecnico</button>
         <router-link class="btn btn-info" :to="{path: '/technicians'}">Elenco tecnici</router-link>
+        <button v-if="this.role === 'ADMIN'" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editPrice">Modifica prezzi orari tecnici</button>
         <ModalAddTechnician></ModalAddTechnician>
+        <ModalEditPricePerHourTechnicians></ModalEditPricePerHourTechnicians>
       </div>
     </div>
 </template>
