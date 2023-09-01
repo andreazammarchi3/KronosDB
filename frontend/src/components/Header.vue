@@ -6,6 +6,7 @@ export default defineComponent({
   data() {
     return {
       showOverlayBox: false,
+      newNotifications: false
     }
   },
   methods: {
@@ -16,6 +17,14 @@ export default defineComponent({
     showMenuBox() {
       this.showOverlayBox = !this.showOverlayBox;
     },
+    shakeNotification() {
+      this.newNotifications = true;
+      const notificationsIcon = document.querySelector('.notifications-icon');
+      notificationsIcon.classList.add('shake');
+      setTimeout(() => {
+        notificationsIcon.classList.remove('shake');
+      }, 500);
+    }
   },
   mounted() {
     if (sessionStorage.getItem("idTechnician") === null) {
@@ -31,7 +40,8 @@ export default defineComponent({
       <img class="header-logo" src="@/assets/img/logo.png" alt="logo">
     </router-link>
     <div class="menu-container">
-      <i class="bi bi-person-circle menu" id="menu-btn" @click="this.showMenuBox"></i>
+      <i class="bi bi-bell-fill notifications-icon" :class="{'red-color': newNotifications}" @click="shakeNotification"></i>
+      <i class="bi bi-person-circle menu-icon" id="menu-btn" @click="this.showMenuBox"></i>
       <div class="overlay-box" v-if="showOverlayBox">
         <div class="menu-item mt-3" @click="logout"><i class="bi bi-box-arrow-left"></i>Logout</div>
       </div>
@@ -48,18 +58,30 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .header-logo {
   height: 40px;
 }
 
-.menu {
+.menu-icon, .notifications-icon {
   font-size: 30px;
   color: #fff;
   cursor: pointer;
+}
+
+.notifications-icon{
+  margin-right: 15px;
+}
+
+.notifications-icon.shake {
+  animation: shake 0.5s;
+}
+
+.notifications-icon.red-color {
+  color: #F6511D;
 }
 
 .overlay-box {
@@ -89,7 +111,9 @@ export default defineComponent({
 }
 
 .menu-container {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu-item i {
@@ -104,6 +128,20 @@ export default defineComponent({
   to {
     transform: translateY(0);
   }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-2px); }
+  20% { transform: translateX(2px); }
+  30% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  50% { transform: translateX(-2px); }
+  60% { transform: translateX(2px); }
+  70% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  90% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
 }
 
 </style>
