@@ -3,11 +3,19 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "Header",
+  data() {
+    return {
+      showOverlayBox: false,
+    }
+  },
   methods: {
     logout() {
       sessionStorage.clear();
       this.$router.push({name: "Login"});
-    }
+    },
+    showMenuBox() {
+      this.showOverlayBox = !this.showOverlayBox;
+    },
   },
   mounted() {
     if (sessionStorage.getItem("idTechnician") === null) {
@@ -18,30 +26,84 @@ export default defineComponent({
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-    <div class="container-fluid">
-      <router-link class="navbar-brand" :to="{path: '/'}">KronosDB</router-link>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarColor02">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <router-link class="nav-link active" :to="{path: '/'}">Home
-              <span class="visually-hidden">(current)</span>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link active" :to="{path: '/login'}">Logout
-              <span class="visually-hidden">(current)</span>
-            </router-link>
-          </li>
-        </ul>
+  <header class="header">
+    <router-link class="nav-link logo" :to="{path: '/'}">
+      <img class="header-logo" src="@/assets/img/logo.png" alt="logo">
+    </router-link>
+    <div class="menu-container">
+      <i class="bi bi-person-circle menu" id="menu-btn" @click="this.showMenuBox"></i>
+      <div class="overlay-box" v-if="showOverlayBox">
+        <div class="menu-item mt-3" @click="logout"><i class="bi bi-box-arrow-left"></i>Logout</div>
       </div>
     </div>
-  </nav>
+  </header>
 </template>
 
 <style scoped>
 @import url('../../templates/style.css');
+
+.header {
+  height: 60px;
+  background-color: #2F2F2F;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.header-logo {
+  height: 40px;
+}
+
+.menu {
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.overlay-box {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  height: 60px;
+  width: 100px;
+  background-color: #2F2F2F;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 999;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  animation: slide-down 0.1s ease-out;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: Overpass, sans-serif;
+  color: #fff;
+}
+
+.menu-container {
+  position: relative;
+}
+
+.menu-item i {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-10%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 </style>

@@ -11,4 +11,8 @@ export default defineComponent({
 </template>
 
 <style scoped>
+@font-face {
+  font-family: "Overpass";
+  src: local("Overpass"), url("@/assets/fonts/Overpass/Overpass-Regular.ttf") format("truetype");
+}
 </style>
