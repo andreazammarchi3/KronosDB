@@ -209,7 +209,7 @@ export default defineComponent({
 .notification {
   margin: 10px;
   padding: 10px;
-  width: 200px;
+  width: 300px;
   border-radius: 5px;
   font-family: Overpass, sans-serif;
   color: #fff;
