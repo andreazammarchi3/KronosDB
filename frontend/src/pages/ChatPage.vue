@@ -101,6 +101,7 @@ export default {
           chat.messages = data.messages;
         }
       });
+
     });
   },
   beforeUnmount() {
@@ -130,7 +131,7 @@ export default {
             <span class="message-sender">{{ message.sender === currentSender ? 'Tu' : message.sender }}</span>
             <span class="message-time">{{ message.time }}</span>
           </div>
-          <div class="message-body">
+          <div class="message-body" :class="{'my-message-body': message.sender === currentSender}">
             {{ message.text }}
           </div>
         </div>
@@ -193,7 +194,7 @@ div *:not(Header) {
 }
 
 .topic-list li.active {
-  background-color: #279AF1;
+  background-color: #AF982E;
   color: #fff;
 }
 
@@ -251,6 +252,11 @@ div *:not(Header) {
   border-radius: 5px;
 }
 
+.my-message-body {
+  background-color: #297045;
+  color: #fff;
+}
+
 .chat-input {
   display: flex;
   align-items: center;
@@ -266,13 +272,10 @@ div *:not(Header) {
 }
 
 .chat-input button {
-  padding-top: 8px;
-  padding-bottom: 4px;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding: 8px 10px 4px;
   border-radius: 20px;
   border: none;
-  background-color: #279AF1;
+  background-color: #297045;
   color: #fff;
   cursor: pointer;
 }
