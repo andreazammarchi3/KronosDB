@@ -29,7 +29,7 @@ export default defineComponent({
     },
     addNotificationForEachMessage(topic, messages) {
       messages.forEach(message => {
-        if (this.notifications.length === 0 || !this.notifications.some(notification => notification.message.id === message.id)) {
+        if ((this.notifications.length === 0 ||!this.notifications.some(notification => notification.message.id === message.id)) && message.sender !== this.currentUserName) {
           this.notifications.push({
             topic: topic,
             message: message,
@@ -75,15 +75,14 @@ export default defineComponent({
     this.getChats();
 
     this.socket.on('CHAT', (data) => {
+      const previousNotNumber = this.notifications.length;
       this.chats.forEach(chat => {
         if (chat.topic === data.topic) {
-          console.log(data.topic);
           this.addNotificationForEachMessage(chat.topic, this.getDifferentMessages(chat.messages, data.messages));
-          console.log(this.notifications);
           chat.messages = data.messages;
         }
       });
-      this.shakeNotification();
+      if (this.notifications.length !== previousNotNumber) this.shakeNotification();
     });
 
   },
@@ -92,6 +91,9 @@ export default defineComponent({
       return (chat) => {
         return this.notifications.filter(notification => notification.topic === chat.topic).length;
       }
+    },
+    currentUserName() {
+      return sessionStorage.getItem("fullName");
     }
   }
 })
