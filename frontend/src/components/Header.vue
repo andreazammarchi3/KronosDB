@@ -1,12 +1,14 @@
 <script>
 import {defineComponent} from "vue";
+import io from "socket.io-client";
+import {BASE_URL} from "@/main";
 
 export default defineComponent({
   name: "Header",
   data() {
     return {
       showOverlayBox: false,
-      newNotifications: false
+      socket: io(BASE_URL),
     }
   },
   methods: {
@@ -18,8 +20,10 @@ export default defineComponent({
       this.showOverlayBox = !this.showOverlayBox;
     },
     shakeNotification() {
-      this.newNotifications = true;
-      const notificationsIcon = document.querySelector('.notifications-icon');
+      const notificationsIcon = document.getElementById('notifications-icon');
+      if (!notificationsIcon.classList.contains('red-color')) {
+        notificationsIcon.classList.add('red-color');
+      }
       notificationsIcon.classList.add('shake');
       setTimeout(() => {
         notificationsIcon.classList.remove('shake');
@@ -30,6 +34,11 @@ export default defineComponent({
     if (sessionStorage.getItem("idTechnician") === null) {
       this.$router.push({name: "Login"});
     }
+
+    this.socket.on('CHAT', (data) => {
+        this.shakeNotification();
+    });
+
   }
 })
 </script>
@@ -41,7 +50,7 @@ export default defineComponent({
     </router-link>
     <div class="menu-container">
       <i class="bi bi-chat icon chat-icon" id="chat-btn" title="Chat" @click="this.$router.push('/chat')"></i>
-      <i class="bi bi-bell-fill icon notifications-icon" :class="{'red-color': newNotifications}" title="Notifiche" @click="shakeNotification"></i>
+      <i class="bi bi-bell-fill icon notifications-icon" id="notifications-icon" title="Notifiche"></i>
       <i class="bi bi-person-circle icon menu-icon" id="menu-btn" title="Menu" @click="this.showMenuBox"></i>
       <div class="overlay-box" v-if="showOverlayBox">
         <div class="menu-item mt-3" @click="logout"><i class="bi bi-box-arrow-left"></i>Logout</div>
