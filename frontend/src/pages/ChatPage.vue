@@ -85,6 +85,12 @@ export default {
       }).catch(error => {
         console.log(error);
       });
+    },
+    scrollToBottom() {
+      const chatMessages = document.querySelector('.chat-messages');
+      if (chatMessages) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
     }
   },
   mounted() {
@@ -100,10 +106,15 @@ export default {
       this.chats.forEach(chat => {
         if (chat.topic === data.topic) {
           chat.messages = data.messages;
+          this.scrollToBottom();
         }
       });
     });
 
+    this.scrollToBottom();
+  },
+  updated() {
+    this.scrollToBottom();
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
@@ -225,7 +236,7 @@ div *:not(Header) {
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 10px;
+  padding: 10px;;
 }
 
 .message {
