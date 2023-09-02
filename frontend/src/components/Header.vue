@@ -65,6 +65,13 @@ export default defineComponent({
       setTimeout(() => {
         notificationsIcon.classList.remove('shake');
       }, 500);
+    },
+    deleteNotification(topic) {
+      this.notifications = this.notifications.filter(notification => notification.topic !== topic);
+      if (this.notifications.length === 0) {
+        this.showOverlayNotificationsBox = false;
+        document.getElementById('notifications-icon').classList.remove('red-color');
+      }
     }
   },
   mounted() {
@@ -87,13 +94,20 @@ export default defineComponent({
 
   },
   computed: {
-    notificationsInChat() {
-      return (chat) => {
-        return this.notifications.filter(notification => notification.topic === chat.topic).length;
+    notificationsInTopic() {
+      return (topic) => {
+        return this.notifications.filter(notification => notification.topic === topic).length;
       }
     },
     currentUserName() {
       return sessionStorage.getItem("fullName");
+    },
+    topicsInNotifications() {
+      const uniqueTopics = new Set();
+      this.notifications.forEach(notification => {
+        uniqueTopics.add(notification.topic);
+      });
+      return Array.from(uniqueTopics);
     }
   }
 })
@@ -115,7 +129,7 @@ export default defineComponent({
 
       <div class="overlay-box overlay-notifications-box" v-if="showOverlayNotificationsBox">
         <div v-if="notifications.length === 0" class="notification">Nessuna nuova notifica</div>
-        <Notification v-else v-for="chat in chats" :numberOfNotifications="notificationsInChat(chat)" :topic="chat.topic" class="notification"></Notification>
+        <Notification v-else v-for="topic in topicsInNotifications" :numberOfNotifications="notificationsInTopic(topic)" :topic="topic" @deleteNotification="this.deleteNotification(topic)" class="notification"></Notification>
       </div>
     </div>
   </header>
@@ -211,7 +225,6 @@ export default defineComponent({
 .notification {
   margin: 10px;
   padding: 10px;
-  width: 300px;
   border-radius: 5px;
   font-family: Overpass, sans-serif;
   color: #fff;
