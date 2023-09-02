@@ -16,7 +16,7 @@ export default {
       sidebarVisible: true,
       sidebarToggleVisible: true,
       sidebarOverlay: false,
-      socket: io('localhost:3000'),
+      socket: io(BASE_URL),
     }
   },
   computed: {
@@ -95,14 +95,15 @@ export default {
     window.addEventListener('resize', this.handleResize);
     this.getChats();
     this.getTechnicians();
+
     this.socket.on('CHAT', (data) => {
       this.chats.forEach(chat => {
         if (chat.topic === data.topic) {
           chat.messages = data.messages;
         }
       });
-
     });
+
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
@@ -137,7 +138,7 @@ export default {
         </div>
       </div>
       <div class="chat-input">
-        <input type="text" id="textMsg" v-model="newMessage" placeholder="Digita messaggio..." @keyup.enter="sendMessage">
+        <input type="text" id="textMsg" v-model="newMessage" placeholder="Digita messaggio..." @keyup.enter="sendMessage" autocomplete="off">
         <button @click="sendMessage"><i class="bi bi-send-fill"></i></button>
       </div>
     </div>
