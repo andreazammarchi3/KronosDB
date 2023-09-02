@@ -1,7 +1,0 @@
-*/.idea
-*/node-modules
-*.env
-*.log
-build/
-dist/
-*.egg-info/
