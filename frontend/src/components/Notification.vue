@@ -14,8 +14,8 @@ export default defineComponent({
 
 <template>
   <div v-if="numberOfNotifications > 0" class="notification-container">
-    <i class="bi bi-x"></i>
-    <div class="notification-text"> {{ this.numberOfNotifications }} {{ this.numberOfNotifications === 1 ? 'nuovo messaggio' : 'nuovi messaggi' }} su: {{ topic }}</div>
+    <i class="bi bi-x" @click="this.$emit('deleteNotification')"></i>
+    <div class="notification-text"> {{ this.numberOfNotifications }} mess. in: {{ topic }}</div>
   </div>
 </template>
 
@@ -29,6 +29,7 @@ export default defineComponent({
 .notification-container .bi-x {
   font-size: 30px;
   line-height: 0.6;
+  cursor: pointer;
 }
 
 .notification-container .notification-text {
