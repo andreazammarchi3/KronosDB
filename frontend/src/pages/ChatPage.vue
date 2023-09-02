@@ -2,6 +2,7 @@
 import Header from "@/components/Header.vue";
 import axios from "axios";
 import {BASE_URL} from "@/main";
+import io from "socket.io-client";
 
 export default {
   name: 'GroupChat',
@@ -15,6 +16,7 @@ export default {
       sidebarVisible: true,
       sidebarToggleVisible: true,
       sidebarOverlay: false,
+      socket: io('localhost:3000'),
     }
   },
   computed: {
@@ -29,6 +31,9 @@ export default {
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       return `${year}-${month}-${day} ${hours}:${minutes}`;
+    },
+    currentSender() {
+      return sessionStorage.getItem("fullName");
     }
   },
   methods: {
@@ -82,7 +87,7 @@ export default {
       });
     }
   },
-  created() {
+  mounted() {
     if (sessionStorage.getItem("idTechnician") === null) {
       this.$router.push({name: "Login"});
     }
@@ -90,6 +95,13 @@ export default {
     window.addEventListener('resize', this.handleResize);
     this.getChats();
     this.getTechnicians();
+    this.socket.on('CHAT', (data) => {
+      this.chats.forEach(chat => {
+        if (chat.topic === data.topic) {
+          chat.messages = data.messages;
+        }
+      });
+    });
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
@@ -115,7 +127,7 @@ export default {
       <div class="chat-messages">
         <div v-for="message in activeChat.messages" :key="message.id" class="message">
           <div class="message-header">
-            <span class="message-sender">{{ message.sender === sessionStorage.getItem('fullName') ? 'Tu' : message.sender }}</span>
+            <span class="message-sender">{{ message.sender === currentSender ? 'Tu' : message.sender }}</span>
             <span class="message-time">{{ message.time }}</span>
           </div>
           <div class="message-body">

@@ -25,7 +25,7 @@ const server = app.listen(3000, () => {
    console.log('listening on http://localhost:3000');
 });
 
-/*
+
 const io = require('socket.io')(server, {
    cors: {
       origin: "*",
@@ -35,11 +35,6 @@ const io = require('socket.io')(server, {
    }
 });
 
-exports.sendUpdatedApplications = (data) => {
-   io.emit('APPLICATIONS', data);
+exports.sendUpdatedChat = (data) => {
+   io.emit('CHAT', data);
 }
-
-exports.sendUpdatedUniversities = (data) => {
-   io.emit('UNIVERSITIES', data);
-}
-*/

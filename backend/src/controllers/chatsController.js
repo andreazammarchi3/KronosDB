@@ -65,6 +65,7 @@ exports.new_message = async (req, res) => {
 
     try{
         res.json(await chatsModel.updateOne({topic: req.params.topic.slice(1)}, {messages: messages}));
+        index.sendUpdatedChat(await chatsModel.findOne({topic: req.params.topic.slice(1)}.messages));
     }catch (e) {
         res.json(e);
     }
