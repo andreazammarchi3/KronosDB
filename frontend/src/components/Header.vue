@@ -2,22 +2,59 @@
 import {defineComponent} from "vue";
 import io from "socket.io-client";
 import {BASE_URL} from "@/main";
+import axios from "axios";
+import Notification from "@/components/Notification.vue";
 
 export default defineComponent({
   name: "Header",
+  components: {Notification},
   data() {
     return {
-      showOverlayBox: false,
+      chats: [],
+      notifications: [],
+      showOverlayNotificationsBox: false,
+      showOverlayMenuBox: false,
       socket: io(BASE_URL),
     }
   },
   methods: {
+    getDifferentMessages(oldMessages, newMessages) {
+      const differentMessages = [];
+      newMessages.forEach(newMessage => {
+        if (!oldMessages.some(oldMessage => oldMessage.id === newMessage.id)) {
+          differentMessages.push(newMessage);
+        }
+      });
+      return differentMessages;
+    },
+    addNotificationForEachMessage(topic, messages) {
+      messages.forEach(message => {
+        if (this.notifications.length === 0 || !this.notifications.some(notification => notification.message.id === message.id)) {
+          this.notifications.push({
+            topic: topic,
+            message: message,
+          });
+        }
+      });
+    },
+    getChats() {
+      axios.get(BASE_URL + '/allChats').then((response) => {
+        this.chats = response.data;
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
     logout() {
       sessionStorage.clear();
       this.$router.push({name: "Login"});
     },
     showMenuBox() {
-      this.showOverlayBox = !this.showOverlayBox;
+      this.showOverlayNotificationsBox = false;
+      this.showOverlayMenuBox = !this.showOverlayMenuBox;
+    },
+    showNotificationsBox() {
+      this.showOverlayMenuBox = false;
+      this.showOverlayNotificationsBox = !this.showOverlayNotificationsBox;
     },
     shakeNotification() {
       const notificationsIcon = document.getElementById('notifications-icon');
@@ -35,10 +72,27 @@ export default defineComponent({
       this.$router.push({name: "Login"});
     }
 
+    this.getChats();
+
     this.socket.on('CHAT', (data) => {
-        this.shakeNotification();
+      this.chats.forEach(chat => {
+        if (chat.topic === data.topic) {
+          console.log(data.topic);
+          this.addNotificationForEachMessage(chat.topic, this.getDifferentMessages(chat.messages, data.messages));
+          console.log(this.notifications);
+          chat.messages = data.messages;
+        }
+      });
+      this.shakeNotification();
     });
 
+  },
+  computed: {
+    notificationsInChat() {
+      return (chat) => {
+        return this.notifications.filter(notification => notification.topic === chat.topic).length;
+      }
+    }
   }
 })
 </script>
@@ -50,10 +104,16 @@ export default defineComponent({
     </router-link>
     <div class="menu-container">
       <i class="bi bi-chat icon chat-icon" id="chat-btn" title="Chat" @click="this.$router.push('/chat')"></i>
-      <i class="bi bi-bell-fill icon notifications-icon" id="notifications-icon" title="Notifiche"></i>
+      <i class="bi bi-bell-fill icon notifications-icon" id="notifications-icon" title="Notifiche" @click="this.showNotificationsBox"></i>
       <i class="bi bi-person-circle icon menu-icon" id="menu-btn" title="Menu" @click="this.showMenuBox"></i>
-      <div class="overlay-box" v-if="showOverlayBox">
+
+      <div class="overlay-box overlay-menu-box" v-if="showOverlayMenuBox">
         <div class="menu-item mt-3" @click="logout"><i class="bi bi-box-arrow-left"></i>Logout</div>
+      </div>
+
+      <div class="overlay-box overlay-notifications-box" v-if="showOverlayNotificationsBox">
+        <div v-if="notifications.length === 0" class="notification">Nessuna nuova notifica</div>
+        <Notification v-else v-for="chat in chats" :numberOfNotifications="notificationsInChat(chat)" :topic="chat.topic" class="notification"></Notification>
       </div>
     </div>
   </header>
@@ -97,9 +157,6 @@ export default defineComponent({
 .overlay-box {
   position: absolute;
   top: 60px;
-  right: 0;
-  height: 60px;
-  width: 100px;
   background-color: #2F2F2F;
   display: flex;
   justify-content: center;
@@ -108,6 +165,12 @@ export default defineComponent({
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
   animation: slide-down 0.1s ease-out;
+}
+
+.overlay-menu-box {
+  right: 5px;
+  height: 60px;
+  width: 100px;
 }
 
 .menu-item {
@@ -129,6 +192,28 @@ export default defineComponent({
 .menu-item i {
   margin-right: 8px;
   font-size: 20px;
+}
+
+.overlay-notifications-box {
+  right: 50px;
+  width: auto;
+  max-width: 50%;
+  max-height: 30%;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.notification {
+  margin: 10px;
+  padding: 10px;
+  width: 200px;
+  border-radius: 5px;
+  font-family: Overpass, sans-serif;
+  color: #fff;
+  background-color: #F6511D;
 }
 
 @keyframes slide-down {
