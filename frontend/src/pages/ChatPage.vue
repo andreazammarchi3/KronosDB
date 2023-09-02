@@ -115,7 +115,7 @@ export default {
       <div class="chat-messages">
         <div v-for="message in activeChat.messages" :key="message.id" class="message">
           <div class="message-header">
-            <span class="message-sender">{{ message.sender }}</span>
+            <span class="message-sender">{{ message.sender === sessionStorage.getItem('fullName') ? 'Tu' : message.sender }}</span>
             <span class="message-time">{{ message.time }}</span>
           </div>
           <div class="message-body">
