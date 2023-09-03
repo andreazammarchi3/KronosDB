@@ -85,8 +85,8 @@ export default defineComponent({
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-sm" @click="addClient">Aggiungi Cliente</button>
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="closeBtnClient">Chiudi</button>
+          <button type="button" class="btn btn-primary" @click="addClient">Aggiungi Cliente</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtnClient">Chiudi</button>
         </div>
       </div>
     </div>

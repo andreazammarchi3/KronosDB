@@ -106,8 +106,8 @@ export default defineComponent({
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-sm" @click="editPrice">Modifica prezzi</button>
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="closeBtnEditPrice">Chiudi</button>
+          <button type="button" class="btn btn-primary" @click="editPrice">Modifica prezzi</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtnEditPrice">Chiudi</button>
         </div>
       </div>
     </div>
@@ -117,12 +117,5 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.col-form-label, .form-control {
-  line-height: 0;
-}
-
-.form-control {
-  padding: 0.25rem 0;
-  margin-bottom: 1rem;
-}
+@import url('../../../templates/style.css');
 </style>
