@@ -26,16 +26,19 @@
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-    color: #023047;
     background-color: #FB8500;
+    color: #023047;
 }
 
 .btn-secondary, .btn-secondary:disabled {
+    color: #023047;
     background-color: #8ECAE6;
+    font-weight: bold;
 }
 
 .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
     background-color: #219EBC;
+    color: #023047;
 }
 
 .btn-success, .btn-success:disabled {
@@ -92,4 +95,8 @@ h1 {
 .modal-title {
     color: #023047;
     font-weight: bold;
+}
+
+.list-group-item {
+    color: #023047;
 }

@@ -25,22 +25,60 @@ export default defineComponent({
   <div class="signature-div">
     <label class="form-label mt-4">Firma del cliente</label>
     <VueSignaturePad class="signature-pad" ref="signaturePad" width="400px" height="100px"/>
-    <div>
-      <button type="button" class="btn btn-primary btn-sm" @click="saveSignature">Salva firma</button>
-      <button type="button" class="btn btn-secondary btn-sm" @click="clearSignature">Pulisci firma</button>
-    </div>
+    <button type="button" class="btn btn-first" @click="saveSignature">Salva firma</button>
+    <button type="button" class="btn btn-second" @click="clearSignature">Pulisci firma</button>
   </div>
 </template>
 
 <style>
+@import url('../../../templates/style.css');
+
 .signature-pad {
-  border: 1px solid #000;
+  background-color: #FFFFFF;
+  border-radius: 10px;
 }
 
 .btn {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-right: 0.5rem;
+  border: none !important;
+  height: 38px !important;
+  margin: 5px 10px 5px 0 !important;
+  padding: 5px 10px !important;
+  text-align: center !important;
+  align-items: center !important;
+}
+
+.btn:focus, .btn:active {
+  box-shadow: 0 0 0 2px #219EBC !important;
+}
+
+.btn:hover {
+  cursor: pointer !important;
+}
+
+.btn:disabled {
+  cursor: not-allowed !important;
+}
+
+.btn-first, .btn-first:disabled {
+  background-color: #FFB703 !important;
+  color: #023047 !important;
+  font-weight: bold !important;
+}
+
+.btn-first:hover, .btn-first:focus, .btn-first:active {
+  background-color: #FB8500 !important;
+  color: #023047 !important;
+}
+
+.btn-second, .btn-second:disabled {
+  background-color: #219EBC !important;
+  font-weight: bold !important;
+}
+
+.btn-second:hover, .btn-second:focus, .btn-second:active {
+  background-color: #023047 !important;
+  color: #FFFFFF !important;
+  font-weight: normal !important;
 }
 
 </style>

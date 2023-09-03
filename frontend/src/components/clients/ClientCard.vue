@@ -36,6 +36,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
 .card:not(.overlay .card) {
   max-width: 300px;
   margin: 10px;
@@ -47,10 +48,6 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   background-color: #FFFFFF;
-  font-weight: bold;
-}
-
-.card-title {
   font-weight: bold;
 }
 

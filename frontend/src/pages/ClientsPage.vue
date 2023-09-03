@@ -126,4 +126,8 @@ export default defineComponent({
   align-items: center;
   margin-top: 10px;
 }
+
+.btn-primary {
+  margin: 5px !important;
+}
 </style>

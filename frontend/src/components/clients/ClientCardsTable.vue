@@ -219,9 +219,9 @@ export default defineComponent({
 }
 
 .btn {
-  width: 30px;
-  height: 30px;
-  padding: 5px;
+  width: 30px !important;
+  height: 30px !important;
+  padding: 5px !important;
 }
 
 </style>

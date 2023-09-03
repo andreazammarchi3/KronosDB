@@ -63,8 +63,8 @@ export default defineComponent({
         <h4>Tessere</h4>
         <ClientCardsTable :client="client"></ClientCardsTable>
       </fieldset>
-      <button type="submit" class="btn btn-primary">Salva modifiche</button>
-      <router-link type="button" class="btn btn-primary" to="/clients">Indietro</router-link>
+      <button type="submit" class="btn btn-primary marg-btn">Salva modifiche</button>
+      <router-link type="button" class="btn btn-primary marg-btn" to="/clients">Indietro</router-link>
     </form>
   </div>
 </template>
@@ -94,10 +94,16 @@ h4:first-child {
 }
 
 .form {
-  width: 80%;
+  background-color: #8ECAE6;
+  width: 100%;
+  padding-right: 5%;
+  padding-left: 5%;
+  padding-bottom: 30px;
 }
 
-.btn {
-  margin-top: 10px;
+.marg-btn {
+  margin-top: 25px !important;
+  margin-left: 0 !important;
+  margin-right: 10px !important;
 }
 </style>

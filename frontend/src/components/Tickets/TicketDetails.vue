@@ -42,13 +42,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="card mb-3" v-if="client">
+  <div class="card" v-if="client">
     <div class="card-header">
       <h3><strong>ID</strong>: {{ this.ticket.idTicket }}</h3>
       <h3>{{ this.ticket.openDate }}</h3>
     </div>
     <div class="card-body">
-      <h4 class="mt-3">Dettagli</h4>
+      <h4>Dettagli</h4>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.client.fullName }}</li>
         <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.idTechnician }} - {{ technicianInfo ? technicianInfo.fullName : 'Caricamento...' }}</li>
@@ -68,30 +68,53 @@ export default defineComponent({
       </ul>
     </div>
     <div class="card-footer text-muted">
-        <button v-if="this.role !== 'BASE'" type="button" class="btn btn-danger btn-sm" @click="deleteTicket">Elimina</button>
-        <router-link v-if="this.role !== 'BASE'" type="button" class="btn btn-warning btn-sm" :to="{path: '/tickets/' + this.ticket.idTicket}">Modifica</router-link>
-        <button type="button" class="btn btn-primary btn-sm" @click="$emit('close')">Chiudi</button>
+        <button v-if="this.role !== 'BASE'" type="button" class="btn btn-danger" @click="deleteTicket">Elimina</button>
+        <router-link v-if="this.role !== 'BASE'" type="button" class="btn btn-primary" :to="{path: '/tickets/' + this.ticket.idTicket}">Modifica</router-link>
+        <button type="button" class="btn btn-secondary" @click="$emit('close')">Chiudi</button>
     </div>
   </div>
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
+
+.card {
+  color: #023047;
+  max-height: 80%;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;
+  padding: 10px;
+  margin: 0;
 }
 
 .card-footer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  padding: 0;
+  margin: 0;
 }
 
-.card-footer .btn-sm {
-  margin: 0 0.5rem;
+h3 {
+  margin: 0;
 }
 
-.card {
-  max-height: 80%;
-  overflow-y: auto;
+h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.btn-primary, .btn-secondary, .btn-danger {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-secondary {
+  margin-right: 15px;
 }
 </style>

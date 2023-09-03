@@ -44,6 +44,8 @@ export default defineComponent({
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
+
 .card {
   color: #023047;
   max-height: 80%;
@@ -59,6 +61,13 @@ export default defineComponent({
   margin: 0;
 }
 
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+  margin: 0;
+}
+
 h3 {
   margin: 0;
 }
@@ -68,55 +77,13 @@ h4 {
   padding: 0;
 }
 
-.list-group-item {
-  color: #023047;
-}
-
-ClientCardsTable {
-
-}
-
-.card-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0;
-  margin: 0;
-}
-
 .btn-primary, .btn-secondary {
-  margin: 10px 15px;
-}
-
-.btn-primary {
-  background-color: #FFB703;
-  border: none;
-  color: #023047;
-  font-weight: bold;
-  margin-right: 0;
-}
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  color: #023047;
-  background-color: #FB8500;
-  cursor: pointer;
-}
-
-.btn-primary:focus, .btn-primary:active {
-  box-shadow: 0 0 0 2px #219EBC;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .btn-secondary {
-  background-color: #8ECAE6;
-  border: none;
-  font-weight: normal;
+  margin-right: 15px;
 }
 
-.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
-  background-color: #219EBC;
-  cursor: pointer;
-}
-
-.btn-secondary:focus, .btn-secondary:active {
-  box-shadow: 0 0 0 2px #219EBC;
-}
 </style>

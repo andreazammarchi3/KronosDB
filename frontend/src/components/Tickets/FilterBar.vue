@@ -37,6 +37,11 @@ export default {
 
 <template>
   <div class="filter-bar">
+    <div class="btn-group" role="group">
+      <input type="checkbox" class="btn-check" id="closed" checked autocomplete="off" v-model="closed">
+      <label class="btn btn-success" for="closed">Chiusi</label>
+    </div>
+
     <select class="form-select" id="sort-by" v-model="sortBy">
       <option value="openDateMinToMax">Dal meno recente</option>
       <option value="openDateMaxToMin">Dal più recente</option>
@@ -44,52 +49,38 @@ export default {
       <option value="clientFullNameMaxToMin">Per cliente (Z-A)</option>
     </select>
 
-    <div class="btn-group" role="group">
-      <input type="checkbox" class="btn-check" id="closed" checked autocomplete="off" v-model="closed">
-      <label class="btn btn-success" for="closed">Chiusi</label>
-    </div>
-
     <input class="form-control" id="searchBox" type="search" placeholder="Cerca cliente" v-model="searchTerm">
     <button class="btn btn-primary search-btn" type="submit" @click="search">Cerca</button>
   </div>
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
+
 .filter-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1rem;
+  margin: 10px;
 }
 
-.form-select {
-  width: 15rem;
+.btn-check:checked {
+  background-color: #27AE60 !important;
 }
 
-.filter-bar > * {
-  margin: 0 0.5rem;
+.form-control, .form-select {
+  width: 200px;
+  margin-right: 15px;
 }
 
-.form-control {
-  width: 15rem;
+.btn {
+  margin-left: 0 !important;
+  margin-right: 15px !important;
 }
 
-.search-btn {
-  margin-left: 0;
-}
-
-@media screen and (max-width: 644px) {
+@media screen and (max-width: 543px) {
   .filter-bar {
-    flex-wrap: wrap;
-  }
-
-  .filter-bar > * {
-    margin: 0.5rem;
-  }
-
-  .form-control {
-    width: 15rem;
-    margin-left: 0.5rem;
+    flex-direction: column;
   }
 }
 

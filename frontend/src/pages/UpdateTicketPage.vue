@@ -53,7 +53,6 @@ export default defineComponent({
 
 <template>
   <Header></Header>
-  <h1>Modifica Ticket</h1>
   <UpdateTicket v-if="ticket" :ticket="this.ticket" :client="this.client" :technician="this.technician"></UpdateTicket>
 </template>
 

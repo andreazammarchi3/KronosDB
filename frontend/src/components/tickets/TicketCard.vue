@@ -61,19 +61,24 @@ export default defineComponent({
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
 .card:not(.overlay .card) {
-  max-width: 18rem;
-  margin: 0 1rem;
+  max-width: 300px;
+  margin: 10px;
+  color: #023047;
+  border: none;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
+  background-color: #FFFFFF;
+  font-weight: bold;
 }
 
 .card-body {
-  height: 8rem;
-  width: 18rem;
+  height: 150px;
+  width: 300px;
 }
 
 .card-text {
@@ -83,6 +88,7 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: justify;
+  margin: 0;
 }
 
 .overlay {
@@ -100,9 +106,21 @@ export default defineComponent({
 
 .overlay .card {
   background-color: #fff;
-  padding: 1rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+  padding: 0;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   width: 80%;
+}
+
+.bg-success {
+  background-color: #27AE60 !important;
+}
+
+.bg-danger {
+  background-color: #C70039 !important;
+}
+
+.badge {
+  font-weight: normal;
 }
 </style>
