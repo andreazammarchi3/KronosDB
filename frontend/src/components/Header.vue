@@ -138,7 +138,7 @@ export default defineComponent({
 <style scoped>
 .header {
   height: 60px;
-  background-color: #2F2F2F;
+  background-color: #023047;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -41,13 +41,12 @@ export default defineComponent({
     <h1>Login</h1>
     <input type="text" class="form-control" :class="error ? 'invalid' : ''" id="idTechnician" placeholder="ID Tecnico" autocomplete="on" v-model="id">
     <input type="password" class="form-control" :class="error ? 'invalid' : ''" id="passwordTechnician" placeholder="Password" autocomplete="off" v-model="password" @keyup.enter="login">
-    <div :class="{ 'd-flex': error }" class="invalid-feedback">ID o password errati!</div>
+
     <button type="button" class="btn btn-primary" @click="login" autofocus>Accedi</button>
   </div>
 </template>
 
 <style scoped>
-
 .login-group {
   display: flex;
   flex-direction: column;
@@ -58,13 +57,24 @@ export default defineComponent({
   font-family: Overpass, sans-serif;
 }
 
+h1 {
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  color: #023047;
+}
+
 .form-control {
   width: 200px;
   margin-top: 10px;
+  color: #023047;
 }
 
 .form-control:focus {
   box-shadow: 0 0 0 0.25rem #219EBC;
+  color: #023047;
 }
 
 .invalid {
@@ -80,13 +90,17 @@ export default defineComponent({
   width: 200px;
   margin-top: 5px;
   text-align: center;
+  justify-content: center;
 }
 
 .btn-primary {
   width: 100px;
+  height: 40px;
   margin-top: 10px;
+  margin-bottom: 0;
   background-image: linear-gradient(to bottom, #FFB703, #FB8500);
   border: none;
+  font-size: 20px;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
