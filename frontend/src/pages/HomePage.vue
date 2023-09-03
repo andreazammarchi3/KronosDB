@@ -59,13 +59,18 @@ export default defineComponent({
     font-family: Overpass, sans-serif;
   }
 
+  h1, h2 {
+    color: #023047;
+    font-weight: bold;
+  }
+
   h1 {
     margin-top: 30px;
   }
 
-  h1, h2 {
-    color: #023047;
-    font-weight: bold;
+  h2 {
+    margin-top: 30px;
+    margin-bottom: 0;
   }
 
   .btn-container {
@@ -92,9 +97,5 @@ export default defineComponent({
     background-color: #FB8500;
     cursor: pointer;
     box-shadow: 0 0 0 2px #219EBC;
-  }
-
-  h2 {
-    margin-top: 1rem;
   }
 </style>
