@@ -24,7 +24,7 @@ export default defineComponent({
   <Header></Header>
   <div class="home-container">
     <h1>KronosDB</h1>
-     <div class="btn-container">
+    <div class="btn-container">
       <h2>Tickets</h2>
       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTicket">Nuovo Ticket</button>
       <router-link class="btn btn-primary" :to="{path: '/tickets'}">Elenco Ticket</router-link>
