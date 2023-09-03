@@ -121,7 +121,7 @@ export default defineComponent({
         Mostra tessere completate
       </label>
     </div>
-    <button class="btn btn-sm margin-btn" :class="addingCard ? 'btn-success' : 'btn-primary'" @click="addCard">{{ addingCard ? 'Aggiungi tessera' : 'Nuova tessera' }}</button>
+    <button class="btn margin-btn" :class="addingCard ? 'btn-success' : 'btn-primary'" @click="addCard" title="Nuova tessera">+</button>
 
     <div class="card-adder" v-if="addingCard">
       <input class="form-control" type="number" :value="getBiggestCardNumber" readonly id="number">
@@ -156,17 +156,17 @@ export default defineComponent({
       <td class="text-center">
         <span v-if="editingCard !== card.number">{{ card.usedHours }}</span>
         <span v-else>
-    <input type="number" v-model="card.usedHours">
+    <input class="form-control" type="number" v-model="card.usedHours">
   </span>
       </td>
       <td class="text-center">
-        <button class="btn btn-sm" :class="editingCard === card.number ? 'btn-success' : 'btn-warning'" @click="editCard(card)" :title="editingCard ? 'Applica' : 'Modifica'">
+        <button class="btn" :class="editingCard === card.number ? 'btn-success' : 'btn-primary'" @click="editCard(card)" :title="editingCard ? 'Applica' : 'Modifica'">
           <i v-if="editingCard !== card.number" class="bi bi-pencil"></i>
           <i v-else class="bi bi-check-circle"></i>
         </button>
       </td>
       <td class="text-center">
-        <button class="btn btn-danger btn-sm" @click="deleteCard(card.number)" title="Elimina">
+        <button class="btn btn-danger" @click="deleteCard(card.number)" title="Elimina">
           <i class="bi bi-x-lg"></i>
         </button>
       </td>
@@ -177,6 +177,8 @@ export default defineComponent({
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
+
 .arrow-up::before {
   content: " ▲";
 }
@@ -188,28 +190,18 @@ export default defineComponent({
 .th {
   cursor: pointer;
   width: 20%;
-}
-
-.form-check {
-  margin-left: 1rem;
-}
-
-.table-container {
-  margin-top: 0;
+  color: #023047;
 }
 
 .table {
   border: 1px solid #ccc;
   border-collapse: collapse;
   margin-bottom: 0;
+  color: #023047;
 }
 
 .table-body {
   width: 100%;
-}
-
-.d-flex .btn {
-  margin: 0;
 }
 
 .card-adder {
@@ -218,15 +210,18 @@ export default defineComponent({
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  margin: 0.5rem;
+  margin: 5px;
 }
 
 .margin-btn {
-  margin: 0.5rem 0.5rem 0.5rem 0 !important;
+  margin-bottom: 10px !important;
+  margin-right: 0 !important;
 }
 
-.form-check-label {
-  margin-left: 0.5rem;
+.btn {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
 }
 
 </style>

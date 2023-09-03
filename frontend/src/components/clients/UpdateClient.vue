@@ -45,37 +45,59 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="form" @submit="updateClient($event)">
-    <fieldset>
-      <h4 class="mt-3">Dettagli</h4>
-      <label for="idClient" class="form-label mt-1">ID Cliente</label>
-      <input type="text" class="form-control" id="idClient" :placeholder="this.client.idClient" readonly>
-      <label for="fullName" class="form-label mt-4">Nome</label>
-      <input type="text" class="form-control" id="fullName" :value="this.client.fullName">
-      <label for="cellphone" class="form-label mt-4">Telefono</label>
-      <input type="number" class="form-control" id="cellphone" :value="this.client.cellphone">
-      <label for="mail" class="form-label mt-4">Email</label>
-      <input type="email" class="form-control" id="mail" :value="this.client.mail">
-      <label for="address" class="form-label mt-4">Indirizzo</label>
-      <input type="text" class="form-control" id="address" :value="this.client.address">
-
-      <ClientCardsTable :client="client"></ClientCardsTable>
-    </fieldset>
-    <button type="submit" class="btn btn-primary btn-sm">Salva modifiche</button>
-    <router-link type="button" class="btn btn-secondary btn-sm" to="/clients">Indietro</router-link>
-  </form>
+  <div class="form-container">
+    <h1>MODIFICA CLIENTE</h1>
+    <form class="form" @submit="updateClient($event)">
+      <fieldset>
+        <h4>Dettagli</h4>
+        <label for="idClient" class="form-label">ID Cliente</label>
+        <input type="text" class="form-control" id="idClient" :placeholder="this.client.idClient" readonly>
+        <label for="fullName" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="fullName" :value="this.client.fullName">
+        <label for="cellphone" class="form-label">Telefono</label>
+        <input type="number" class="form-control" id="cellphone" :value="this.client.cellphone">
+        <label for="mail" class="form-label">Email</label>
+        <input type="email" class="form-control" id="mail" :value="this.client.mail">
+        <label for="address" class="form-label">Indirizzo</label>
+        <input type="text" class="form-control" id="address" :value="this.client.address">
+        <h4>Tessere</h4>
+        <ClientCardsTable :client="client"></ClientCardsTable>
+      </fieldset>
+      <button type="submit" class="btn btn-primary">Salva modifiche</button>
+      <router-link type="button" class="btn btn-primary" to="/clients">Indietro</router-link>
+    </form>
+  </div>
 </template>
 
 <style scoped>
-.form {
-  margin: 0 2rem 2rem;
+@import url('../../../templates/style.css');
+
+h4 {
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 
-.form-label, .form-control {
-  padding: 0;
+h4:first-child {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.form-container {
+  background-color: #8ECAE6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: calc(100vh - 60px);
+  width: 100%;
+  font-family: Overpass, sans-serif;
+}
+
+.form {
+  width: 80%;
 }
 
 .btn {
-  margin: 1rem 1rem 1rem 0;
+  margin-top: 10px;
 }
 </style>

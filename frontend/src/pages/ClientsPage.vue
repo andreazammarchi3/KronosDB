@@ -100,6 +100,8 @@ export default defineComponent({
 </template>
 
 <style scoped>
+@import url('../../templates/style.css');
+
 .page-container {
   background-color: #8ECAE6;
   display: flex;
@@ -111,45 +113,17 @@ export default defineComponent({
   font-family: Overpass, sans-serif;
 }
 
-h1 {
-  margin-top: 30px;
-  color: #023047;
-  font-weight: bold;
-}
-
 .client-list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 10px;
 }
+
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
-}
-
-.btn-primary {
-  width: 38px;
-  height: 38px;
-  margin: 5px;
-  padding: 0;
-  background-color: #FFB703;
-  border: none;
-  color: #023047;
-  font-weight: bold;
-}
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  color: #023047;
-  background-color: #FB8500;
-  cursor: pointer;
-}
-
-.btn-primary:disabled {
-  color: #023047;
-  background-color: #FFB703;
-  cursor: not-allowed;
 }
 </style>

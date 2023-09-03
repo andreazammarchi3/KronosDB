@@ -46,6 +46,8 @@ export default defineComponent({
 </template>
 
 <style scoped>
+@import url('../../templates/style.css');
+
 .login-group {
   display: flex;
   flex-direction: column;
@@ -56,24 +58,9 @@ export default defineComponent({
   font-family: Overpass, sans-serif;
 }
 
-h1 {
-  font-weight: bold;
-  margin: 0;
-  text-align: center;
-  height: 50px;
-  line-height: 50px;
-  color: #023047;
-}
-
 .form-control {
   width: 200px;
   margin-top: 10px;
-  color: #023047;
-}
-
-.form-control:focus {
-  box-shadow: 0 0 0 2px #219EBC;
-  color: #023047;
 }
 
 .invalid {
@@ -82,27 +69,5 @@ h1 {
 
 .invalid:focus {
   box-shadow: 0 0 0 2px #FF5733;
-}
-
-.btn-primary {
-  width: 100px;
-  height: 40px;
-  margin-top: 10px;
-  margin-bottom: 0;
-  background-color: #FFB703;
-  border: none;
-  font-size: 20px;
-  color: #023047;
-  font-weight: bold;
-}
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  color: #023047;
-  background-color: #FB8500;
-  cursor: pointer;
-}
-
-.btn-primary:focus, .btn-primary:active {
-  box-shadow: 0 0 0 2px #219EBC;
 }
 </style>

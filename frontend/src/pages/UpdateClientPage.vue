@@ -32,7 +32,6 @@ export default defineComponent({
 
 <template>
   <Header></Header>
-  <h1>Modifica Cliente</h1>
   <UpdateClient v-if="client" :client="this.client"></UpdateClient>
 </template>
 

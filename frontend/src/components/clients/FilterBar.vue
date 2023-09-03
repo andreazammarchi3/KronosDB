@@ -44,6 +44,8 @@ export default {
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
+
 .filter-bar {
   display: flex;
   align-items: center;
@@ -51,47 +53,18 @@ export default {
   margin: 10px;
 }
 
-.form-select, .form-control {
-  width: 250px;
-  color: #023047;
+.form-control, .form-select {
+  width: 200px;
+  margin-right: 15px;
 }
 
-.form-control:focus, .form-select:focus {
-  box-shadow: 0 0 0 2px #219EBC;
-  color: #023047;
-}
-
-.filter-bar > * {
-  margin: 0 0.5rem;
-}
-
-.btn-primary {
-  width: 80px;
-  height: 38px;
-  background-color: #FFB703;
-  border: none;
-  color: #023047;
-  font-weight: bold;
-}
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  color: #023047;
-  background-color: #FB8500;
-  cursor: pointer;
+.btn {
+  margin-left: 0;
 }
 
 @media screen and (max-width: 543px) {
   .filter-bar {
-    flex-wrap: wrap;
-  }
-
-  .filter-bar > * {
-    margin: 0.5rem;
-  }
-
-  .form-control {
-    width: 15rem;
-    margin-left: 0.5rem;
+    flex-direction: column;
   }
 }
 

@@ -48,52 +48,40 @@ export default defineComponent({
 </template>
 
 <style scoped>
-  .home-container {
-    background-color: #8ECAE6;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: calc(100vh - 60px);
-    width: 100%;
-    font-family: Overpass, sans-serif;
-  }
+@import url('../../templates/style.css');
 
-  h1, h2 {
-    color: #023047;
-    font-weight: bold;
-    margin-top: 30px;
-  }
-  h2 {
-    margin-bottom: 0;
-  }
+.home-container {
+  background-color: #8ECAE6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: calc(100vh - 60px);
+  width: 100%;
+  font-family: Overpass, sans-serif;
+}
 
-  .btn-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+h2 {
+  color: #023047;
+  font-weight: bold;
+  margin-top: 30px;
+}
 
-  .btn-primary {
-    width: 300px;
-    height: 40px;
-    margin-top: 10px;
-    margin-bottom: 0;
-    background-color: #FFB703;
-    border: none;
-    font-size: 20px;
-    color: #023047;
-    font-weight: bold;
-  }
+h2 {
+  margin-bottom: 0;
+}
 
-  .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-    color: #023047;
-    background-color: #FB8500;
-    cursor: pointer;
-  }
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  .btn-primary:focus, .btn-primary:active {
-    box-shadow: 0 0 0 2px #219EBC;
-  }
+.btn {
+  width: 300px;
+  font-size: 20px;
+  margin: 10px;
+}
+
 </style>
