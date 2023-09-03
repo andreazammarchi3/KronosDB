@@ -134,7 +134,7 @@ export default {
     </div>
     <div class="chat-main">
       <div class="chat-header">
-        <button class="toggle-button" v-if="sidebarToggleVisible" @click="toggleSidebar">{{ sidebarVisible ? 'Hide Topics' : 'Show Topics' }}</button>
+        <button class="btn btn-prim" v-if="sidebarToggleVisible" @click="toggleSidebar"><i class="bi bi-list"></i></button>
         <h2>{{ activeTopicName }}</h2>
       </div>
       <div class="chat-messages">
@@ -149,14 +149,16 @@ export default {
         </div>
       </div>
       <div class="chat-input">
-        <input type="text" id="textMsg" v-model="newMessage" placeholder="Digita messaggio..." @keyup.enter="sendMessage" autocomplete="off">
-        <button @click="sendMessage"><i class="bi bi-send-fill"></i></button>
+        <input type="text" class="form-control" id="textMsg" v-model="newMessage" placeholder="Digita messaggio..." @keyup.enter="sendMessage" autocomplete="off">
+        <button @click="sendMessage" class="btn-icon"><i class="bi bi-send-fill"></i></button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+@import url('../../templates/style.css');
+
 div *:not(Header) {
   font-family: Overpass, sans-serif;
 }
@@ -167,14 +169,16 @@ div *:not(Header) {
 }
 
 .chat-sidebar {
-  flex: 0 0 200px;
-  background-color: #eee;
+  flex: 0 0 250px;
+  background-color: #023047;
   padding: 10px;
   transition: transform 0.3s ease-in-out;
+  color: #FFFFFF;
+  font-size: 20px;
 }
 
 .chat-sidebar.hidden {
-  transform: translateX(-200px);
+  transform: translateX(-250px);
 }
 
 .chat-sidebar.overlay {
@@ -183,7 +187,7 @@ div *:not(Header) {
   left: 0;
   height: calc(100% - 120px);
   z-index: 1;
-  width: 200px;
+  width: 250px;
 }
 
 .toggle-button {
@@ -206,8 +210,9 @@ div *:not(Header) {
 }
 
 .topic-list li.active {
-  background-color: #AF982E;
-  color: #fff;
+  background-color: #FFB703;
+  color: #023047;
+  font-weight: bold;
 }
 
 .chat-main {
@@ -217,10 +222,9 @@ div *:not(Header) {
 }
 
 .chat-header {
-  background-color: #AF982E;
+  background-color: #FFB703;
   color: #fff;
-  padding-right: 15px;
-  padding-top: 10px;
+  padding: 10px 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -230,13 +234,14 @@ div *:not(Header) {
 .chat-header h2 {
   font-size: 30px;
   margin-left: auto;
-  margin-right: 3px;
+  margin-right: 0;
+  padding-top: 10px;
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 10px;;
+  padding: 10px;
 }
 
 .message {
@@ -265,13 +270,14 @@ div *:not(Header) {
 }
 
 .my-message-body {
-  background-color: #297045;
+  background-color: #27AE60;
   color: #fff;
 }
 
 .chat-input {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: center;
   padding: 10px;
 }
 
@@ -287,8 +293,42 @@ div *:not(Header) {
   padding: 8px 10px 4px;
   border-radius: 20px;
   border: none;
-  background-color: #297045;
+  background-color: #27AE60;
   color: #fff;
   cursor: pointer;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+.form-control {
+  margin-bottom: 0;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.btn-prim {
+  background-color: #023047;
+  border: none;
+  color: #FFFFFF;
+  height: 38px !important;
+  width: 38px !important;
+}
+
+.btn-prim:hover, .btn-prim:focus, .btn-prim:active, .btn-prim:active:focus, .btn-prim:active:hover {
+  background-color: #023047;
+  border: none;
+  color: #FFFFFF;
+  height: 38px !important;
+  width: 38px !important;
+}
+
+.btn-icon:hover, .btn-icon:focus, .btn-icon:active {
+  box-shadow: none;
+  border: none;
+}
+
+.bi-list {
+  font-size: 20px;
 }
 </style>
