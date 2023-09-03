@@ -111,17 +111,57 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.alert {
-  display: none;
-  margin-top: 6rem;
+.modal-title {
+  color: #023047;
+  font-weight: bold;
 }
 
 .form-label {
+  color: #023047;
   line-height: 0;
+  font-weight: bold;
 }
 
 .form-control, .form-select {
-  padding: 0.25rem 0;
-  margin-bottom: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #023047;
+}
+
+.form-control:focus, .form-select:focus {
+  box-shadow: 0 0 0 2px #219EBC;
+  color: #023047;
+}
+
+.btn-primary {
+  background-color: #FFB703;
+  border: none;
+  color: #023047;
+  font-weight: bold;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  color: #023047;
+  background-color: #FB8500;
+  cursor: pointer;
+}
+
+.btn-primary:focus, .btn-primary:active {
+  box-shadow: 0 0 0 2px #219EBC;
+}
+
+.btn-secondary {
+  background-color: #8ECAE6;
+  border: none;
+  font-weight: normal;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+  background-color: #219EBC;
+  cursor: pointer;
+}
+
+.btn-secondary:focus, .btn-secondary:active {
+  box-shadow: 0 0 0 2px #219EBC;
 }
 </style>

@@ -23,7 +23,7 @@ export default defineComponent({
 <template>
   <Header></Header>
   <div class="home-container">
-    <h1>KronosDB</h1>
+    <h1>HOME</h1>
     <div class="btn-container">
       <h2>Tickets</h2>
       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTicket">Nuovo Ticket</button>
@@ -96,6 +96,9 @@ export default defineComponent({
     color: #023047;
     background-color: #FB8500;
     cursor: pointer;
+  }
+
+  .btn-primary:focus, .btn-primary:active {
     box-shadow: 0 0 0 2px #219EBC;
   }
 </style>

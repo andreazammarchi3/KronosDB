@@ -65,22 +65,22 @@ export default defineComponent({
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="col-form-label" for="fullNameClient">Nome</label>
+            <label class="form-label" for="fullNameClient">Nome</label>
             <input type="text" class="form-control" placeholder="Cognome Nome" id="fullNameClient">
           </div>
 
           <div class="form-group">
-            <label class="col-form-label" for="cellphone">Telefono</label>
+            <label class="form-label" for="cellphone">Telefono</label>
             <input type="number" class="form-control" placeholder="3333333333" id="cellphone">
           </div>
 
           <div class="form-group">
-            <label class="col-form-label" for="mail">Mail</label>
+            <label class="form-label" for="mail">Mail</label>
             <input type="email" class="form-control" placeholder="example@example.com" id="mail">
           </div>
 
           <div class="form-group">
-            <label class="col-form-label" for="address">Indirizzo</label>
+            <label class="form-label" for="address">Indirizzo</label>
             <input type="text" class="form-control" placeholder="Via, Numero Civico, Città" id="address" autocomplete="on">
           </div>
         </div>
@@ -96,12 +96,57 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.col-form-label, .form-control {
+.modal-title {
+  color: #023047;
+  font-weight: bold;
+}
+
+.form-label {
+  color: #023047;
   line-height: 0;
+  font-weight: bold;
 }
 
 .form-control {
-  padding: 0.25rem 0;
-  margin-bottom: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #023047;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 2px #219EBC;
+  color: #023047;
+}
+
+.btn-primary {
+  background-color: #FFB703;
+  border: none;
+  color: #023047;
+  font-weight: bold;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  color: #023047;
+  background-color: #FB8500;
+  cursor: pointer;
+}
+
+.btn-primary:focus, .btn-primary:active {
+  box-shadow: 0 0 0 2px #219EBC;
+}
+
+.btn-secondary {
+  background-color: #8ECAE6;
+  border: none;
+  font-weight: normal;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+  background-color: #219EBC;
+  cursor: pointer;
+}
+
+.btn-secondary:focus, .btn-secondary:active {
+  box-shadow: 0 0 0 2px #219EBC;
 }
 </style>

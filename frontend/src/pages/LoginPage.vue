@@ -109,6 +109,9 @@ h1 {
   color: #023047;
   background-color: #FB8500;
   cursor: pointer;
+}
+
+.btn-primary:focus, .btn-primary:active {
   box-shadow: 0 0 0 2px #219EBC;
 }
 </style>

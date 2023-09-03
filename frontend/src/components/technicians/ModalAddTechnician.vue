@@ -62,7 +62,7 @@ export default defineComponent({
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="col-form-label" for="fullNameTechnician">Nome</label>
+            <label class="form-label" for="fullNameTechnician">Nome</label>
             <input type="text" class="form-control" placeholder="Cognome Nome" id="fullNameTechnician">
           </div>
 
@@ -77,7 +77,7 @@ export default defineComponent({
           </div>
 
           <div class="form-group">
-            <label class="col-form-label" for="costPerHour">Prezzo all'ora</label>
+            <label class="form-label" for="costPerHour">Prezzo all'ora</label>
             <input type="number" class="form-control" placeholder="0" id="costPerHour" min="0">
           </div>
         </div>
@@ -93,17 +93,57 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.col-form-label, .form-control {
+.modal-title {
+  color: #023047;
+  font-weight: bold;
+}
+
+.form-label {
+  color: #023047;
   line-height: 0;
+  font-weight: bold;
 }
 
-.form-control {
-  padding: 0.25rem 0;
-  margin-bottom: 1rem;
+.form-control, .form-select {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #023047;
 }
 
-.form-select {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+.form-control:focus, .form-select:focus {
+  box-shadow: 0 0 0 2px #219EBC;
+  color: #023047;
+}
+
+.btn-primary {
+  background-color: #FFB703;
+  border: none;
+  color: #023047;
+  font-weight: bold;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  color: #023047;
+  background-color: #FB8500;
+  cursor: pointer;
+}
+
+.btn-primary:focus, .btn-primary:active {
+  box-shadow: 0 0 0 2px #219EBC;
+}
+
+.btn-secondary {
+  background-color: #8ECAE6;
+  border: none;
+  font-weight: normal;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+  background-color: #219EBC;
+  cursor: pointer;
+}
+
+.btn-secondary:focus, .btn-secondary:active {
+  box-shadow: 0 0 0 2px #219EBC;
 }
 </style>

@@ -152,7 +152,7 @@ export default defineComponent({
 
 .icon {
   font-size: 30px;
-  color: #fff;
+  color: #FFF;
   cursor: pointer;
 }
 
@@ -165,13 +165,13 @@ export default defineComponent({
 }
 
 .notifications-icon.red-color {
-  color: #F6511D;
+  color: #FB8500;
 }
 
 .overlay-box {
   position: absolute;
   top: 60px;
-  background-color: #2F2F2F;
+  background-color: #023047;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -226,7 +226,7 @@ export default defineComponent({
   border-radius: 5px;
   font-family: Overpass, sans-serif;
   color: #fff;
-  background-color: #F6511D;
+  background-color: #FB8500;
 }
 
 @keyframes slide-down {
