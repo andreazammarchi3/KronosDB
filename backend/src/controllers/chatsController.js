@@ -24,15 +24,16 @@ exports.add_chat = async (req, res) => {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
-    const { topic } = req.body;
+    const topic = req.params.topic.slice(1);
 
     const newChat = new chatsModel({
-        topic: String,
+        topic: topic,
         messages: []
     });
 
     try{
         res.json(await newChat.save());
+        index.sendUpdatedChat(await chatsModel.find());
     }catch (e) {
         res.json(e);
     }
@@ -65,7 +66,7 @@ exports.new_message = async (req, res) => {
 
     try{
         res.json(await chatsModel.updateOne({topic: req.params.topic.slice(1)}, {messages: messages}));
-        index.sendUpdatedChat(await chatsModel.findOne({topic: req.params.topic.slice(1)}));
+        index.sendUpdatedChat(await chatsModel.find());
     }catch (e) {
         res.json(e);
     }

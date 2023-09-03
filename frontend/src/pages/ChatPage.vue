@@ -91,6 +91,24 @@ export default {
       if (chatMessages) {
         chatMessages.scrollTop = chatMessages.scrollHeight;
       }
+    },
+    createNewChat() {
+      const topic = window.prompt('Inserisci nome Topic:');
+      if (topic !== null && topic.trim() !== '' && !this.chats.some(chat => chat.topic === topic.trim())) {
+        const newChat = {
+          topic: topic.trim(),
+          messages: [],
+        };
+        this.chats.push(newChat);
+        this.activeTopicName = newChat.topic;
+        console.log(this.chats);
+
+        axios.post(BASE_URL + '/addChat:' + topic.trim()).then(response => {
+          console.log(response.data);
+        }).catch(error => {
+          console.log(error);
+        });
+      }
     }
   },
   mounted() {
@@ -103,12 +121,8 @@ export default {
     this.getTechnicians();
 
     this.socket.on('CHAT', (data) => {
-      this.chats.forEach(chat => {
-        if (chat.topic === data.topic) {
-          chat.messages = data.messages;
-          this.scrollToBottom();
-        }
-      });
+      this.chats = data;
+      this.scrollToBottom();
     });
 
     this.scrollToBottom();
@@ -131,6 +145,7 @@ export default {
           {{ chat.topic }}
         </li>
       </ul>
+      <button class="btn btn-primary" @click="createNewChat">Crea Topic</button>
     </div>
     <div class="chat-main">
       <div class="chat-header">

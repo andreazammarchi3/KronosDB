@@ -8,7 +8,7 @@ router.route('/allChats')
 router.route('/getChat:topic')
     .get((req, res) => chatsController.get_chat(req, res));
 
-router.route('/addChat')
+router.route('/addChat:topic')
     .post((req, res) => chatsController.add_chat(req, res));
 
 router.route('/removeChat:topic')

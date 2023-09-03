@@ -84,9 +84,16 @@ export default defineComponent({
     this.socket.on('CHAT', (data) => {
       const previousNotNumber = this.notifications.length;
       this.chats.forEach(chat => {
-        if (chat.topic === data.topic) {
-          this.addNotificationForEachMessage(chat.topic, this.getDifferentMessages(chat.messages, data.messages));
-          chat.messages = data.messages;
+        data.forEach(newChat => {
+          if (chat.topic === newChat.topic) {
+            this.addNotificationForEachMessage(chat.topic, this.getDifferentMessages(chat.messages, newChat.messages));
+            chat.messages = newChat.messages;
+          }
+        });
+      });
+      data.forEach(chat => {
+        if (!this.chats.some(oldChat => oldChat.topic === chat.topic)) {
+          this.chats.push(chat);
         }
       });
       if (this.notifications.length !== previousNotNumber) this.shakeNotification();
