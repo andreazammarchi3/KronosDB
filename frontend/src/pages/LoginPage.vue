@@ -38,26 +38,60 @@ export default defineComponent({
 
 <template>
   <div class="login-group">
-    <h4 class="text-center">Accedi</h4>
-    <div class="form-group" :class="error ? 'has-danger' : ''">
-      <input type="text" class="form-control" :class="error ? 'is-invalid' : ''" id="idTechnician" placeholder="ID Tecnico" autocomplete="on" v-model="id">
-    </div>
-    <div class="form-group" :class="error ? 'has-danger' : ''">
-      <input type="password" class="form-control" :class="error ? 'is-invalid' : ''" id="passwordTechnician" placeholder="Password" autocomplete="off" v-model="password" @keyup.enter="login">
-      <div v-if="error" class="invalid-feedback">ID o password errati!</div>
-    </div>
-    <div class="form-group">
-      <button type="button" class="btn btn-primary mt-4" @click="login" autofocus>Accedi</button>
-    </div>
+    <h1>Login</h1>
+    <input type="text" class="form-control" :class="error ? 'invalid' : ''" id="idTechnician" placeholder="ID Tecnico" autocomplete="on" v-model="id">
+    <input type="password" class="form-control" :class="error ? 'invalid' : ''" id="passwordTechnician" placeholder="Password" autocomplete="off" v-model="password" @keyup.enter="login">
+    <div :class="{ 'd-flex': error }" class="invalid-feedback">ID o password errati!</div>
+    <button type="button" class="btn btn-primary" @click="login" autofocus>Accedi</button>
   </div>
 </template>
 
 <style scoped>
+
 .login-group {
-  margin: 10% auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #8ECAE6;
+  height: 100vh;
+  font-family: Overpass, sans-serif;
+}
+
+.form-control {
+  width: 200px;
+  margin-top: 10px;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem #219EBC;
+}
+
+.invalid {
+  border-color: #FF5733;
+}
+
+.invalid:focus {
+  box-shadow: 0 0 0 0.25rem #FF5733;
+}
+
+.invalid-feedback {
+  display: none;
+  width: 200px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.btn-primary {
+  width: 100px;
+  margin-top: 10px;
+  background-image: linear-gradient(to bottom, #FFB703, #FB8500);
+  border: none;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-image: linear-gradient(to bottom, #FB8500, #FFB703);
+  cursor: pointer;
+  box-shadow: 0 0 0 0.25rem #219EBC;
 }
 </style>
