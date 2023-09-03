@@ -94,7 +94,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../../templates/style.css');
 .client-list {
   display: flex;
   justify-content: center;

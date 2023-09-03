@@ -76,8 +76,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../../templates/style.css');
-
 .card-header {
   display: flex;
   justify-content: space-between;

@@ -51,8 +51,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../../templates/style.css');
-
 .card:not(.overlay .card) {
   max-width: 18rem;
   margin: 0 1rem;

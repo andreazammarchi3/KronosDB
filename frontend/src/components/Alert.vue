@@ -29,8 +29,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../templates/style.css');
-
 .alert {
   display: none;
   margin-top: 6rem;

@@ -179,8 +179,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url("../../../templates/style.css");
-
 .arrow-up::before {
   content: " ▲";
 }

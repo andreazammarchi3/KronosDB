@@ -136,8 +136,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../templates/style.css');
-
 .header {
   height: 60px;
   background-color: #2F2F2F;

@@ -17,8 +17,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../templates/style.css');
-
 .container {
   display: flex;
   flex-direction: column;

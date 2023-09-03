@@ -53,7 +53,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../templates/style.css');
 .login-group {
   margin: 10% auto;
   display: flex;

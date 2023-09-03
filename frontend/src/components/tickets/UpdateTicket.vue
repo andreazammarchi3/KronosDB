@@ -251,8 +251,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../../templates/style.css');
-
 .form {
   margin: 0 5%;
 }

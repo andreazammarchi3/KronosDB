@@ -39,5 +39,4 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../templates/style.css');
 </style>

@@ -96,8 +96,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../../templates/style.css');
-
 .col-form-label, .form-control {
   line-height: 0;
 }

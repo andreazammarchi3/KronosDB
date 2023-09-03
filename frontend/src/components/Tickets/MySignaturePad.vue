@@ -33,8 +33,6 @@ export default defineComponent({
 </template>
 
 <style>
-@import url('../../../templates/style.css');
-
 .signature-pad {
   border: 1px solid #000;
 }
