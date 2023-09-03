@@ -39,7 +39,7 @@ export default {
     </select>
 
     <input class="form-control" id="searchBox" type="search" placeholder="Cerca cliente" v-model="searchTerm">
-    <button class="btn btn-primary search-btn" type="submit" @click="search">Cerca</button>
+    <button class="btn btn-primary" type="submit" @click="search">Cerca</button>
   </div>
 </template>
 
@@ -48,23 +48,36 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1rem;
+  margin: 10px;
 }
 
-.form-select {
-  width: 15rem;
+.form-select, .form-control {
+  width: 250px;
+  color: #023047;
+}
+
+.form-control:focus, .form-select:focus {
+  box-shadow: 0 0 0 2px #219EBC;
+  color: #023047;
 }
 
 .filter-bar > * {
   margin: 0 0.5rem;
 }
 
-.form-control {
-  width: 15rem;
+.btn-primary {
+  width: 80px;
+  height: 38px;
+  background-color: #FFB703;
+  border: none;
+  color: #023047;
+  font-weight: bold;
 }
 
-.search-btn {
-  margin-left: 0;
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  color: #023047;
+  background-color: #FB8500;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 543px) {

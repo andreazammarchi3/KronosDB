@@ -41,7 +41,6 @@ export default defineComponent({
     <h1>Login</h1>
     <input type="text" class="form-control" :class="error ? 'invalid' : ''" id="idTechnician" placeholder="ID Tecnico" autocomplete="on" v-model="id">
     <input type="password" class="form-control" :class="error ? 'invalid' : ''" id="passwordTechnician" placeholder="Password" autocomplete="off" v-model="password" @keyup.enter="login">
-
     <button type="button" class="btn btn-primary" @click="login" autofocus>Accedi</button>
   </div>
 </template>
@@ -83,14 +82,6 @@ h1 {
 
 .invalid:focus {
   box-shadow: 0 0 0 2px #FF5733;
-}
-
-.invalid-feedback {
-  display: none;
-  width: 200px;
-  margin-top: 5px;
-  text-align: center;
-  justify-content: center;
 }
 
 .btn-primary {

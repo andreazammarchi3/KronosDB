@@ -62,14 +62,9 @@ export default defineComponent({
   h1, h2 {
     color: #023047;
     font-weight: bold;
-  }
-
-  h1 {
     margin-top: 30px;
   }
-
   h2 {
-    margin-top: 30px;
     margin-bottom: 0;
   }
 

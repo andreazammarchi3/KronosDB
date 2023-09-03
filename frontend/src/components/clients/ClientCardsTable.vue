@@ -130,52 +130,50 @@ export default defineComponent({
     </div>
 
   </div>
-  <div class="table-container" v-if="client.cards.length !== 0" style="max-height: 15rem; overflow-y: auto;">
-    <table class="table">
-      <thead>
-      <tr>
-        <th class="th text-center" @click="sortColumn = 'number'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
-          Numero tessera
-          <span v-if="sortColumn === 'totalHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-        </th>
-        <th class="th text-center" @click="sortColumn = 'totalHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
-          Ore totali
-          <span v-if="sortColumn === 'totalHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-        </th>
-        <th class="th text-center" @click="sortColumn = 'usedHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
-          Ore utilizzate
-          <span v-if="sortColumn === 'usedHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-        </th>
-        <th class="th text-center"></th>
-        <th class="th text-center"></th>
-      </tr>
-      </thead>
-      <tbody class="table-body">
-      <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }" class="align-middle">
-        <td class="text-center">{{ card.number }}</td>
-        <td class="text-center">{{ card.totalHours }}</td>
-        <td class="text-center">
-          <span v-if="editingCard !== card.number">{{ card.usedHours }}</span>
-          <span v-else>
-      <input type="number" v-model="card.usedHours">
-    </span>
-        </td>
-        <td class="text-center">
-          <button class="btn btn-sm" :class="editingCard === card.number ? 'btn-success' : 'btn-warning'" @click="editCard(card)" :title="editingCard ? 'Applica' : 'Modifica'">
-            <i v-if="editingCard !== card.number" class="bi bi-pencil"></i>
-            <i v-else class="bi bi-check-circle"></i>
-          </button>
-        </td>
-        <td class="text-center">
-          <button class="btn btn-danger btn-sm" @click="deleteCard(card.number)" title="Elimina">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </td>
-      </tr>
+  <table class="table" v-if="client.cards.length !== 0" style="max-height: 250px; overflow-y: auto;">
+    <thead>
+    <tr>
+      <th class="th text-center" @click="sortColumn = 'number'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
+        Numero tessera
+        <span v-if="sortColumn === 'totalHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+      </th>
+      <th class="th text-center" @click="sortColumn = 'totalHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
+        Ore totali
+        <span v-if="sortColumn === 'totalHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+      </th>
+      <th class="th text-center" @click="sortColumn = 'usedHours'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'">
+        Ore utilizzate
+        <span v-if="sortColumn === 'usedHours'" :class="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+      </th>
+      <th class="th text-center"></th>
+      <th class="th text-center"></th>
+    </tr>
+    </thead>
+    <tbody class="table-body">
+    <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }" class="align-middle">
+      <td class="text-center">{{ card.number }}</td>
+      <td class="text-center">{{ card.totalHours }}</td>
+      <td class="text-center">
+        <span v-if="editingCard !== card.number">{{ card.usedHours }}</span>
+        <span v-else>
+    <input type="number" v-model="card.usedHours">
+  </span>
+      </td>
+      <td class="text-center">
+        <button class="btn btn-sm" :class="editingCard === card.number ? 'btn-success' : 'btn-warning'" @click="editCard(card)" :title="editingCard ? 'Applica' : 'Modifica'">
+          <i v-if="editingCard !== card.number" class="bi bi-pencil"></i>
+          <i v-else class="bi bi-check-circle"></i>
+        </button>
+      </td>
+      <td class="text-center">
+        <button class="btn btn-danger btn-sm" @click="deleteCard(card.number)" title="Elimina">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </td>
+    </tr>
 
-      </tbody>
-    </table>
-  </div>
+    </tbody>
+  </table>
 </template>
 
 <style scoped>
@@ -203,6 +201,7 @@ export default defineComponent({
 .table {
   border: 1px solid #ccc;
   border-collapse: collapse;
+  margin-bottom: 0;
 }
 
 .table-body {

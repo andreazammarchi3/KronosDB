@@ -22,10 +22,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="card mb-3">
+  <div class="card">
     <div class="card-header"><h3><strong>Nome</strong>: {{ this.client.fullName }}</h3></div>
     <div class="card-body">
-      <h4 class="mt-3">Dettagli</h4>
+      <h4>Dettagli</h4>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>ID</strong>: {{ this.client.idClient }}</li>
         <li class="list-group-item"><strong>Telefono</strong>: {{ this.client.cellphone }}</li>
@@ -33,36 +33,90 @@ export default defineComponent({
         <li class="list-group-item"><strong>Indirizzo</strong>: {{ this.client.address }}</li>
       </ul>
 
-      <h4 class="mt-3">Tessere</h4>
+      <h4>Tessere</h4>
       <ClientCardsTable :client="client" ></ClientCardsTable>
     </div>
     <div class="card-footer text-muted">
-      <span></span>
-      <div>
-        <router-link type="button" class="btn btn-warning btn-sm" :to="{path: '/clients/' + this.client.idClient}">Modifica</router-link>
-        <button type="button" class="btn btn-primary btn-sm" @click="$emit('close')">Chiudi</button>
-      </div>
+        <router-link type="button" class="btn btn-primary" :to="{path: '/clients/' + this.client.idClient}">Modifica</router-link>
+        <button type="button" class="btn btn-secondary" @click="$emit('close')">Chiudi</button>
     </div>
   </div>
 </template>
 
 <style scoped>
+.card {
+  color: #023047;
+  max-height: 80%;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;
+  padding: 10px;
+  margin: 0;
+}
+
+h3 {
+  margin: 0;
+}
+
+h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.list-group-item {
+  color: #023047;
+}
+
+ClientCardsTable {
+
 }
 
 .card-footer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  padding: 0;
+  margin: 0;
 }
 
-.card-footer button {
-  margin: 0 0.5rem;
+.btn-primary, .btn-secondary {
+  margin: 10px 15px;
 }
 
-.card {
-  max-height: 80%;
-  overflow-y: auto;
+.btn-primary {
+  background-color: #FFB703;
+  border: none;
+  color: #023047;
+  font-weight: bold;
+  margin-right: 0;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  color: #023047;
+  background-color: #FB8500;
+  cursor: pointer;
+}
+
+.btn-primary:focus, .btn-primary:active {
+  box-shadow: 0 0 0 2px #219EBC;
+}
+
+.btn-secondary {
+  background-color: #8ECAE6;
+  border: none;
+  font-weight: normal;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+  background-color: #219EBC;
+  cursor: pointer;
+}
+
+.btn-secondary:focus, .btn-secondary:active {
+  box-shadow: 0 0 0 2px #219EBC;
 }
 </style>
