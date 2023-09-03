@@ -32,15 +32,15 @@ export default defineComponent({
     </div>
     <div class="btn-container">
       <h2>Clienti</h2>
-      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addClient">Nuovo Cliente</button>
-      <router-link class="btn btn-warning" :to="{path: '/clients'}">Elenco clienti</router-link>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClient">Nuovo Cliente</button>
+      <router-link class="btn btn-primary" :to="{path: '/clients'}">Elenco clienti</router-link>
       <ModalAddClient></ModalAddClient>
     </div>
     <div class="btn-container" v-if="this.role !== 'BASE'">
       <h2>Tecnici</h2>
-      <button v-if="this.role === 'ADMIN'" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addTechnician">Nuovo Tecnico</button>
-      <router-link class="btn btn-info" :to="{path: '/technicians'}">Elenco tecnici</router-link>
-      <button v-if="this.role === 'ADMIN'" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editPrice">Modifica prezzi orari tecnici</button>
+      <button v-if="this.role === 'ADMIN'" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTechnician">Nuovo Tecnico</button>
+      <router-link class="btn btn-primary" :to="{path: '/technicians'}">Elenco tecnici</router-link>
+      <button v-if="this.role === 'ADMIN'" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPrice">Modifica prezzi orari tecnici</button>
       <ModalAddTechnician></ModalAddTechnician>
       <ModalEditPricePerHourTechnicians></ModalEditPricePerHourTechnicians>
     </div>
@@ -59,6 +59,15 @@ export default defineComponent({
     font-family: Overpass, sans-serif;
   }
 
+  h1 {
+    margin-top: 30px;
+  }
+
+  h1, h2 {
+    color: #023047;
+    font-weight: bold;
+  }
+
   .btn-container {
     display: flex;
     flex-direction: column;
@@ -66,9 +75,23 @@ export default defineComponent({
     align-items: center;
   }
 
-  .btn {
-    margin: 0.5rem 1rem;
-    width: 15rem;
+  .btn-primary {
+    width: 300px;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    background-color: #FFB703;
+    border: none;
+    font-size: 20px;
+    color: #023047;
+    font-weight: bold;
+  }
+
+  .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    color: #023047;
+    background-color: #FB8500;
+    cursor: pointer;
+    box-shadow: 0 0 0 2px #219EBC;
   }
 
   h2 {
