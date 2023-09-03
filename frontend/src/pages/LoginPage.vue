@@ -73,7 +73,7 @@ h1 {
 }
 
 .form-control:focus {
-  box-shadow: 0 0 0 0.25rem #219EBC;
+  box-shadow: 0 0 0 2px #219EBC;
   color: #023047;
 }
 
@@ -82,7 +82,7 @@ h1 {
 }
 
 .invalid:focus {
-  box-shadow: 0 0 0 0.25rem #FF5733;
+  box-shadow: 0 0 0 2px #FF5733;
 }
 
 .invalid-feedback {
@@ -98,14 +98,17 @@ h1 {
   height: 40px;
   margin-top: 10px;
   margin-bottom: 0;
-  background-image: linear-gradient(to bottom, #FFB703, #FB8500);
+  background-color: #FFB703;
   border: none;
   font-size: 20px;
+  color: #023047;
+  font-weight: bold;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  background-image: linear-gradient(to bottom, #FB8500, #FFB703);
+  color: #023047;
+  background-color: #FB8500;
   cursor: pointer;
-  box-shadow: 0 0 0 0.25rem #219EBC;
+  box-shadow: 0 0 0 2px #219EBC;
 }
 </style>
