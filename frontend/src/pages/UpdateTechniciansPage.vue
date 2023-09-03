@@ -34,7 +34,6 @@ export default defineComponent({
 
 <template>
   <Header></Header>
-  <h1>Modifica Tecnico</h1>
   <UpdateTechnician v-if="technician" :technician="this.technician"></UpdateTechnician>
 </template>
 

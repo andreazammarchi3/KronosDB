@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="card mb-3 border-secondary">
+  <div class="card border-secondary">
     <div class="card-header">ID: {{ this.technician.idTechnician }}</div>
     <div class="card-body">
       <h5 class="card-title">{{ this.technician.fullName }}</h5>
@@ -40,10 +40,10 @@ export default defineComponent({
       <p v-if="this.technician.role !== 'BASE'" class="card-text"><strong>Prezzo all'ora</strong>: {{ this.technician.costPerHour }}</p>
     </div>
     <div class="card-footer">
-      <router-link v-if="this.role === 'ADMIN'" type="button" class="btn btn-warning btn-sm" :to="{path: '/technicians/' + this.technician.idTechnician}">
+      <router-link v-if="this.role === 'ADMIN'" type="button" class="btn btn-primary" :to="{path: '/technicians/' + this.technician.idTechnician}" title="Modifica">
         <i class="bi bi-pencil"></i>
       </router-link>
-      <button v-if="this.role === 'ADMIN'" class="btn btn-sm btn-danger" @click="deleteTechnician" title="Elimina">
+      <button v-if="this.role === 'ADMIN'" class="btn btn-danger" @click="deleteTechnician" title="Elimina">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
@@ -51,19 +51,24 @@ export default defineComponent({
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
 .card:not(.overlay .card) {
-  max-width: 18rem;
-  margin: 0 1rem;
+  max-width: 300px;
+  margin: 10px;
+  color: #023047;
+  border: none;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
+  background-color: #FFFFFF;
+  font-weight: bold;
 }
 
 .card-body {
-  height: 7rem;
-  width: 18rem;
+  height: 100px;
+  width: 300px;
 }
 
 .card-text {
@@ -77,6 +82,8 @@ export default defineComponent({
 }
 
 .btn {
-  margin: 0 0.75rem 0 0.25rem;
+  width: 30px !important;
+  height: 30px !important;
+  padding: 5px !important;
 }
 </style>

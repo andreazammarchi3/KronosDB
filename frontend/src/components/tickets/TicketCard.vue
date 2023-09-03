@@ -77,7 +77,7 @@ export default defineComponent({
 }
 
 .card-body {
-  height: 150px;
+  height: 125px;
   width: 300px;
 }
 

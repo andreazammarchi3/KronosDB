@@ -44,41 +44,27 @@ export default {
 </template>
 
 <style scoped>
+@import url('../../../templates/style.css');
+
 .filter-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1rem;
+  margin: 10px;
 }
 
-.form-select {
-  width: 15rem;
+.form-control, .form-select {
+  width: 200px;
+  margin-right: 15px;
 }
 
-.filter-bar > * {
-  margin: 0 0.5rem;
-}
-
-.form-control {
-  width: 15rem;
-}
-
-.search-btn {
+.btn {
   margin-left: 0;
 }
 
 @media screen and (max-width: 543px) {
   .filter-bar {
-    flex-wrap: wrap;
-  }
-
-  .filter-bar > * {
-    margin: 0.5rem;
-  }
-
-  .form-control {
-    width: 15rem;
-    margin-left: 0.5rem;
+    flex-direction: column;
   }
 }
 
