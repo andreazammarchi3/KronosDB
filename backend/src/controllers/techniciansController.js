@@ -34,7 +34,7 @@ exports.add_technician = async (req, res) => {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
-    const { fullName, password, role, costPerHour } = req.body;
+    const { fullName, role, costPerHour, password } = req.body;
     const biggestId = await getBiggestTechnicianId();
 
     const newTechnician = new techniciansModel({

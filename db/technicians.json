@@ -1,40 +1,30 @@
-[{
-  "_id": {
-    "$oid": "64e771a694945aea5294ece6"
+[
+  {
+    "idTechnician": 1,
+    "fullName": "Russo Andrea",
+    "role": "BASE",
+    "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "costPerHour": 0
   },
-  "idTechnician": 1,
-  "fullName": "Gates Bill",
-  "role": "BASE",
-  "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-  "costPerHour": 0
-},
-{
-  "_id": {
-    "$oid": "64e8a5a149a78a3057d4d9fd"
+  {
+    "idTechnician": 2,
+    "fullName": "Romano Francesca",
+    "role": "JUNIOR",
+    "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "costPerHour": 20
   },
-  "idTechnician": 2,
-  "fullName": "Cook Tim",
-  "role": "ADMIN",
-  "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-  "costPerHour": 40
-},
-{
-  "_id": {
-    "$oid": "64f1b32dc986ba63473dbca2"
+  {
+    "idTechnician": 3,
+    "fullName": "Conti Marco",
+    "role": "SENIOR",
+    "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "costPerHour": 30
   },
-  "idTechnician": 3,
-  "fullName": "Musk Elon",
-  "role": "JUNIOR",
-  "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-  "costPerHour": 20
-},
-{
-  "_id": {
-    "$oid": "64f1b3605d356f4cdcc50774"
-  },
-  "idTechnician": 4,
-  "fullName": "Torvalds Linus",
-  "role": "SENIOR",
-  "costPerHour": 30,
-  "__v": 0
-}]
+  {
+    "idTechnician": 4,
+    "fullName": "Moretti Alessia",
+    "role": "ADMIN",
+    "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "costPerHour": 40
+  }
+]

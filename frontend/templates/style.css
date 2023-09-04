@@ -1,8 +1,8 @@
 .btn {
     border: none;
     height: 38px;
-    margin: 5px;
-    padding: 5px 10px;
+    margin: 5px !important;
+    padding: 5px 10px !important;
     text-align: center;
     align-items: center;
 }

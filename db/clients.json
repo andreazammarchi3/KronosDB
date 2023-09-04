@@ -1,72 +1,87 @@
 [{
-  "_id": {
-    "$oid": "64e7719e94945aea5294ece4"
-  },
   "idClient": 1,
-  "fullName": "Doe John",
-  "address": "Via dell'Estinzione, 1, Cesena",
+  "fullName": "Rossi Mario",
+  "address": "Via Roma, 1, Milano",
   "cellphone": {
-    "$numberLong": "9998877665"
+    "$numberLong": "3331234567"
   },
-  "mail": "johndoe@gmail.com",
+  "mail": "mario.rossi@gmail.com",
   "cards": [
+    {
+      "number": 1,
+      "totalHours": 10,
+      "usedHours": 5
+    },
     {
       "number": 2,
       "totalHours": 20,
-      "usedHours": 20,
-      "_id": {
-        "$oid": "64ee1b65d1ad4ffa51df0295"
-      }
-    },
-    {
-      "number": 3,
-      "totalHours": 20,
-      "usedHours": 15,
-      "_id": {
-        "$oid": "64ee1bdbd1ad4ffa51df02a7"
-      }
-    },
-    {
-      "number": 4,
-      "totalHours": 5,
-      "usedHours": 0,
-      "_id": {
-        "$oid": "64f08c50face5492b8cd6036"
-      }
+      "usedHours": 10
     }
   ]
 },
 {
-  "_id": {
-    "$oid": "64e8a5ed49a78a3057d4d9ff"
-  },
   "idClient": 2,
-  "fullName": "Apple Jack",
-  "address": "Via Garibaldi, 2, Washington DC",
-  "cellphone": 1112233445,
-  "mail": "jackapple@gmail.com",
+  "fullName": "Bianchi Laura",
+  "address": "Via Garibaldi, 2, Roma",
+  "cellphone": {
+    "$numberLong": "3337654321"
+  },
+  "mail": "laura.bianchi@gmail.com",
   "cards": []
 },
 {
-  "_id": {
-    "$oid": "64ecc0f5101be4ea782a541c"
-  },
   "idClient": 3,
-  "fullName": "Zammarchi Andrea",
-  "address": "via tosi",
+  "fullName": "Russo Giuseppe",
+  "address": "Via Nazionale, 3, Napoli",
   "cellphone": {
-    "$numberLong": "3928120209"
+    "$numberLong": "3339876543"
   },
-  "mail": "zammadbz@gmail.com",
+  "mail": "giuseppe.russo@gmail.com",
   "cards": [
     {
-      "number": 1,
-      "totalHours": 5,
-      "usedHours": 4,
-      "_id": {
-        "$oid": "64f096d990349d3613d89ce0"
-      }
+      "number": 3,
+      "totalHours": 10,
+      "usedHours": 8
+    },
+    {
+      "number": 4,
+      "totalHours": 15,
+      "usedHours": 5
     }
-  ],
-  "__v": 0
+  ]
+},
+{
+  "idClient": 4,
+  "fullName": "Ferrari Marco",
+  "address": "Via Dante, 4, Firenze",
+  "cellphone": {
+    "$numberLong": "3332345678"
+  },
+  "mail": "marco.ferrari@gmail.com",
+  "cards": [
+    {
+      "number": 5,
+      "totalHours": 5,
+      "usedHours": 3
+    },
+    {
+      "number": 6,
+      "totalHours": 10,
+      "usedHours": 7
+    },
+    {
+      "number": 7,
+      "totalHours": 20,
+      "usedHours": 15
+    }
+  ]
+},
+{
+  "idClient": 5,
+  "fullName": "Esposito Maria",
+  "address": "Via dei Mille, 5, Torino",
+  "cellphone": {
+    "$numberLong": "3338765432"
+  },
+  "mail": "maria.esposito@gmail.com"
 }]

@@ -59,6 +59,7 @@ export default defineComponent({
   height: calc(100vh - 60px);
   width: 100%;
   font-family: Overpass, sans-serif;
+  overflow-y: auto;
 }
 
 h2 {

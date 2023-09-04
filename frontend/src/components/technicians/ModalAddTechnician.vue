@@ -3,25 +3,37 @@ import {defineComponent} from "vue";
 import axios from "axios";
 import {BASE_URL} from "@/main";
 import Alert from "@/components/Alert.vue";
+import sha256 from "crypto-js/sha256";
 
 export default defineComponent({
   name: "ModalAddTechnician",
   components: {Alert},
   data() {
     return {
+      technicians: [],
+      role: null,
       showAlertBool: false
     };
   },
   methods: {
+    getAllTechnicians() {
+      axios.get(`${BASE_URL}/allTechnicians`).then((response) => {
+        this.technicians = response.data;
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
     addTechnician() {
       const fullName = document.getElementById("fullNameTechnician").value;
       const role = document.getElementById("roleAdd").value;
       const costPerHour = document.getElementById("costPerHour").value;
+      const password = sha256(document.getElementById("password").value.trim());
 
       axios.post(`${BASE_URL}/addTechnician`, {
             fullName,
             role,
-            costPerHour
+            costPerHour,
+            password
           })
           .then((response) => {
             console.log(response.data);
@@ -29,6 +41,7 @@ export default defineComponent({
             document.getElementById("fullNameTechnician").value = "";
             document.getElementById("roleAdd").selectedIndex = -1;
             document.getElementById("costPerHour").value = 0;
+            document.getElementById("password").value = "";
 
             document.getElementById("closeBtnTechnician").click()
 
@@ -46,6 +59,13 @@ export default defineComponent({
     }
   },
   mounted() {
+    this.getAllTechnicians();
+  },
+  computed: {
+    getCostPerHourFromRole() {
+      this.getAllTechnicians();
+      return this.technicians.find(t => t.role === this.role).costPerHour;
+    }
   }
 })
 </script>
@@ -68,7 +88,7 @@ export default defineComponent({
 
           <div class="form-group">
             <label for="roleAdd" class="form-label">Ruolo</label>
-            <select class="form-select" id="roleAdd">
+            <select class="form-select" id="roleAdd" v-model="this.role">
               <option value="BASE">BASE</option>
               <option value="JUNIOR">JUNIOR</option>
               <option value="SENIOR">SENIOR</option>
@@ -76,9 +96,14 @@ export default defineComponent({
             </select>
           </div>
 
-          <div class="form-group">
+          <div v-if="this.technicians && this.role" class="form-group">
             <label class="form-label" for="costPerHour">Prezzo all'ora</label>
-            <input type="number" class="form-control" placeholder="0" id="costPerHour" min="0">
+            <input type="number" class="form-control" placeholder="0" id="costPerHour" min="0" readonly :value="this.getCostPerHourFromRole">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" class="form-control" placeholder="Password" id="password">
           </div>
         </div>
         <div class="modal-footer">

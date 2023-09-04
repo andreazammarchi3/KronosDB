@@ -150,7 +150,7 @@ export default defineComponent({
     </tr>
     </thead>
     <tbody class="table-body">
-    <tr v-for="card in filteredCards" :class="{ 'table-success': card.totalHours - card.usedHours > 0, 'table-danger': card.totalHours - card.usedHours <= 0 }" class="align-middle">
+    <tr v-for="card in filteredCards" class="align-middle">
       <td class="text-center">{{ card.number }}</td>
       <td class="text-center">{{ card.totalHours }}</td>
       <td class="text-center">

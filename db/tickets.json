@@ -1,7 +1,4 @@
 [{
-  "_id": {
-    "$oid": "64e7719694945aea5294ece2"
-  },
   "idTicket": 1,
   "closeDate": "2023/01/02",
   "idClient": 1,
@@ -19,9 +16,6 @@
   "cardUsedHours": null
 },
 {
-  "_id": {
-    "$oid": "64e9b08fbc365dadd83dd266"
-  },
   "idTicket": 2,
   "closeDate": "2023/08/28",
   "idClient": 2,
@@ -33,50 +27,59 @@
   "clientRequest": "Problema al mouse: non funziona tasto destro",
   "logActivities": "1. Tasto testo ha un guasto meccanico, necessaria sostituzione",
   "openDate": "2023/04/20",
-  "signatureClient": "data:image/png;base64,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",
+  "signatureClient": null,
   "paymentMethod": "SALDO",
   "cardNumber": null,
   "cardUsedHours": null
 },
 {
-  "_id": {
-    "$oid": "64f0985990349d3613d89d57"
-  },
   "idTicket": 3,
-  "openDate": "2023/08/31",
-  "closeDate": "2023/08/28",
-  "idClient": 3,
-  "idTechnician": 3,
-  "clientRequest": "richiesta",
-  "workDone": "lavoro",
-  "logActivities": "log",
-  "workingHours": 2,
-  "transferHours": 2,
-  "paymentMethod": "TESSERA + SALDO",
-  "cardNumber": 1,
-  "cardUsedHours": 4,
-  "price": 50,
-  "signatureClient": "data:image/png;base64,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",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "64f19e7d5e3d6bfd7829ad9c"
-  },
-  "idTicket": 4,
-  "openDate": "2023/09/01",
   "closeDate": "",
-  "idClient": 1,
-  "idTechnician": null,
-  "clientRequest": "",
-  "workDone": null,
-  "logActivities": null,
+  "idClient": 4,
+  "idTechnician": 1,
+  "workDone": "",
   "workingHours": null,
   "transferHours": null,
-  "paymentMethod": "NON PAGATO",
-  "cardNumber": null,
-  "cardUsedHours": null,
   "price": null,
+  "clientRequest": "Schermo rotto, necessita di riparazione",
+  "logActivities": "",
+  "openDate": "2023/05/10",
   "signatureClient": null,
-  "__v": 0
+  "paymentMethod": "",
+  "cardNumber": null,
+  "cardUsedHours": null
+},
+{
+  "idTicket": 4,
+  "closeDate": "",
+  "idClient": 3,
+  "idTechnician": 1,
+  "workDone": "",
+  "workingHours": null,
+  "transferHours": null,
+  "price": null,
+  "clientRequest": "Problemi di prestazioni, richiesta aggiornamento software",
+  "logActivities": "",
+  "openDate": "2023/06/15",
+  "signatureClient": null,
+  "paymentMethod": "",
+  "cardNumber": null,
+  "cardUsedHours": null
+},
+{
+  "idTicket": 5,
+  "closeDate": "",
+  "idClient": 1,
+  "idTechnician": 4,
+  "workDone": "",
+  "workingHours": null,
+  "transferHours": null,
+  "price": null,
+  "clientRequest": "Tastiera non funzionante, richiesta sostituzione",
+  "logActivities": "",
+  "openDate": "2023/07/05",
+  "signatureClient": null,
+  "paymentMethod": "",
+  "cardNumber": null,
+  "cardUsedHours": null
 }]

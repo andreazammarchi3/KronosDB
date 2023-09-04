@@ -56,6 +56,7 @@ export default defineComponent({
   background-color: #8ECAE6;
   height: 100vh;
   font-family: Overpass, sans-serif;
+  margin-bottom: 30px;
 }
 
 .form-control {
