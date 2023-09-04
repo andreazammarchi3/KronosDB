@@ -1,5 +1,6 @@
 const ticketsModel = require('../models/ticketsModel');
 const index = require('../../src/index');
+const clientsModel = require("../models/clientsModel");
 
 exports.all_tickets = async(req, res) => {
     try{
@@ -64,6 +65,7 @@ exports.add_ticket = async (req, res) => {
 
     try{
         res.json(await newTicket.save());
+        index.sendUpdatedTickets(await ticketsModel.find());
     }catch (e) {
         res.json(e);
     }
@@ -76,6 +78,7 @@ exports.remove_ticket = async (req, res) => {
 
     try{
         res.json(await ticketsModel.deleteOne({idTicket: parseInt(req.params.id.split(":")[1])}));
+        index.sendUpdatedTickets(await ticketsModel.find());
     }catch (e) {
         res.json(e);
     }
@@ -94,6 +97,7 @@ exports.update_ticket = async (req, res) => {
 
     try{
         res.json(await ticketsModel.updateOne({idTicket: parseInt(req.params.id.split(":")[1])}, req.body));
+        index.sendUpdatedTickets(await ticketsModel.find());
     }catch (e) {
         res.json(e);
     }

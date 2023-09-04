@@ -1,5 +1,6 @@
 const clientsModel = require('../models/clientsModel');
 const index = require('../../src/index');
+const techniciansModel = require("../models/techniciansModel");
 
 exports.all_clients = async(req, res) => {
     try{
@@ -48,6 +49,7 @@ exports.add_client = async (req, res) => {
 
     try{
         res.json(await newClient.save());
+        index.sendUpdatedClients(await clientsModel.find());
     }catch (e) {
         res.json(e);
     }
@@ -60,6 +62,7 @@ exports.remove_client = async (req, res) => {
 
     try{
         res.json(await clientsModel.deleteOne({idClient: parseInt(req.params.id.split(":")[1])}));
+        index.sendUpdatedClients(await clientsModel.find());
     }catch (e) {
         res.json(e);
     }
@@ -78,6 +81,7 @@ exports.update_client = async (req, res) => {
 
     try{
         res.json(await clientsModel.updateOne({idClient: parseInt(req.params.id.split(":")[1])}, req.body));
+        index.sendUpdatedClients(await clientsModel.find());
     }catch (e) {
         res.json(e);
     }
@@ -98,6 +102,7 @@ exports.update_client_cards = async (req, res) => {
 
     try{
         res.json(await clientsModel.updateOne({idClient: parseInt(req.params.id.split(":")[1])}, {cards: cards}));
+        index.sendUpdatedClients(await clientsModel.find());
     }catch (e) {
         res.json(e);
     }

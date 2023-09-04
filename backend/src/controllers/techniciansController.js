@@ -1,5 +1,6 @@
 const techniciansModel = require('../models/techniciansModel');
 const index = require('../../src/index');
+const chatsModel = require("../models/chatsModel");
 
 exports.all_technicians = async(req, res) => {
     try{
@@ -47,6 +48,7 @@ exports.add_technician = async (req, res) => {
 
     try{
         res.json(await newTechnician.save());
+        index.sendUpdatedTechnicians(await techniciansModel.find());
     }catch (e) {
         res.json(e);
     }
@@ -59,6 +61,7 @@ exports.remove_technician = async (req, res) => {
 
     try{
         res.json(await techniciansModel.deleteOne({idTechnician: parseInt(req.params.id.split(":")[1])}));
+        index.sendUpdatedTechnicians(await techniciansModel.find());
     }catch (e) {
         res.json(e);
     }
@@ -77,6 +80,7 @@ exports.update_technician = async (req, res) => {
 
     try{
         res.json(await techniciansModel.updateOne({idTechnician: parseInt(req.params.id.split(":")[1])}, req.body));
+        index.sendUpdatedTechnicians(await techniciansModel.find());
     }catch (e) {
         res.json(e);
     }

@@ -38,3 +38,15 @@ const io = require('socket.io')(server, {
 exports.sendUpdatedChat = (data) => {
    io.emit('CHAT', data);
 }
+
+exports.sendUpdatedClients = (data) => {
+   io.emit('CLIENTS', data);
+}
+
+exports.sendUpdatedTechnicians = (data) => {
+   io.emit('TECHNICIANS', data);
+}
+
+exports.sendUpdatedTickets = (data) => {
+   io.emit('TICKETS', data);
+}
