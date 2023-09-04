@@ -5,6 +5,7 @@ import axios from "axios";
 import TicketCard from "@/components/tickets/TicketCard.vue";
 import FilterBar from "@/components/tickets/FilterBar.vue";
 import Header from "@/components/Header.vue";
+import io from "socket.io-client";
 
 export default defineComponent({
   name: "TicketsPage",
@@ -18,6 +19,7 @@ export default defineComponent({
       searchTerm: '',
       currentPage: 1,
       pageSize: 10,
+      socket: io(BASE_URL),
     }
   },
   computed: {
@@ -100,6 +102,14 @@ export default defineComponent({
   mounted() {
     this.getTickets()
     this.getClients()
+
+    this.socket.on('TICKETS', (data) => {
+      this.tickets = data;
+    });
+
+    this.socket.on('CLIENTS', (data) => {
+      this.clients = data;
+    });
   }
 })
 </script>

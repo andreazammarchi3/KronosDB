@@ -4,6 +4,7 @@ import axios from "axios";
 import {BASE_URL} from "@/main";
 import Alert from "@/components/Alert.vue";
 import sha256 from "crypto-js/sha256";
+import io from "socket.io-client";
 
 export default defineComponent({
   name: "ModalAddTechnician",
@@ -12,7 +13,8 @@ export default defineComponent({
     return {
       technicians: [],
       role: null,
-      showAlertBool: false
+      showAlertBool: false,
+      socket: io(BASE_URL),
     };
   },
   methods: {
@@ -27,7 +29,7 @@ export default defineComponent({
       const fullName = document.getElementById("fullNameTechnician").value;
       const role = document.getElementById("roleAdd").value;
       const costPerHour = document.getElementById("costPerHour").value;
-      const password = sha256(document.getElementById("password").value.trim());
+      const password = sha256(document.getElementById("password").value.trim()).toString();
 
       axios.post(`${BASE_URL}/addTechnician`, {
             fullName,
@@ -60,6 +62,10 @@ export default defineComponent({
   },
   mounted() {
     this.getAllTechnicians();
+
+    this.socket.on('TECHNICIANS', (data) => {
+      this.technicians = data;
+    });
   },
   computed: {
     getCostPerHourFromRole() {

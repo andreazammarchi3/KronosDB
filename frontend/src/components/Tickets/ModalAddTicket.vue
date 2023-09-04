@@ -3,6 +3,7 @@ import {defineComponent} from "vue";
 import axios from "axios";
 import {BASE_URL} from "@/main";
 import Alert from "@/components/Alert.vue";
+import io from "socket.io-client";
 
 export default defineComponent({
   name: "ModalAddTicket",
@@ -11,7 +12,8 @@ export default defineComponent({
     return {
       clients: [],
       technicians: [],
-      showAlertBool: false
+      showAlertBool: false,
+      socket: io(BASE_URL),
     };
   },
   methods: {
@@ -64,6 +66,14 @@ export default defineComponent({
   mounted() {
     this.getClients()
     this.getTechnicians()
+
+    this.socket.on('CLIENTS', (data) => {
+      this.clients = data;
+    });
+
+    this.socket.on('TECHNICIANS', (data) => {
+      this.technicians = data;
+    });
   }
 })
 </script>

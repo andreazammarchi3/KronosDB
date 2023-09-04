@@ -5,6 +5,7 @@ import axios from "axios";
 import TechnicianCard from "@/components/technicians/TechnicianCard.vue";
 import FilterBar from "@/components/technicians/FilterBar.vue";
 import Header from "@/components/Header.vue";
+import io from "socket.io-client";
 
 export default defineComponent({
   name: "TechniciansPage",
@@ -16,6 +17,7 @@ export default defineComponent({
       searchTerm: '',
       currentPage: 1,
       pageSize: 10,
+      socket: io(BASE_URL),
     }
   },
   computed: {
@@ -76,7 +78,11 @@ export default defineComponent({
   mounted() {
     const role = sessionStorage.getItem('role');
     if (role === 'BASE') this.$router.push('/401');
-    this.getTechnicians()
+    this.getTechnicians();
+
+    this.socket.on('TECHNICIANS', (data) => {
+      this.technicians = data;
+    });
   }
 })
 </script>

@@ -5,6 +5,7 @@ import axios from "axios";
 import ClientCard from "@/components/clients/ClientCard.vue";
 import FilterBar from "@/components/clients/FilterBar.vue";
 import Header from "@/components/Header.vue";
+import io from "socket.io-client";
 
 export default defineComponent({
   name: "ClientsPage",
@@ -16,6 +17,7 @@ export default defineComponent({
       searchTerm: '',
       currentPage: 1,
       pageSize: 10,
+      socket: io(BASE_URL),
     }
   },
   computed: {
@@ -74,7 +76,11 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.getClients()
+    this.getClients();
+
+    this.socket.on('CLIENTS', (data) => {
+      this.clients = data;
+    });
   }
 })
 </script>
