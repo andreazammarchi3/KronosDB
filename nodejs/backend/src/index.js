@@ -23,11 +23,17 @@ function pausecomp(millis)
     do { curDate = new Date(); }
     while(curDate-date < millis);
 }
+console.log('Taking a break...');
+pausecomp(10000);
+console.log('Ten seconds later, ...');
+
+var path = require('path');
+global.appRoot = path.resolve(__dirname);
 
 //connessione al db
 mongoose.set('useFindAndModify', false);
 mongoose.set('connectTimeoutMS', 30);
-mongoose.connect('mongodb://mongodb/kronosDB').then(() => {
+mongoose.connect('mongodb://mongodb:27017/kronosDB').then(() => {
    console.log('Connected to DB');
 }).catch(err => {
    console.log(err);

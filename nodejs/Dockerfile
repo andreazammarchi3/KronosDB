@@ -1,54 +1,36 @@
-# uso ubuntu:focal per analogia con l'immagine usata in mongodb
+# Use Ubuntu focal as a base image
 FROM ubuntu:focal
-# FROM ubuntu:xenial
 
-# BACKEND
+# Set up working directories for backend and frontend
+ENV BACKEND_WORKDIR=/root/backend
+ENV FRONTEND_WORKDIR=/root/frontend
 
-ENV WORKINGDIR=/root/backend
+# Install common dependencies and set up keys
+RUN apt-get update && apt-get install -y ca-certificates curl gnupg && \
+    mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 
-WORKDIR ${WORKINGDIR}
+# Install Node.js and npm for both backend and frontend
+RUN NODE_MAJOR=18 && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends nodejs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN	mkdir -p ${WORKINGDIR} && chmod 666 ${WORKINGDIR}
+# Install npm globally
+RUN npm install -g npm@latest
 
-COPY 	./backend  ${WORKINGDIR}/
-
-RUN	apt-get -y update	 &&	\
-	apt-get -y install --no-install-recommends \
-	  nodejs	\
-	  npm			\
-	  curl			\
-	  wget			\
-		&& \
-	apt-get -y clean; \
-  rm -rf /var/lib/apt/lists/*;
-
-RUN	npm install
-
+# Backend setup
+WORKDIR ${BACKEND_WORKDIR}
+COPY ./backend ${BACKEND_WORKDIR}
+RUN npm install
 EXPOSE 3000
-
 CMD npm start
 
-# FRONTEND
-ENV WORKINGDIR=/root/frontend
-
-WORKDIR ${WORKINGDIR}
-
-RUN	mkdir -p ${WORKINGDIR} && chmod 666 ${WORKINGDIR}
-
-COPY 	./frontend  ${WORKINGDIR}/
-
-RUN	apt-get -y update	 &&	\
-	apt-get -y install --no-install-recommends \
-	  nodejs	\
-	  npm			\
-	  curl			\
-	  wget			\
-		&& \
-	apt-get -y clean; \
-  rm -rf /var/lib/apt/lists/*;
-
-RUN	npm install
-
+# Frontend setup
+WORKDIR ${FRONTEND_WORKDIR}
+COPY ./frontend ${FRONTEND_WORKDIR}
+RUN npm install
 EXPOSE 5173
-
 CMD npm run dev
