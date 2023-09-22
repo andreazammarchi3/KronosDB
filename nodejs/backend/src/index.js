@@ -15,7 +15,19 @@ app.use(techniciansRouter);
 app.use(ticketsRouter);
 app.use(chatsRouter);
 
-mongoose.connect('mongodb://127.0.0.1:27017/kronosDB').then(() => {
+// aspetto che il container di mongo sia su
+function pausecomp(millis)
+{
+    var date = new Date();
+    var curDate = null;
+    do { curDate = new Date(); }
+    while(curDate-date < millis);
+}
+
+//connessione al db
+mongoose.set('useFindAndModify', false);
+mongoose.set('connectTimeoutMS', 30);
+mongoose.connect('mongodb://mongodb/kronosDB').then(() => {
    console.log('Connected to DB');
 }).catch(err => {
    console.log(err);
