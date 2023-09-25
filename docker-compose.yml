@@ -16,7 +16,6 @@ services:
       - MIAVAR=non_serve__solo_come_esempio
 # Questa porta devo pubblicarla per vederla dall'host e fuori dall'host.
     ports:
-      - 3000:3000
       - 5173:5173
     networks:
       - esterna
@@ -50,6 +49,7 @@ services:
 #      - 27017-27019:27017-27019
     networks:
       - interna
+      - esterna
 #    NON VOGLIO USARE UN VOLUME ESTERNO,
 #    voglio salvare nel filesystem del container
 #    volumes:

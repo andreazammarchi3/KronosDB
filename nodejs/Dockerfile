@@ -25,7 +25,7 @@ RUN npm install -g npm@latest
 WORKDIR ${BACKEND_WORKDIR}
 COPY ./backend ${BACKEND_WORKDIR}
 RUN npm install
-EXPOSE 3000
+# EXPOSE 3000
 CMD npm start
 
 # Frontend setup
@@ -33,4 +33,4 @@ WORKDIR ${FRONTEND_WORKDIR}
 COPY ./frontend ${FRONTEND_WORKDIR}
 RUN npm install
 EXPOSE 5173
-CMD npm run dev
+CMD npm run dev -- --host
