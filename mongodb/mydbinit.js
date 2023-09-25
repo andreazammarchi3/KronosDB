@@ -10,22 +10,28 @@ db.createCollection('technicians', function(err, collection) {});
 // crea la collection 'alignments' e la lascia come e' se gia' esiste
 db.createCollection('tickets', function(err, collection) {});
 
-/*
-// elimina gli eventuali documenti della collection 'alignments'
+
+// elimina gli eventuali documenti della collection 'technicians'
 try {
-   db.alignments.deleteMany( { } );
+   db.technicians.deleteMany( { } );
 } catch (e) {
    print (e);
 }
 
 // visualizza documenti esistenti
-var cursor = db.alignments.find();
+var cursor = db.technicians.find();
 while ( cursor.hasNext() ) {
    printjson( cursor.next() );
 }
 
 // inserisce un documento
-db.alignments.insert({"s1": "GCATGCU", "s2": "GATTACA", "as1": "GCATGC-U", "as2": "G-ATTACA"})
+db.technicians.insert({
+   "idTechnician": 1,
+   "fullName": "ANDREA ZAMMARCHI",
+   "role": "ADMIN",
+   "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+   "costPerHour": 0
+ })
 
 
 // visualizza documenti esistenti
@@ -33,4 +39,4 @@ var cursor = db.alignments.find();
 while ( cursor.hasNext() ) {
    printjson( cursor.next() );
 }
-*/
+

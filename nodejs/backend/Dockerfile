@@ -3,7 +3,6 @@ FROM ubuntu:focal
 
 # Set up working directories for backend and frontend
 ENV BACKEND_WORKDIR=/root/backend
-ENV FRONTEND_WORKDIR=/root/frontend
 
 # Install common dependencies and set up keys
 RUN apt-get update && apt-get install -y ca-certificates curl gnupg && \
@@ -23,14 +22,7 @@ RUN npm install -g npm@latest
 
 # Backend setup
 WORKDIR ${BACKEND_WORKDIR}
-COPY ./backend ${BACKEND_WORKDIR}
+COPY . ${BACKEND_WORKDIR}
 RUN npm install
-# EXPOSE 3000
+EXPOSE 3000
 CMD npm start
-
-# Frontend setup
-WORKDIR ${FRONTEND_WORKDIR}
-COPY ./frontend ${FRONTEND_WORKDIR}
-RUN npm install
-EXPOSE 5173
-CMD npm run dev -- --host

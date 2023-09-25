@@ -2,13 +2,32 @@ version: '3'
 
 services:
 # il servizio che deve partire per secondo
-  nodejsapp:
+  nodejsapp-backend:
     build:
-      context: ./nodejs
+      context: ./nodejs/backend
       dockerfile: Dockerfile
       args:
         - IMAGE_VERSION=non_serve
-    image: nodejsapp
+    image: nodejsapp-backend
+    depends_on:
+      mongodb:
+        condition: service_started
+    environment:
+      - MIAVAR=non_serve__solo_come_esempio
+# Questa porta devo pubblicarla per vederla dall'host e fuori dall'host.
+    ports:
+      - 3000:3000
+    networks:
+      - esterna
+      - interna
+
+  nodejsapp-frontend:
+    build:
+      context: ./nodejs/frontend
+      dockerfile: Dockerfile
+      args:
+        - IMAGE_VERSION=non_serve
+    image: nodejsapp-frontend
     depends_on:
       mongodb:
         condition: service_started

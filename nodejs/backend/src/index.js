@@ -31,8 +31,6 @@ var path = require('path');
 global.appRoot = path.resolve(__dirname);
 
 //connessione al db
-mongoose.set('useFindAndModify', false);
-mongoose.set('connectTimeoutMS', 30);
 mongoose.connect('mongodb://mongodb:27017/kronosDB').then(() => {
    console.log('Connected to DB');
 }).catch(err => {
