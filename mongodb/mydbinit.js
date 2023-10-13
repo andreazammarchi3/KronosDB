@@ -2,8 +2,6 @@ var conn = new Mongo();
 var db = conn.getDB('kronosDB');
 
 // crea la collection 'alignments' e la lascia come e' se gia' esiste
-db.createCollection('chats', function(err, collection) {});
-// crea la collection 'alignments' e la lascia come e' se gia' esiste
 db.createCollection('clients', function(err, collection) {});
 // crea la collection 'alignments' e la lascia come e' se gia' esiste
 db.createCollection('technicians', function(err, collection) {});
@@ -28,9 +26,8 @@ while ( cursor.hasNext() ) {
 db.technicians.insert({
    "idTechnician": 1,
    "fullName": "ANDREA ZAMMARCHI",
-   "role": "ADMIN",
    "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-   "costPerHour": 0
+   "admin": true,
  })
 
 
