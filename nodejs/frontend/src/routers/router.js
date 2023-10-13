@@ -9,7 +9,6 @@ import TechniciansPage from "@/pages/TechniciansPage.vue";
 import UpdateTechniciansPage from "@/pages/UpdateTechniciansPage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import NotAuthorized from "@/pages/NotAuthorized.vue";
-import ChatPage from "@/pages/ChatPage.vue";
 
 const routes = [
     {path: '/', name: 'Home', component: HomePage},
@@ -20,7 +19,6 @@ const routes = [
     {path: '/clients/:id', name: 'Client', component: UpdateClientPage},
     {path: '/technicians', name: 'Technicians', component: TechniciansPage},
     {path: '/technicians/:id', name: 'Technician', component: UpdateTechniciansPage},
-    {path: '/chat', name: 'Chat', component: ChatPage},
     {path: '/404', name: 'NotFound', component: NotFound},
     {path: '/401', name: 'NotAuthorized', component: NotAuthorized},
     {path: '/:catchAll(.*)', redirect: '/404'}

@@ -9,25 +9,21 @@ export default defineComponent({
   props: ['technician'],
   data() {
     return {
+      admin: false
     }
   },
   methods: {
     updateTechnician(event) {
       event.preventDefault();
 
-      const fullName = document.getElementById('fullName').value
-      const role = this.technician.role
+      const fullName = document.getElementById('fullName').value;
+      const admin = document.getElementById('admin').checked;
 
       axios.get(BASE_URL + '/allTechnicians').then(response => {
-        const technicians = response.data;
-        const technician = technicians.filter(technician => technician.role === this.technician.role)[0];
-        const costPerHour = technician ? technician.costPerHour : 0;
-
         axios.post(BASE_URL + '/updateTechnician:' + this.technician.idTechnician, {
           idTechnician: this.technician.idTechnician,
           fullName: fullName,
-          role: role,
-          costPerHour: costPerHour
+          admin: admin,
         }).then(response => {
           console.log(response)
           this.$router.push('/technicians')
@@ -38,13 +34,11 @@ export default defineComponent({
         console.log(error)
       });
     },
-    updateRole() {
-      this.technician.role = document.getElementById('role').value;
-    }
   },
   computed: {
   },
   mounted() {
+    this.admin = sessionStorage.getItem("admin") === "true"
   }
 })
 </script>
@@ -59,13 +53,8 @@ export default defineComponent({
         <input type="text" class="form-control" id="idTechnician" :placeholder="this.technician.idTechnician" readonly>
         <label for="fullName" class="form-label mt-4">Nome</label>
         <input type="text" class="form-control" id="fullName" :value="this.technician.fullName">
-        <label for="role" class="form-label mt-4">Ruolo</label>
-        <select class="form-select" id="role" @change="updateRole">
-          <option value="BASE" :selected="technician.role === 'BASE'">BASE</option>
-          <option value="JUNIOR" :selected="technician.role === 'JUNIOR'">JUNIOR</option>
-          <option value="SENIOR" :selected="technician.role === 'SENIOR'">SENIOR</option>
-          <option value="ADMIN" :selected="technician.role === 'ADMIN'">ADMIN</option>
-        </select>
+        <input class="form-check-input" type="checkbox" value="" id="admin" :checked="this.technician.admin" :disabled="!this.admin">
+        <label class="form-check-label" for="admin" >Admin</label>
 
       </fieldset>
       <button type="submit" class="btn btn-primary marg-btn">Salva modifiche</button>

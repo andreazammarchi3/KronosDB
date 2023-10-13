@@ -22,7 +22,7 @@ export default defineComponent({
           if (t.idTechnician == parseInt(this.id) && t.password == sha256(this.password)) {
             sessionStorage.setItem("idTechnician", t.idTechnician);
             sessionStorage.setItem("fullName", t.fullName);
-            sessionStorage.setItem("role", t.role);
+            sessionStorage.setItem("admin", t.admin);
             this.error = false;
             this.$router.push({name: "Home"});
           }

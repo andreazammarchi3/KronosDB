@@ -4,7 +4,6 @@ const cors = require('cors');
 const clientsRouter = require('./routes/clientsRoute');
 const techniciansRouter = require('./routes/techniciansRoute');
 const ticketsRouter = require('./routes/ticketsRoute');
-const chatsRouter = require('./routes/chatsRoute');
 
 const app = express();
 
@@ -13,7 +12,6 @@ app.use(express.json());
 app.use(clientsRouter);
 app.use(techniciansRouter);
 app.use(ticketsRouter);
-app.use(chatsRouter);
 
 // aspetto che il container di mongo sia su
 function pausecomp(millis)
@@ -50,10 +48,6 @@ const io = require('socket.io')(server, {
       credentials: true
    }
 });
-
-exports.sendUpdatedChat = (data) => {
-   io.emit('CHAT', data);
-}
 
 exports.sendUpdatedClients = (data) => {
    io.emit('CLIENTS', data);

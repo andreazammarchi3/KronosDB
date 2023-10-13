@@ -4,18 +4,16 @@ import Header from "@/components/Header.vue";
 import ModalAddTicket from "@/components/tickets/ModalAddTicket.vue";
 import ModalAddClient from "@/components/clients/ModalAddClient.vue";
 import ModalAddTechnician from "@/components/technicians/ModalAddTechnician.vue";
-import ModalEditPricePerHourTechnicians from "@/components/technicians/ModalEditPricePerHourTechnicians.vue";
-
 export default defineComponent({
   name: "HomePage",
-  components: {Header, ModalEditPricePerHourTechnicians, ModalAddTechnician, ModalAddTicket, ModalAddClient},
+  components: {Header, ModalAddTechnician, ModalAddTicket, ModalAddClient},
   data() {
     return {
-      role: null
+      admin: false
     };
   },
   mounted() {
-    this.role = sessionStorage.getItem("role");
+    this.admin = sessionStorage.getItem("admin") === "true";
   }
 })
 </script>
@@ -36,13 +34,11 @@ export default defineComponent({
       <router-link class="btn btn-primary" :to="{path: '/clients'}">Elenco clienti</router-link>
       <ModalAddClient></ModalAddClient>
     </div>
-    <div class="btn-container" v-if="this.role !== 'BASE'">
+    <div class="btn-container">
       <h2>Tecnici</h2>
-      <button v-if="this.role === 'ADMIN'" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTechnician">Nuovo Tecnico</button>
+      <button v-if="this.admin === true" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTechnician">Nuovo Tecnico</button>
       <router-link class="btn btn-primary" :to="{path: '/technicians'}">Elenco tecnici</router-link>
-      <button v-if="this.role === 'ADMIN'" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPrice">Modifica prezzi orari tecnici</button>
       <ModalAddTechnician></ModalAddTechnician>
-      <ModalEditPricePerHourTechnicians></ModalEditPricePerHourTechnicians>
     </div>
   </div>
 </template>

@@ -76,10 +76,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    const role = sessionStorage.getItem('role');
-    if (role === 'BASE') this.$router.push('/401');
     this.getTechnicians();
-
     this.socket.on('TECHNICIANS', (data) => {
       this.technicians = data;
     });
