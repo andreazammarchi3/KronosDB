@@ -17,6 +17,7 @@ export default defineComponent({
       event.preventDefault();
 
       const fullName = document.getElementById('fullName').value
+      const society = document.getElementById('society').value
       const cellphone = document.getElementById('cellphone').value
       const mail = document.getElementById('mail').value
       const address = document.getElementById('address').value
@@ -24,6 +25,7 @@ export default defineComponent({
       axios.post(BASE_URL + '/updateClient:' + this.client.idClient, {
         idClient: this.client.idClient,
         fullName: fullName,
+        society: society,
         address: address,
         cellphone: cellphone,
         mail: mail
@@ -54,6 +56,8 @@ export default defineComponent({
         <input type="text" class="form-control" id="idClient" :placeholder="this.client.idClient" readonly>
         <label for="fullName" class="form-label">Nome</label>
         <input type="text" class="form-control" id="fullName" :value="this.client.fullName">
+        <label for="society" class="form-label">Società</label>
+        <input type="text" class="form-control" id="society" :value="this.client.society">
         <label for="cellphone" class="form-label">Telefono</label>
         <input type="number" class="form-control" id="cellphone" :value="this.client.cellphone">
         <label for="mail" class="form-label">Email</label>

@@ -35,12 +35,13 @@ exports.add_client = async (req, res) => {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header("Access-Control-Allow-Headers", "Content-type,Accept,X-Custom-Header");
 
-    const { fullName, cellphone, mail, address } = req.body;
+    const { fullName, society, cellphone, mail, address } = req.body;
     const biggestId = await getBiggestClientId();
 
     const newClient = new clientsModel({
         idClient: biggestId + 1,
         fullName: fullName,
+        society: society,
         address: address,
         cellphone: cellphone,
         mail: mail,
