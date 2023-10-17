@@ -1,15 +1,52 @@
+<template>
+  <Header></Header>
+  <div class="page-container">
+    <h1>TICKET</h1>
+
+    <div class="btn-container">
+      <button class="btn btn-primary" @click="showFilterBar = !showFilterBar" title="Filtra"><i class="bi bi-funnel"></i></button>
+      <hr class="h-divider">
+<!--      <button class="btn btn-primary" title="Ordina"><i class="bi bi-sort-alpha-down"></i></button>-->
+      <select class="form-select" id="sort-by" v-model="sortBy" title="Ordina">
+        <option value="openDateMinToMax">Dal meno recente</option>
+        <option value="openDateMaxToMin">Dal più recente</option>
+        <option value="clientFullNameMinToMax">Per cliente (A-Z)</option>
+        <option value="clientFullNameMaxToMin">Per cliente (Z-A)</option>
+      </select>
+    </div>
+
+    <hr class="v-divider">
+    <div class="filter-bar" v-show="showFilterBar">
+      <div class="filter-buttons-container">
+        <button class="btn btn-success filter-btn" @click="applyFilters"><i class="bi bi-check"></i> Applica</button>
+        <button class="btn btn-danger filter-btn" @click="resetFilters"><i class="bi bi-x"></i> Reset</button>
+      </div>
+      <!-- Add filter options here -->
+    </div>
+    <div class="ticket-list">
+      <div v-for="ticket in paginatedTickets" :key="ticket.idTicket">
+        <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="btn btn-primary" :disabled="currentPage === 1" @click="prevPage">Prev</button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button class="btn btn-primary" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
+    </div>
+  </div>
+</template>
+
 <script>
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
 import TicketCard from "@/components/tickets/TicketCard.vue";
-import FilterBar from "@/components/tickets/FilterBar.vue";
 import Header from "@/components/Header.vue";
 import io from "socket.io-client";
 
 export default defineComponent({
   name: "TicketsPage",
-  components: {Header, FilterBar, TicketCard},
+  components: {Header, TicketCard},
   data() {
     return {
       tickets: [],
@@ -20,6 +57,7 @@ export default defineComponent({
       currentPage: 1,
       pageSize: 10,
       socket: io(BASE_URL),
+      showFilterBar: false,
     }
   },
   computed: {
@@ -44,8 +82,8 @@ export default defineComponent({
       if (this.searchTerm !== '' || this.searchTerm !== null) {
         filtered = filtered.filter(ticket => {
           const client = this.clients.find(client => client.idClient === ticket.idClient)
-          if (client && client.fullName) {
-            return client.fullName.includes(this.searchTerm)
+          if (client && client.clientRequest) {
+            return client.clientRequest.includes(this.searchTerm)
           }
         })
       }
@@ -58,7 +96,7 @@ export default defineComponent({
     paginatedTickets() {
       const startIndex = (this.currentPage - 1) * this.pageSize
       const endIndex = startIndex + this.pageSize
-      return this.filteredTickets.slice(startIndex, endIndex)
+      return this.sortedTickets.slice(startIndex, endIndex)
     }
   },
   methods: {
@@ -98,6 +136,12 @@ export default defineComponent({
             console.log(error)
           })
     },
+    applyFilters() {
+      // Apply filters here
+    },
+    resetFilters() {
+      // Reset filters here
+    },
   },
   mounted() {
     this.getTickets()
@@ -113,24 +157,6 @@ export default defineComponent({
   }
 })
 </script>
-
-<template>
-  <Header></Header>
-  <div class="page-container">
-    <h1>TICKET</h1>
-    <FilterBar @sort-by="sortTickets" @closed="toggleClosed" @search="search"></FilterBar>
-    <div class="ticket-list">
-      <div v-for="ticket in paginatedTickets" :key="ticket.idTicket">
-        <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
-      </div>
-    </div>
-    <div class="pagination">
-      <button class="btn btn-primary" :disabled="currentPage === 1" @click="prevPage">Prev</button>
-      <span>{{ currentPage }} / {{ totalPages }}</span>
-      <button class="btn btn-primary" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 @import url('../../templates/style.css');
@@ -162,5 +188,67 @@ export default defineComponent({
 
 .btn-primary {
   margin: 5px !important;
+}
+
+.filter-bar {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  bottom: 0;
+  width: 20%;
+  background-color: white;
+  z-index: 1;
+}
+
+.v-divider {
+  border-top: 2px solid black;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.h-divider {
+  border-left: 2px solid black;
+  height: 20px;
+  margin: 0 20px;
+}
+
+.filter-buttons-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+i {
+  font-size: 18px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-container .btn-primary {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.btn-container .form-select {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    width: 100%;
+  }
 }
 </style>
