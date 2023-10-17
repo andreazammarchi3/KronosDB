@@ -14,13 +14,15 @@ export default defineComponent({
   },
   methods: {
     addClient() {
-      const fullName = document.getElementById("fullName").value;
+      const fullName = document.getElementById("fullNameClient").value;
+      const society = document.getElementById("society").value;
       const cellphone = document.getElementById("cellphone").value;
       const mail = document.getElementById("mail").value;
       const address = document.getElementById("address").value;
 
       axios.post(`${BASE_URL}/addClient`, {
             fullName,
+            society,
             cellphone,
             mail,
             address
@@ -29,7 +31,8 @@ export default defineComponent({
             console.log(response.data);
             // Reset form fields and close modal
             document.getElementById("fullNameClient").value = "";
-            document.getElementById("cellphone").value = 0;
+            document.getElementById("society").value = "";
+            document.getElementById("cellphone").value = "";
             document.getElementById("mail").value = "";
             document.getElementById("address").value = "";
 
@@ -70,8 +73,13 @@ export default defineComponent({
           </div>
 
           <div class="form-group">
+            <label class="form-label" for="society">Società</label>
+            <input type="text" class="form-control" placeholder="Società" id="society">
+          </div>
+
+          <div class="form-group">
             <label class="form-label" for="cellphone">Telefono</label>
-            <input type="number" class="form-control" placeholder="3333333333" id="cellphone">
+            <input type="text" class="form-control" placeholder="3333333333" id="cellphone">
           </div>
 
           <div class="form-group">

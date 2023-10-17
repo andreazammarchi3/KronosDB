@@ -58,7 +58,10 @@ exports.add_ticket = async (req, res) => {
         transferHours: null,
         paymentMethod: 'NON PAGATO',
         cardNumber: null,
-        cardUsedHours: null,
+        cardTotalHours: Number,
+        cardCurrentHours: Number,
+        cardUsedHours: Number,
+        cardRemainingHours: Number,
         price: null,
         signatureClient: null,
     });

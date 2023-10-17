@@ -28,6 +28,7 @@ export default defineComponent({
       <h4>Dettagli</h4>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>ID</strong>: {{ this.client.idClient }}</li>
+        <li class="list-group-item"><strong>Società</strong>: {{ this.client.society }}</li>
         <li class="list-group-item"><strong>Telefono</strong>: {{ this.client.cellphone }}</li>
         <li class="list-group-item"><strong>Mail</strong>: {{ this.client.mail }}</li>
         <li class="list-group-item"><strong>Indirizzo</strong>: {{ this.client.address }}</li>

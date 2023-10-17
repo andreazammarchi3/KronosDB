@@ -1,25 +1,76 @@
+<template>
+  <Header></Header>
+  <div class="page-container">
+    <h1>TICKET</h1>
+
+    <div class="btn-container">
+      <button class="btn btn-primary" @click="showFilterBar = !showFilterBar" title="Filtra"><i class="bi bi-funnel"></i></button>
+      <hr class="h-divider">
+<!--      <button class="btn btn-primary" title="Ordina"><i class="bi bi-sort-alpha-down"></i></button>-->
+      <select class="form-select" id="sort-by" v-model="sortBy" title="Ordina">
+        <option value="openDateMinToMax">Dal meno recente</option>
+        <option value="openDateMaxToMin">Dal più recente</option>
+        <option value="clientFullNameMinToMax">Per cliente (A-Z)</option>
+        <option value="clientFullNameMaxToMin">Per cliente (Z-A)</option>
+      </select>
+    </div>
+
+    <hr class="v-divider">
+    <div class="filter-bar" v-show="showFilterBar">
+      <div class="filter-buttons-container">
+        <button class="btn btn-danger filter-btn" @click="resetFilters">Ripristina filtri</button>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="show-closed" v-model="hideClosedTickets">
+        <label class="form-check-label" for="show-closed">Nascondi ticket chiusi</label>
+      </div>
+      <div class="form-group">
+        <label for="searchBox">Cerca per nome cliente:</label>
+        <input type="text" class="form-control" id="searchBox" v-model="searchTerm" placeholder="Cognome Nome">
+      </div>
+      <div class="form-group">
+        <label for="searchBoxClientRequest">Cerca per problema:</label>
+        <input type="text" class="form-control" id="searchBoxClientRequest" v-model="searchTermClientRequest" placeholder="Problema">
+      </div>
+      <!-- Add filter options here -->
+    </div>
+    <div class="ticket-list">
+      <div v-for="ticket in paginatedTickets" :key="ticket.idTicket">
+        <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="btn btn-primary" :disabled="currentPage === 1" @click="prevPage">Prev</button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button class="btn btn-primary" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
+    </div>
+  </div>
+</template>
+
 <script>
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
 import TicketCard from "@/components/tickets/TicketCard.vue";
-import FilterBar from "@/components/tickets/FilterBar.vue";
 import Header from "@/components/Header.vue";
 import io from "socket.io-client";
+import FilterBar from "@/components/technicians/FilterBar.vue";
 
 export default defineComponent({
   name: "TicketsPage",
-  components: {Header, FilterBar, TicketCard},
+  components: {FilterBar, Header, TicketCard},
   data() {
     return {
       tickets: [],
       clients: [],
       sortBy: 'openDateMinToMax',
-      closed: true,
+      hideClosedTickets: false,
       searchTerm: '',
+      searchTermClientRequest: '',
       currentPage: 1,
       pageSize: 10,
       socket: io(BASE_URL),
+      showFilterBar: false,
     }
   },
   computed: {
@@ -36,16 +87,17 @@ export default defineComponent({
         }
       })
     },
-    filterClosedTickets() {
-      return this.sortedTickets.filter(ticket => ticket.closeDate === "")
-    },
     filteredTickets() {
-      let filtered = this.closed ? this.sortedTickets : this.filterClosedTickets
-      if (this.searchTerm !== '' || this.searchTerm !== null) {
+      let filtered = this.sortedTickets
+      if (this.hideClosedTickets) {
+        filtered = filtered.filter(ticket => ticket.closeDate === "")
+      }
+      if (this.searchTerm !== '' || this.searchTermClientRequest !== '') {
         filtered = filtered.filter(ticket => {
           const client = this.clients.find(client => client.idClient === ticket.idClient)
           if (client && client.fullName) {
-            return client.fullName.includes(this.searchTerm)
+            return client.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+                ticket.clientRequest.toLowerCase().includes(this.searchTermClientRequest.toLowerCase())
           }
         })
       }
@@ -62,9 +114,6 @@ export default defineComponent({
     }
   },
   methods: {
-    sortTickets(sortBy) {
-      this.sortBy = sortBy
-    },
     async getTickets() {
       try {
         const response = await axios.get(`${BASE_URL}/allTickets`);
@@ -72,12 +121,6 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
-    },
-    toggleClosed() {
-      this.closed = !this.closed
-    },
-    search(searchTerm) {
-      this.searchTerm = searchTerm
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
@@ -98,6 +141,11 @@ export default defineComponent({
             console.log(error)
           })
     },
+    resetFilters() {
+      this.hideClosedTickets = false;
+      this.searchTerm = '';
+      this.searchTermClientRequest = '';
+    },
   },
   mounted() {
     this.getTickets()
@@ -113,24 +161,6 @@ export default defineComponent({
   }
 })
 </script>
-
-<template>
-  <Header></Header>
-  <div class="page-container">
-    <h1>TICKET</h1>
-    <FilterBar @sort-by="sortTickets" @closed="toggleClosed" @search="search"></FilterBar>
-    <div class="ticket-list">
-      <div v-for="ticket in paginatedTickets" :key="ticket.idTicket">
-        <TicketCard :ticket="ticket" @ticketDeleted="getTickets"></TicketCard>
-      </div>
-    </div>
-    <div class="pagination">
-      <button class="btn btn-primary" :disabled="currentPage === 1" @click="prevPage">Prev</button>
-      <span>{{ currentPage }} / {{ totalPages }}</span>
-      <button class="btn btn-primary" :disabled="currentPage === totalPages" @click="nextPage">Next</button>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 @import url('../../templates/style.css');
@@ -162,5 +192,88 @@ export default defineComponent({
 
 .btn-primary {
   margin: 5px !important;
+}
+
+.filter-bar {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  bottom: 0;
+  width: 20%;
+  background-color: white;
+  z-index: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+.v-divider {
+  border-top: 2px solid black;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.h-divider {
+  border-left: 2px solid black;
+  height: 20px;
+  margin: 0 20px;
+}
+
+.filter-buttons-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-bottom: 15px;
+}
+
+.filter-btn {
+  width: 100%;
+  min-width: 150px;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+i {
+  font-size: 18px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-container .btn-primary {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.btn-container .form-select {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.filter-bar > * {
+  margin: 5px 0;
+  width: 100%;
+}
+
+.form-group .form-control {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    width: 100%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 }
 </style>

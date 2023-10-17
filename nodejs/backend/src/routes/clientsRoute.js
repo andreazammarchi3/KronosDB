@@ -17,7 +17,4 @@ router.route('/removeClient:id')
 router.route('/updateClient:id')
     .post((req, res) => clientsController.update_client(req, res));
 
-router.route('/updateClientCards:id')
-    .post((req, res) => clientsController.update_client_cards(req, res));
-
 module.exports = router;
