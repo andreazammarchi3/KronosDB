@@ -19,11 +19,12 @@ export default defineComponent({
       workDone: this.ticket.workDone,
       logActivities: this.ticket.logActivities,
       workingHours: this.ticket.workingHours,
-      transferHours: this.ticket.transferHours,
+      transferRange: this.ticket.transferRange,
       showSignaturePad: false,
       paymentMethod: this.ticket.paymentMethod,
       cardNumber: this.ticket.cardNumber,
-      cardUsedHours: this.ticket.cardUsedHours,
+      cardTotalHours: this.ticket.cardTotalHours,
+      cardRemainingHours: this.ticket.cardRemainingHours,
       price: this.ticket.price,
       addingCard: false,
       totalHoursAddingCard: null,
@@ -41,9 +42,6 @@ export default defineComponent({
           console.log(error)
         })
     },
-    checkIfCardUsedHoursAreValid(ticketHours, usedHours, totalHours) {
-      return ticketHours + usedHours <= totalHours;
-    },
     updateTicket(event) {
       if (event) {
         event.preventDefault();
@@ -57,33 +55,15 @@ export default defineComponent({
       const workDone = document.getElementById('workDone').value;
       const logActivities = document.getElementById('logActivities').value;
       const workingHours = document.getElementById('workingHours').value;
-      const transferHours = document.getElementById('transferHours').value;
+      const transferRange = this.transferRange;
       const paymentMethod = document.getElementById('paymentMethod').value;
+      const cardNumber = document.getElementById('cardNumber').value;
+      const cardTotalHours = document.getElementById('cardTotalHours').value;
+      const cardRemainingHours = document.getElementById('cardRemainingHours').value;
       let price = null;
-      let cardNumber = null;
-      let cardUsedHours = null;
 
-      if (paymentMethod === 'TESSERA' || paymentMethod === 'TESSERA + SALDO') {
-        cardNumber = document.getElementById('card').value.split(' - ')[0];
-        cardUsedHours = this.workingHours + this.transferHours;
-      }
       if (paymentMethod === 'SALDO' || paymentMethod === 'TESSERA + SALDO') {
         price = document.getElementById('price').value;
-      }
-
-      const card = this.client.cards.find(c => c.number === parseInt(cardNumber));
-      console.log(card);
-      if (card !== undefined) {
-        if (!this.checkIfCardUsedHoursAreValid(cardUsedHours, card.usedHours, card.totalHours)) {
-          this.excessUsedHoursLabel = true;
-          return;
-        } else {
-          this.excessUsedHoursLabel = false;
-        }
-        card.usedHours += cardUsedHours;
-        this.client.cards = this.client.cards.filter(c => c.number !== card.number);
-        this.client.cards.push(card);
-        this.updateClientCards(this.client.cards);
       }
 
       axios.post(BASE_URL + '/updateTicket:' + this.ticket.idTicket, {
@@ -97,11 +77,12 @@ export default defineComponent({
         workDone: workDone,
         logActivities: logActivities,
         workingHours: workingHours,
-        transferHours: transferHours,
+        transferRange: transferRange,
         paymentMethod: paymentMethod,
         price: price,
-        cardNumber: card === undefined ? null : cardNumber,
-        cardUsedHours: card === undefined ? null : card.usedHours,
+        cardNumber: cardNumber,
+        cardTotalHours: cardTotalHours,
+        cardRemainingHours: cardRemainingHours,
         signatureClient: this.ticket.signatureClient
       }).then(response => {
           console.log(response)
@@ -125,48 +106,6 @@ export default defineComponent({
     deleteSignature() {
       this.ticket.signatureClient = null;
       this.showSignaturePad = true;
-    },
-    updateClientCards(cards) {
-      axios.post(BASE_URL + '/updateClientCards:' + this.client.idClient, {
-        cards: cards,
-      })
-          .then(response => {
-            console.log(response)
-            // this.$router.push('/clients')
-          })
-          .catch(error => {
-            console.log(error)
-          });
-    },
-    addCard() {
-      if (this.addingCard) {
-        this.addingCard = false;
-        const newCard = {
-          number: document.getElementById('numberAddingCard').value,
-          totalHours: document.getElementById('totalHoursAddingCard').value,
-          usedHours: 0,
-        };
-        if (newCard.totalHours !== '') {
-          this.client.cards.push(newCard);
-          this.updateClientCards(this.client.cards)
-        }
-      } else {
-        this.addingCard = true;
-      }
-    },
-  },
-  computed: {
-    validCards() {
-      return this.client.cards.filter(card => card.totalHours - card.usedHours > 0);
-    },
-    getBiggestCardNumber() {
-      let biggestNumber = 0;
-      this.client.cards.forEach(card => {
-        if (card.number > biggestNumber) {
-          biggestNumber = parseInt(card.number);
-        }
-      });
-      return biggestNumber + 1;
     },
   },
   mounted() {
@@ -205,8 +144,18 @@ export default defineComponent({
         <textarea class="form-control" id="logActivities" rows="3" v-model="this.logActivities"></textarea>
         <label for="workingHours" class="form-label mt-4">Ore intervento</label>
         <input type="number" class="form-control" id="workingHours" v-model="this.workingHours" min="0">
-        <label for="transferHours" class="form-label mt-4">Ore trasferimento</label>
-        <input type="number" class="form-control" id="transferHours" v-model="this.transferHours" min="0">
+
+        <label class="form-label mt-4">Fascia intervento</label>
+        <div class="radio-group">
+          <input class="form-check-input" type="radio" id="transferRange0" value="0" v-model="transferRange">
+          <label class="form-check-label" for="transferRange0">0</label>
+          <input class="form-check-input" type="radio" id="transferRange1" value="1" v-model="transferRange">
+          <label class="form-check-label" for="transferRange1">1</label>
+          <input class="form-check-input" type="radio" id="transferRange2" value="2" v-model="transferRange">
+          <label class="form-check-label" for="transferRange2">2</label>
+          <input class="form-check-input" type="radio" id="transferRange3" value="3" v-model="transferRange">
+          <label class="form-check-label" for="transferRange3">3</label>
+        </div>
 
         <label for="paymentMethod" class="form-label mt-4">Metodo di pagamento</label>
         <select class="form-select" id="paymentMethod" v-model="this.paymentMethod">
@@ -217,18 +166,12 @@ export default defineComponent({
         </select>
 
         <div v-if="this.paymentMethod === 'TESSERA' || this.paymentMethod === 'TESSERA + SALDO'" class="form-group">
-          <label for="card" class="form-label ">Tessera</label>
-          <button type="button" class="btn btn-primary margin-btn" :class="addingCard ? 'btn-success' : 'btn-primary'" title="Nuova tessera" @click="addCard">+</button>
-          <div class="card-adder" v-if="addingCard">
-            <input class="form-control" type="number" :value="getBiggestCardNumber" readonly id="numberAddingCard">
-            <input class="form-control" type="number" placeholder="Ore totali" v-model="totalHoursAddingCard" id="totalHoursAddingCard" min="0"></div>
-          <select class="form-select" id="card">
-            <option v-for="card in validCards" v-if="validCards.length > 0">
-              {{ card.number }} - Ore totali: {{ card.totalHours }} - Ore usate: {{ card.usedHours }}
-            </option>
-            <option v-if="validCards.length === 0" disabled  selected>Nessuna tessera valida</option>
-          </select>
-          <small v-if="this.excessUsedHoursLabel" id="excessUsedHours" class="form-text text-danger">Le ore totali di intervento superano le ore utilizzabili per la tessera selezionata</small>
+          <label for="cardNumber" class="form-label mt-4">Numero tessera</label>
+          <input type="number" class="form-control" id="cardNumber" v-model="this.cardNumber">
+          <label for="cardTotalHours" class="form-label mt-4">Ore totali tessera</label>
+          <input type="number" class="form-control" id="cardTotalHours" v-model="this.cardTotalHours" min="0">
+          <label for="cardRemainingHours" class="form-label mt-4">Ore residue tessera</label>
+          <input type="number" class="form-control" id="cardRemainingHours" v-model="this.cardRemainingHours" min="0">
         </div>
 
         <label v-if="this.paymentMethod === 'SALDO' || this.paymentMethod === 'TESSERA + SALDO'" for="price" class="form-label mt-4">Saldo (€)</label>
@@ -299,13 +242,6 @@ h4:first-child {
   margin-top: 20px !important;
 }
 
-.margin-btn {
-  width: 30px;
-  height: 30px;
-  padding: 5px;
-  margin-left: 10px;
-}
-
 .btn-second, .btn-second:disabled {
   background-color: #219EBC !important;
   font-weight: bold !important;
@@ -315,5 +251,22 @@ h4:first-child {
   background-color: #023047 !important;
   color: #FFFFFF !important;
   font-weight: normal !important;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.radio-group label {
+  margin-right: 15px;
+  margin-left: 5px;
+}
+
+.radio-group input {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 </style>
