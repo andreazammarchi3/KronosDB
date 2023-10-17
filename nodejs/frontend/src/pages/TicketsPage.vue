@@ -26,7 +26,11 @@
       </div>
       <div class="form-group">
         <label for="searchBox">Cerca per nome cliente:</label>
-        <input type="text" class="form-control" id="searchBox" v-model="searchTerm">
+        <input type="text" class="form-control" id="searchBox" v-model="searchTerm" placeholder="Cognome Nome">
+      </div>
+      <div class="form-group">
+        <label for="searchBoxClientRequest">Cerca per problema:</label>
+        <input type="text" class="form-control" id="searchBoxClientRequest" v-model="searchTermClientRequest" placeholder="Problema">
       </div>
       <!-- Add filter options here -->
     </div>
@@ -62,6 +66,7 @@ export default defineComponent({
       sortBy: 'openDateMinToMax',
       hideClosedTickets: false,
       searchTerm: '',
+      searchTermClientRequest: '',
       currentPage: 1,
       pageSize: 10,
       socket: io(BASE_URL),
@@ -87,11 +92,12 @@ export default defineComponent({
       if (this.hideClosedTickets) {
         filtered = filtered.filter(ticket => ticket.closeDate === "")
       }
-      if (this.searchTerm !== '') {
+      if (this.searchTerm !== '' || this.searchTermClientRequest !== '') {
         filtered = filtered.filter(ticket => {
           const client = this.clients.find(client => client.idClient === ticket.idClient)
           if (client && client.fullName) {
-            return client.fullName.toLowerCase().includes(this.searchTerm.toLowerCase())
+            return client.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+                ticket.clientRequest.toLowerCase().includes(this.searchTermClientRequest.toLowerCase())
           }
         })
       }
@@ -138,6 +144,7 @@ export default defineComponent({
     resetFilters() {
       this.hideClosedTickets = false;
       this.searchTerm = '';
+      this.searchTermClientRequest = '';
     },
   },
   mounted() {
@@ -259,6 +266,7 @@ i {
 
 .form-group .form-control {
   margin-top: 0;
+  margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
