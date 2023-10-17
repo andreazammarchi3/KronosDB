@@ -18,8 +18,11 @@
     <hr class="v-divider">
     <div class="filter-bar" v-show="showFilterBar">
       <div class="filter-buttons-container">
-        <button class="btn btn-success filter-btn" @click="applyFilters"><i class="bi bi-check"></i> Applica</button>
-        <button class="btn btn-danger filter-btn" @click="resetFilters"><i class="bi bi-x"></i> Reset</button>
+        <button class="btn btn-danger filter-btn" @click="resetFilters">Ripristina filtri</button>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="show-closed" v-model="hideClosedTickets">
+        <label class="form-check-label" for="show-closed">Nascondi ticket chiusi</label>
       </div>
       <!-- Add filter options here -->
     </div>
@@ -52,7 +55,7 @@ export default defineComponent({
       tickets: [],
       clients: [],
       sortBy: 'openDateMinToMax',
-      closed: true,
+      hideClosedTickets: false,
       searchTerm: '',
       currentPage: 1,
       pageSize: 10,
@@ -74,18 +77,10 @@ export default defineComponent({
         }
       })
     },
-    filterClosedTickets() {
-      return this.sortedTickets.filter(ticket => ticket.closeDate === "")
-    },
     filteredTickets() {
-      let filtered = this.closed ? this.sortedTickets : this.filterClosedTickets
-      if (this.searchTerm !== '' || this.searchTerm !== null) {
-        filtered = filtered.filter(ticket => {
-          const client = this.clients.find(client => client.idClient === ticket.idClient)
-          if (client && client.clientRequest) {
-            return client.clientRequest.includes(this.searchTerm)
-          }
-        })
+      let filtered = this.sortedTickets
+      if (this.hideClosedTickets) {
+        filtered = filtered.filter(ticket => ticket.closeDate === "")
       }
       return filtered
     },
@@ -96,13 +91,10 @@ export default defineComponent({
     paginatedTickets() {
       const startIndex = (this.currentPage - 1) * this.pageSize
       const endIndex = startIndex + this.pageSize
-      return this.sortedTickets.slice(startIndex, endIndex)
+      return this.filteredTickets.slice(startIndex, endIndex)
     }
   },
   methods: {
-    sortTickets(sortBy) {
-      this.sortBy = sortBy
-    },
     async getTickets() {
       try {
         const response = await axios.get(`${BASE_URL}/allTickets`);
@@ -110,9 +102,6 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
-    },
-    toggleClosed() {
-      this.closed = !this.closed
     },
     search(searchTerm) {
       this.searchTerm = searchTerm
@@ -136,11 +125,8 @@ export default defineComponent({
             console.log(error)
           })
     },
-    applyFilters() {
-      // Apply filters here
-    },
     resetFilters() {
-      // Reset filters here
+      this.hideClosedTickets = false;
     },
   },
   mounted() {
@@ -198,6 +184,11 @@ export default defineComponent({
   width: 20%;
   background-color: white;
   z-index: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .v-divider {
@@ -216,14 +207,14 @@ export default defineComponent({
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 10px;
   flex-wrap: wrap;
+  padding-bottom: 15px;
 }
 
 .filter-btn {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
 }
 
 i {
@@ -244,6 +235,10 @@ i {
 .btn-container .form-select {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.filter-bar > * {
+  margin: 5px 0;
 }
 
 @media (max-width: 768px) {
