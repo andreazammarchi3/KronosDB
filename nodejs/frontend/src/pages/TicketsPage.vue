@@ -24,6 +24,10 @@
         <input class="form-check-input" type="checkbox" id="show-closed" v-model="hideClosedTickets">
         <label class="form-check-label" for="show-closed">Nascondi ticket chiusi</label>
       </div>
+      <div class="form-group">
+        <label for="searchBox">Cerca per nome cliente:</label>
+        <input type="text" class="form-control" id="searchBox" v-model="searchTerm">
+      </div>
       <!-- Add filter options here -->
     </div>
     <div class="ticket-list">
@@ -46,10 +50,11 @@ import axios from "axios";
 import TicketCard from "@/components/tickets/TicketCard.vue";
 import Header from "@/components/Header.vue";
 import io from "socket.io-client";
+import FilterBar from "@/components/technicians/FilterBar.vue";
 
 export default defineComponent({
   name: "TicketsPage",
-  components: {Header, TicketCard},
+  components: {FilterBar, Header, TicketCard},
   data() {
     return {
       tickets: [],
@@ -82,6 +87,14 @@ export default defineComponent({
       if (this.hideClosedTickets) {
         filtered = filtered.filter(ticket => ticket.closeDate === "")
       }
+      if (this.searchTerm !== '') {
+        filtered = filtered.filter(ticket => {
+          const client = this.clients.find(client => client.idClient === ticket.idClient)
+          if (client && client.fullName) {
+            return client.fullName.toLowerCase().includes(this.searchTerm.toLowerCase())
+          }
+        })
+      }
       return filtered
     },
     totalPages() {
@@ -102,9 +115,6 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
-    },
-    search(searchTerm) {
-      this.searchTerm = searchTerm
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
@@ -127,6 +137,7 @@ export default defineComponent({
     },
     resetFilters() {
       this.hideClosedTickets = false;
+      this.searchTerm = '';
     },
   },
   mounted() {
@@ -184,11 +195,14 @@ export default defineComponent({
   width: 20%;
   background-color: white;
   z-index: 1;
-  padding: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.5);
 }
 
 .v-divider {
@@ -212,9 +226,10 @@ export default defineComponent({
 }
 
 .filter-btn {
-  width: 150px;
+  width: 100%;
   min-width: 150px;
-  max-width: 150px;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 i {
@@ -239,11 +254,18 @@ i {
 
 .filter-bar > * {
   margin: 5px 0;
+  width: 100%;
+}
+
+.form-group .form-control {
+  margin-top: 0;
 }
 
 @media (max-width: 768px) {
   .filter-bar {
     width: 100%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 </style>
