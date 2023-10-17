@@ -18,7 +18,10 @@ const ticketSchema = new mongoose.Schema({
         default: 'NON PAGATO'
     },
     cardNumber: Number,
+    cardTotalHours: Number,
+    cardCurrentHours: Number,
     cardUsedHours: Number,
+    cardRemainingHours: Number,
     price: Number,
     signatureClient: String,
 });

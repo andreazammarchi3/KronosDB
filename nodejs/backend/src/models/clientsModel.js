@@ -7,11 +7,6 @@ const clientSchema = new mongoose.Schema({
     address: String,
     cellphone: String,
     mail: String,
-    cards: [{
-        number: Number,
-        totalHours: Number,
-        usedHours: Number
-    }]
 });
 
 module.exports = mongoose.model('clients', clientSchema);
