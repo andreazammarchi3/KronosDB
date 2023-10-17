@@ -1,10 +1,9 @@
 <script>
 import { defineComponent } from "vue";
-import ClientCardsTable from "@/components/clients/ClientCardsTable.vue";
 
 export default defineComponent({
   name: "ClientsDetails",
-  components: {ClientCardsTable},
+  components: {},
   props: ["client"],
   data() {
     return {
@@ -33,9 +32,6 @@ export default defineComponent({
         <li class="list-group-item"><strong>Mail</strong>: {{ this.client.mail }}</li>
         <li class="list-group-item"><strong>Indirizzo</strong>: {{ this.client.address }}</li>
       </ul>
-
-      <h4>Tessere</h4>
-      <ClientCardsTable :client="client" ></ClientCardsTable>
     </div>
     <div class="card-footer text-muted">
         <router-link type="button" class="btn btn-primary" :to="{path: '/clients/' + this.client.idClient}">Modifica</router-link>

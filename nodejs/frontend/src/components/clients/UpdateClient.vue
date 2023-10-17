@@ -2,11 +2,10 @@
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
-import ClientCardsTable from "@/components/clients/ClientCardsTable.vue";
 
 export default defineComponent({
   name: "UpdateClient",
-  components: {ClientCardsTable},
+  components: {},
   props: ['client'],
   data() {
     return {
@@ -64,8 +63,6 @@ export default defineComponent({
         <input type="email" class="form-control" id="mail" :value="this.client.mail">
         <label for="address" class="form-label">Indirizzo</label>
         <input type="text" class="form-control" id="address" :value="this.client.address">
-        <h4>Tessere</h4>
-        <ClientCardsTable :client="client"></ClientCardsTable>
       </fieldset>
       <button type="submit" class="btn btn-primary marg-btn">Salva modifiche</button>
       <router-link type="button" class="btn btn-primary marg-btn" to="/clients">Indietro</router-link>
