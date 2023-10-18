@@ -13,6 +13,7 @@ export default defineComponent({
     return {
       ticket: null,
       client: null,
+      technicians: [],
       technician: null
     }
   },
@@ -33,14 +34,6 @@ export default defineComponent({
         console.log(error);
       }
     },
-    async getTechnician() {
-      try {
-        const response = await axios.get(`${BASE_URL}/getTechnician:${this.ticket.idTechnician}`);
-        this.technician = response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    }
   },
   async mounted() {
     const role = sessionStorage.getItem('role');
@@ -53,7 +46,7 @@ export default defineComponent({
 
 <template>
   <Header></Header>
-  <UpdateTicket v-if="ticket" :ticket="this.ticket" :client="this.client" :technician="this.technician"></UpdateTicket>
+  <UpdateTicket v-if="this.ticket" :ticket="this.ticket" :client="this.client"></UpdateTicket>
 </template>
 
 <style scoped>

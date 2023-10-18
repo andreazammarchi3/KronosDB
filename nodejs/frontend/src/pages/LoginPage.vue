@@ -9,7 +9,7 @@ export default defineComponent({
   data() {
     return {
       technicians: [],
-      id: "",
+      username: "",
       password: "",
       error: false
     }
@@ -19,8 +19,8 @@ export default defineComponent({
       axios.get(BASE_URL + '/allTechnicians').then(response => {
         this.technicians = response.data;
         this.technicians.forEach(t => {
-          if (t.idTechnician == parseInt(this.id) && t.password == sha256(this.password)) {
-            sessionStorage.setItem("idTechnician", t.idTechnician);
+          if (t.username == this.username && t.password == sha256(this.password)) {
+            sessionStorage.setItem("username", t.username);
             sessionStorage.setItem("fullName", t.fullName);
             sessionStorage.setItem("admin", t.admin);
             this.error = false;
@@ -39,7 +39,7 @@ export default defineComponent({
 <template>
   <div class="login-group">
     <h1>Login</h1>
-    <input type="text" class="form-control" :class="error ? 'invalid' : ''" id="idTechnician" placeholder="ID Tecnico" autocomplete="on" v-model="id">
+    <input type="text" class="form-control" :class="error ? 'invalid' : ''" id="username" placeholder="Username" autocomplete="on" v-model="username">
     <input type="password" class="form-control" :class="error ? 'invalid' : ''" id="passwordTechnician" placeholder="Password" autocomplete="off" v-model="password" @keyup.enter="login">
     <button type="button" class="btn btn-primary" @click="login" autofocus>Accedi</button>
   </div>

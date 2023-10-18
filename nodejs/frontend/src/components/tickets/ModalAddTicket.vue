@@ -14,6 +14,7 @@ export default defineComponent({
       technicians: [],
       showAlertBool: false,
       socket: io(BASE_URL),
+      username: null
     };
   },
   methods: {
@@ -34,13 +35,13 @@ export default defineComponent({
     addTicket() {
       const idClient = document.getElementById("client").value.split(" ")[0];
       const clientRequest = document.getElementById("client-request").value;
-      const idTechnician = document.getElementById("technician").value.split(" ")[0] === "Nessuno" ?
-          null : document.getElementById("technician").value.split(" ")[0];
+      const username = this.username === "-" ?
+          '' : this.username;
 
       axios.post(`${BASE_URL}/addTicket`, {
             idClient,
             clientRequest,
-            idTechnician
+            username
           })
           .then((response) => {
             console.log(response.data);
@@ -92,7 +93,7 @@ export default defineComponent({
           <div class="form-group">
             <label for="client" class="form-label">Cliente</label>
             <select class="form-select" id="client">
-              <option v-for="client in clients">{{ client.idClient }} - {{ client.fullName }}</option>
+              <option v-for="client in clients">{{ client.idClient }} - {{ client.society }}</option>
             </select>
           </div>
 
@@ -103,9 +104,9 @@ export default defineComponent({
 
           <div class="form-group">
             <label for="client" class="form-label">Tecnico assegnato (facoltativo)</label>
-            <select class="form-select" id="technician">
-              <option>Nessuno</option>
-              <option v-for="technician in technicians">{{ technician.idTechnician }} - {{ technician.fullName }}</option>
+            <select class="form-select" id="technician" v-model="this.username">
+              <option :value="null">-</option>
+              <option v-for="technician in technicians" :value="technician.username">{{ technician.fullName }}</option>
             </select>
           </div>
         </div>

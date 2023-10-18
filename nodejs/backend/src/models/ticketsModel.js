@@ -5,7 +5,7 @@ const ticketSchema = new mongoose.Schema({
     openDate: String,
     closeDate: String,
     idClient: Number,
-    idTechnician: Number,
+    username: String,
     clientRequest: String,
     workDone: String,
     logActivities: String,

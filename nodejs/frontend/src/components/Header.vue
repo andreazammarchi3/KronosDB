@@ -22,7 +22,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    if (sessionStorage.getItem("idTechnician") === null) {
+    if (sessionStorage.getItem("username") === null) {
       this.$router.push({name: "Login"});
     }
   },

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const technicianSchema = new mongoose.Schema({
-    idTechnician: Number,
+    username: String,
     fullName: String,
     password: String,
     admin: Boolean

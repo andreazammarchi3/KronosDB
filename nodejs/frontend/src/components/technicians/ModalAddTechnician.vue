@@ -26,11 +26,18 @@ export default defineComponent({
       });
     },
     addTechnician() {
+      const username = document.getElementById("username").value = "";
       const fullName = document.getElementById("fullNameTechnician").value;
       const password = sha256(document.getElementById("password").value.trim()).toString();
       const admin = document.getElementById("admin").checked;
 
+      if (this.technicians.find((technician) => technician.username === username)) {
+        alert("Username già esistente! Utilizzarne un altro.");
+        return;
+      }
+
       axios.post(`${BASE_URL}/addTechnician`, {
+            username,
             fullName,
             password,
             admin
@@ -38,16 +45,18 @@ export default defineComponent({
           .then((response) => {
             console.log(response.data);
             // Reset form fields and close modal
+            document.getElementById("username").value = "";
             document.getElementById("fullNameTechnician").value = "";
             document.getElementById("password").value = "";
             document.getElementById("admin").checked = false;
 
             document.getElementById("closeBtnTechnician").click()
 
-            this.showAlert();
+            alert("Tecnico aggiunto con successo!");
           })
           .catch((error) => {
             console.log(error);
+            alert(error);
           });
     },
     showAlert() {
@@ -81,6 +90,11 @@ export default defineComponent({
         </div>
         <div class="modal-body">
           <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <input type="text" class="form-control" placeholder="username" id="username">
+          </div>
+
+          <div class="form-group">
             <label class="form-label" for="fullNameTechnician">Nome</label>
             <input type="text" class="form-control" placeholder="Cognome Nome" id="fullNameTechnician">
           </div>
@@ -102,8 +116,6 @@ export default defineComponent({
       </div>
     </div>
   </div>
-
-  <Alert v-if="showAlertBool" :message="'Tecnico aggiunto correttamente'"></Alert>
 </template>
 
 <style scoped>

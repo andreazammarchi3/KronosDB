@@ -11,7 +11,7 @@ export default defineComponent({
   data() {
     return {
       admin: false,
-      idTechnician: null,
+      username: null,
     }
   },
   methods: {
@@ -23,8 +23,8 @@ export default defineComponent({
       const password = document.getElementById('password').value;
 
       axios.get(BASE_URL + '/allTechnicians').then(response => {
-        axios.post(BASE_URL + '/updateTechnician:' + this.technician.idTechnician, {
-          idTechnician: this.technician.idTechnician,
+        axios.post(BASE_URL + '/updateTechnician:' + this.technician.username, {
+          username: this.technician.username,
           fullName: fullName,
           admin: admin,
           password: password == "" && sha256(this.technician.password) != password ? this.technician.password : sha256(password)
@@ -43,7 +43,7 @@ export default defineComponent({
   },
   mounted() {
     this.admin = sessionStorage.getItem("admin") === "true"
-    this.idTechnician = sessionStorage.getItem("idTechnician");
+    this.username = sessionStorage.getItem("username");
   }
 })
 </script>
@@ -54,12 +54,12 @@ export default defineComponent({
     <form class="form" @submit="updateTechnician($event)">
       <fieldset>
         <h4 class="mt-3">Dettagli</h4>
-        <label for="idTechnician" class="form-label mt-1">ID Tecnico</label>
-        <input type="text" class="form-control" id="idTechnician" :placeholder="this.technician.idTechnician" readonly>
+        <label for="username" class="form-label mt-1">Username</label>
+        <input type="text" class="form-control" id="username" :placeholder="this.technician.username" readonly>
         <label for="fullName" class="form-label mt-4">Nome</label>
         <input type="text" class="form-control" id="fullName" :value="this.technician.fullName">
         <label for="password" class="form-label mt-4">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="password" :disabled="!this.idTechnician == this.technician.idTechnician">
+        <input type="password" class="form-control" id="password" placeholder="password" :disabled="!this.username === this.technician.username">
         <input class="form-check-input" type="checkbox" value="" id="admin" :checked="this.technician.admin" :disabled="!this.admin">
         <label class="form-check-label" for="admin" >Admin</label>
       </fieldset>

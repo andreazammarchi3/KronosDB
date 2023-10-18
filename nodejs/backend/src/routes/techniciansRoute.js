@@ -5,16 +5,16 @@ const router = express.Router();
 router.route('/allTechnicians')
     .get((req, res) => techniciansController.all_technicians(req, res));
 
-router.route('/getTechnician:id')
+router.route('/getTechnician:username')
     .get((req, res) => techniciansController.get_technician(req, res));
 
 router.route('/addTechnician')
     .post((req, res) => techniciansController.add_technician(req, res));
 
-router.route('/removeTechnician:id')
+router.route('/removeTechnician:username')
     .post((req, res) => techniciansController.remove_technician(req, res));
 
-router.route('/updateTechnician:id')
+router.route('/updateTechnician:username')
     .post((req, res) => techniciansController.update_technician(req, res));
 
 module.exports = router;

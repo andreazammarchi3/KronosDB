@@ -5,14 +5,14 @@ import {BASE_URL} from "@/main";
 import axios from "axios";
 import TicketDetails from "@/components/tickets/TicketDetails.vue";
 import MySignaturePad from "@/components/tickets/MySignaturePad.vue";
+import updateTechnician from "@/components/technicians/UpdateTechnician.vue";
 
 export default defineComponent({
   name: "UpdateTicket",
-  props: ['ticket', 'client', 'technician'],
+  props: ['ticket', 'client'],
   components: {MySignaturePad, TicketDetails, VueSignaturePad },
   data() {
     return {
-      technicians: [],
       openDate: this.ticket.openDate,
       closeDate: this.ticket.closeDate,
       clientRequest: this.ticket.clientRequest,
@@ -26,21 +26,15 @@ export default defineComponent({
       cardTotalHours: this.ticket.cardTotalHours,
       cardRemainingHours: this.ticket.cardRemainingHours,
       price: this.ticket.price,
-      addingCard: false,
-      totalHoursAddingCard: null,
-      usedHoursAddingCard: null,
-      excessUsedHoursLabel: false
+      technicians: [],
+      technician: null,
     }
   },
+  computed: {
+  },
   methods: {
-    getAllTechnicians() {
-      axios.get(BASE_URL + '/allTechnicians')
-        .then(response => {
-          this.technicians = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    updateTechnician(technician) {
+      this.technician = technician;
     },
     updateTicket(event) {
       if (event) {
@@ -50,16 +44,16 @@ export default defineComponent({
       const openDate = document.getElementById('openDate').value;
       const closeDate = document.getElementById('closeDate').value;
       const idClient = this.ticket.idClient;
-      const idTechnician = document.getElementById('technician').value.split(' - ')[0];
+      const username = document.getElementById('technician').value;
       const clientRequest = document.getElementById('clientRequest').value;
       const workDone = document.getElementById('workDone').value;
       const logActivities = document.getElementById('logActivities').value;
       const workingHours = document.getElementById('workingHours').value;
       const transferRange = this.transferRange;
       const paymentMethod = document.getElementById('paymentMethod').value;
-      const cardNumber = document.getElementById('cardNumber').value;
-      const cardTotalHours = document.getElementById('cardTotalHours').value;
-      const cardRemainingHours = document.getElementById('cardRemainingHours').value;
+      const cardNumber = document.getElementById('cardNumber') ? document.getElementById('cardNumber').value : null;
+      const cardTotalHours = document.getElementById('cardTotalHours') ? document.getElementById('cardTotalHours').value : null;
+      const cardRemainingHours = document.getElementById('cardRemainingHours') ? document.getElementById('cardRemainingHours').value : null;
       let price = null;
 
       if (paymentMethod === 'SALDO' || paymentMethod === 'TESSERA + SALDO') {
@@ -72,7 +66,7 @@ export default defineComponent({
         closeDate: closeDate,
         idClient: idClient,
         fullNameClient: this.ticket.fullNameClient,
-        idTechnician: idTechnician,
+        username: username,
         clientRequest: clientRequest,
         workDone: workDone,
         logActivities: logActivities,
@@ -109,7 +103,12 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.getAllTechnicians()
+    axios.get(BASE_URL + '/allTechnicians').then(response => {
+      this.technicians = response.data;
+      this.technician = this.technicians.find(technician => technician.username === this.ticket.username);
+    }).catch(error => {
+      console.log(error)
+    })
   },
 })
 </script>
@@ -129,10 +128,11 @@ export default defineComponent({
         <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.client.society" readonly>
 
         <label for="technician" class="form-label mt-4">Tecnico assegnato</label>
-        <select class="form-select" id="technician">
-          <option v-for="technician in technicians" :value="technician.idTechnician" :selected="technician.idTechnician === this.ticket.idTechnician">
-            {{ technician.idTechnician + ' - ' + technician.fullName }}
-            {{ technician.idTechnician === this.ticket.idTechnician ? ' (attuale)' : '' }}
+        <select v-if="this.technicians" class="form-select" id="technician">
+          <option :selected="!this.ticket.username">-</option>
+          <option v-for="technician in technicians" :value="technician.username" :selected="technician.username === this.ticket.username" @change="this.updateTechnician">
+            {{ technician.fullName }}
+            {{ technician.username === this.ticket.username ? ' (attuale)' : '' }}
           </option>
         </select>
 

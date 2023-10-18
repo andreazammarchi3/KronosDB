@@ -23,7 +23,7 @@ export default defineComponent({
         })
     },
     getTechnician() {
-      axios.get(BASE_URL + '/getTechnician:' + this.ticket.idTechnician)
+      axios.get(BASE_URL + '/getTechnician:' + this.ticket.username)
         .then(response => {
           this.technicianInfo = response.data
         })
@@ -51,7 +51,7 @@ export default defineComponent({
       <h4>Dettagli</h4>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.client.society }}</li>
-        <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.idTechnician }} - {{ technicianInfo ? technicianInfo.fullName : 'Caricamento...' }}</li>
+        <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ technicianInfo ? technicianInfo.fullName : '-' }}</li>
         <li class="list-group-item"><strong>Richiesta</strong>: {{ this.ticket.clientRequest }}</li>
         <li class="list-group-item"><strong>Data chiusura</strong>: {{ this.ticket.closeDate }}</li>
         <li class="list-group-item"><strong>Lavoro svolto</strong>: {{ this.ticket.workDone }}</li>

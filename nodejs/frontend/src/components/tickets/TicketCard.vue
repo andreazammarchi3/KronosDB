@@ -13,7 +13,8 @@ export default defineComponent({
     return {
       completed: false,
       showDetails: false,
-      client: null
+      client: null,
+      technician: null
     }
   },
   methods: {
@@ -31,6 +32,15 @@ export default defineComponent({
           console.log(error)
         })
     },
+    getTechnician() {
+      axios.get(BASE_URL + '/getTechnician:' + this.ticket.username)
+          .then(response => {
+            this.technician = response.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    }
   },
   mounted() {
     this.checkIfTicketIsCompleted()
