@@ -2,6 +2,7 @@
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";
+import sha256 from 'crypto-js/sha256';
 
 export default defineComponent({
   name: "UpdateTechnician",
@@ -9,7 +10,8 @@ export default defineComponent({
   props: ['technician'],
   data() {
     return {
-      admin: false
+      admin: false,
+      idTechnician: null,
     }
   },
   methods: {
@@ -18,12 +20,14 @@ export default defineComponent({
 
       const fullName = document.getElementById('fullName').value;
       const admin = document.getElementById('admin').checked;
+      const password = document.getElementById('password').value;
 
       axios.get(BASE_URL + '/allTechnicians').then(response => {
         axios.post(BASE_URL + '/updateTechnician:' + this.technician.idTechnician, {
           idTechnician: this.technician.idTechnician,
           fullName: fullName,
           admin: admin,
+          password: password == "" && sha256(this.technician.password) != password ? this.technician.password : sha256(password)
         }).then(response => {
           console.log(response)
           this.$router.push('/technicians')
@@ -39,6 +43,7 @@ export default defineComponent({
   },
   mounted() {
     this.admin = sessionStorage.getItem("admin") === "true"
+    this.idTechnician = sessionStorage.getItem("idTechnician");
   }
 })
 </script>
@@ -53,9 +58,10 @@ export default defineComponent({
         <input type="text" class="form-control" id="idTechnician" :placeholder="this.technician.idTechnician" readonly>
         <label for="fullName" class="form-label mt-4">Nome</label>
         <input type="text" class="form-control" id="fullName" :value="this.technician.fullName">
+        <label for="password" class="form-label mt-4">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="password" :disabled="!this.idTechnician == this.technician.idTechnician">
         <input class="form-check-input" type="checkbox" value="" id="admin" :checked="this.technician.admin" :disabled="!this.admin">
         <label class="form-check-label" for="admin" >Admin</label>
-
       </fieldset>
       <button type="submit" class="btn btn-primary marg-btn">Salva modifiche</button>
       <router-link type="button" class="btn btn-secondary marg-btn" to="/technicians">Indietro</router-link>
