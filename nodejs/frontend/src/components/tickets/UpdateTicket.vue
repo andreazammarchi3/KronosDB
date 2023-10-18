@@ -126,7 +126,7 @@ export default defineComponent({
         <label for="closeDate" class="form-label mt-4">Data chiusura</label>
         <input type="text" class="form-control" id="closeDate" v-model="this.closeDate">
         <label for="client" class="form-label mt-4">Cliente</label>
-        <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.client.fullName" readonly>
+        <input type="text" class="form-control" id="client" :placeholder="this.ticket.idClient + ' - ' + this.client.society" readonly>
 
         <label for="technician" class="form-label mt-4">Tecnico assegnato</label>
         <select class="form-select" id="technician">

@@ -50,7 +50,7 @@ export default defineComponent({
     <div class="card-body">
       <h4>Dettagli</h4>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.client.fullName }}</li>
+        <li class="list-group-item"><strong>Cliente</strong>: {{ this.ticket.idClient }} - {{ this.client.society }}</li>
         <li class="list-group-item"><strong>Tecnico assegnato</strong>: {{ this.ticket.idTechnician }} - {{ technicianInfo ? technicianInfo.fullName : 'Caricamento...' }}</li>
         <li class="list-group-item"><strong>Richiesta</strong>: {{ this.ticket.clientRequest }}</li>
         <li class="list-group-item"><strong>Data chiusura</strong>: {{ this.ticket.closeDate }}</li>

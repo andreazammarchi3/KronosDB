@@ -47,7 +47,7 @@ export default defineComponent({
       <div>{{ this.ticket.openDate }}</div>
     </div>
     <div class="card-body">
-      <h5 class="card-title" v-if="client">{{ this.client.fullName }}</h5>
+      <h5 class="card-title" v-if="client">{{ this.client.society }}</h5>
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
     </div>
     <div class="card-footer">
