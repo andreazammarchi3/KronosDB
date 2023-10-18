@@ -11,12 +11,12 @@ export default defineComponent({
   data() {
     return {
       admin: false,
-      idTechnician: null
+      username: null
     }
   },
   methods: {
     deleteTechnician() {
-      axios.post(BASE_URL + '/removeTechnician:' + this.technician.idTechnician)
+      axios.post(BASE_URL + '/removeTechnician:' + this.technician.username)
           .then(() => {
             this.$emit('technicianDeleted')
           })
@@ -27,7 +27,7 @@ export default defineComponent({
   },
   mounted() {
     this.admin = sessionStorage.getItem('admin') === "true";
-    this.idTechnician = sessionStorage.getItem('idTechnician');
+    this.username = sessionStorage.getItem('username');
   }
 })
 
@@ -35,13 +35,13 @@ export default defineComponent({
 
 <template>
   <div class="card border-secondary">
-    <div class="card-header">ID: {{ this.technician.idTechnician }}</div>
+    <div class="card-header">Username: {{ this.technician.username }}</div>
     <div class="card-body">
       <h5 class="card-title">{{ this.technician.fullName }}</h5>
       <p class="card-text"><strong>Admin</strong>: {{ this.technician.admin ? "Sì" : "No" }}</p>
     </div>
     <div class="card-footer">
-      <router-link v-if="this.admin === true || this.technician.idTechnician == this.idTechnician" type="button" class="btn btn-primary" :to="{path: '/technicians/' + this.technician.idTechnician}" title="Modifica">
+      <router-link v-if="this.admin === true || this.technician.username === this.username" type="button" class="btn btn-primary" :to="{path: '/technicians/' + this.technician.username}" title="Modifica">
         <i class="bi bi-pencil"></i>
       </router-link>
       <button v-if="this.admin === true" class="btn btn-danger" @click="deleteTechnician" title="Elimina">

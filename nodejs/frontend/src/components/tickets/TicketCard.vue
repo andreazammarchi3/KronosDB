@@ -13,7 +13,8 @@ export default defineComponent({
     return {
       completed: false,
       showDetails: false,
-      client: null
+      client: null,
+      technician: null
     }
   },
   methods: {
@@ -31,6 +32,15 @@ export default defineComponent({
           console.log(error)
         })
     },
+    getTechnician() {
+      axios.get(BASE_URL + '/getTechnician:' + this.ticket.username)
+          .then(response => {
+            this.technician = response.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    }
   },
   mounted() {
     this.checkIfTicketIsCompleted()
@@ -47,7 +57,7 @@ export default defineComponent({
       <div>{{ this.ticket.openDate }}</div>
     </div>
     <div class="card-body">
-      <h5 class="card-title" v-if="client">{{ this.client.fullName }}</h5>
+      <h5 class="card-title" v-if="client">{{ this.client.society }}</h5>
       <p class="card-text">{{ this.ticket.clientRequest }}</p>
     </div>
     <div class="card-footer">

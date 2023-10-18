@@ -90,7 +90,7 @@ export default defineComponent({
     <h1>TECNICI</h1>
     <FilterBar @sort-by="sortTechnicians" @search="search"></FilterBar>
     <div class="technicians-list">
-      <div v-for="technician in paginatedTechnicians" :key="technician.idTechnician">
+      <div v-for="technician in paginatedTechnicians" :key="technician.username">
         <TechnicianCard :technician="technician" @technicianDeleted="getTechnicians"></TechnicianCard>
       </div>
     </div>
