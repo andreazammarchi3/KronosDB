@@ -28,7 +28,7 @@ while ( cursor.hasNext() ) {
 var cursor = db.technicians.find( { idTechnician: 0 } );
 if ( !cursor.hasNext() ) {
    db.technicians.insert({
-      "idTechnician": 0,
+      "username": "zammarchi",
       "fullName": "ANDREA ZAMMARCHI",
       "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
       "admin": true,

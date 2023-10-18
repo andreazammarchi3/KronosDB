@@ -1,4 +1,4 @@
-<script>
+  <script>
 import {defineComponent} from "vue";
 import {BASE_URL} from "@/main";
 import axios from "axios";

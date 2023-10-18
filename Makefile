@@ -10,4 +10,4 @@ up:
 down:
 	cd ~/Desktop/KronosDB && docker-compose down --rmi all
 
-all: clone build up
+all: down clone build up
