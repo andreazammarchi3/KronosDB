@@ -20,7 +20,7 @@ export default defineComponent({
         const response = await axios.get(`${BASE_URL}/getTechnician:${this.$route.params.id}`);
         this.technician = response.data;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     }
   },

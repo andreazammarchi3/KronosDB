@@ -2,17 +2,15 @@
 import {defineComponent} from "vue";
 import axios from "axios";
 import {BASE_URL} from "@/main";
-import Alert from "@/components/Alert.vue";
 import io from "socket.io-client";
 
 export default defineComponent({
   name: "ModalAddTicket",
-  components: {Alert},
+  components: {},
   data() {
     return {
       clients: [],
       technicians: [],
-      showAlertBool: false,
       socket: io(BASE_URL),
       username: null
     };
@@ -22,14 +20,14 @@ export default defineComponent({
       axios.get(`${BASE_URL}/allClients`).then(response => {
         this.clients = response.data
       }).catch(error => {
-        console.log(error)
+        alert(error);
       })
     },
     getTechnicians() {
       axios.get(`${BASE_URL}/allTechnicians`).then(response => {
         this.technicians = response.data
       }).catch(error => {
-        console.log(error)
+        alert(error);
       })
     },
     addTicket() {
@@ -44,17 +42,16 @@ export default defineComponent({
             username
           })
           .then((response) => {
-            console.log(response.data);
             // Reset form fields and close modal
             document.getElementById("client").selectedIndex = 0;
             document.getElementById("client-request").value = "";
             document.getElementById("technician").selectedIndex = 0;
             document.getElementById("closeBtn").click();
 
-            this.showAlert();
+            alert("Ticket creato con successo");
           })
           .catch((error) => {
-            console.log(error);
+            alert(error);
           });
     },
     showAlert() {
@@ -117,8 +114,6 @@ export default defineComponent({
       </div>
     </div>
   </div>
-
-  <Alert v-if="showAlertBool" :message="'Ticket creato correttamente'"></Alert>
 </template>
 
 <style scoped>

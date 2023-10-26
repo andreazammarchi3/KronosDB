@@ -119,7 +119,7 @@ export default defineComponent({
         const response = await axios.get(`${BASE_URL}/allTickets`);
         this.tickets = response.data;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     nextPage() {
@@ -138,7 +138,7 @@ export default defineComponent({
             this.clients = response.data
           })
           .catch(error => {
-            console.log(error)
+            alert(error);
           })
     },
     resetFilters() {

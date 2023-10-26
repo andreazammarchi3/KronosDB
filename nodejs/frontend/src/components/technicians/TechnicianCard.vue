@@ -21,7 +21,7 @@ export default defineComponent({
             this.$emit('technicianDeleted')
           })
           .catch(error => {
-            console.log(error)
+            alert(error);
           })
     },
   },

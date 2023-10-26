@@ -58,7 +58,7 @@ export default defineComponent({
         const response = await axios.get(`${BASE_URL}/allClients`);
         this.clients = response.data;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     search(searchTerm) {

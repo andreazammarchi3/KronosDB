@@ -29,13 +29,12 @@ export default defineComponent({
           admin: admin,
           password: password == "" && sha256(this.technician.password) != password ? this.technician.password : sha256(password)
         }).then(response => {
-          console.log(response)
           this.$router.push('/technicians')
         }).catch(error => {
-          console.log(error)
+          alert(error);
         });
       }).catch(error => {
-        console.log(error)
+        alert(error);
       });
     },
   },

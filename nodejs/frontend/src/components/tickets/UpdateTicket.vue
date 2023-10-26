@@ -79,9 +79,9 @@ export default defineComponent({
         cardRemainingHours: cardRemainingHours,
         signatureClient: this.ticket.signatureClient
       }).then(response => {
-          console.log(response)
+          alert('Ticket modificato con successo');
         }).catch(error => {
-          console.log(error)
+          alert(error);
         })
     },
     dataURLtoFile(dataurl) {
@@ -107,7 +107,7 @@ export default defineComponent({
       this.technicians = response.data;
       this.technician = this.technicians.find(technician => technician.username === this.ticket.username);
     }).catch(error => {
-      console.log(error)
+      alert(error);
     })
   },
 })

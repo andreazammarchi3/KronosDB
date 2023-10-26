@@ -30,11 +30,11 @@ export default defineComponent({
         mail: mail
       })
         .then(response => {
-          console.log(response)
+          alert('Cliente modificato con successo');
           this.$router.push('/clients')
         })
         .catch(error => {
-          console.log(error)
+          alert(error);
         })
     }
   },

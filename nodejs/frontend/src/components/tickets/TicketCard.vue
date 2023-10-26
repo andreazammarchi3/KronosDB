@@ -29,7 +29,7 @@ export default defineComponent({
           this.client = response.data
         })
         .catch(error => {
-          console.log(error)
+          alert(error);
         })
     },
     getTechnician() {
@@ -38,7 +38,7 @@ export default defineComponent({
             this.technician = response.data
           })
           .catch(error => {
-            console.log(error)
+            alert(error);
           })
     }
   },

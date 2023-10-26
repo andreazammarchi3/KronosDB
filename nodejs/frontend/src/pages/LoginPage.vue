@@ -29,7 +29,7 @@ export default defineComponent({
         });
         this.error = true;
       }).catch(error => {
-        console.log(error)
+        alert(error);
       });
     }
   }

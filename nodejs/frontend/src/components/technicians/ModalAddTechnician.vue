@@ -2,13 +2,12 @@
 import {defineComponent} from "vue";
 import axios from "axios";
 import {BASE_URL} from "@/main";
-import Alert from "@/components/Alert.vue";
 import sha256 from "crypto-js/sha256";
 import io from "socket.io-client";
 
 export default defineComponent({
   name: "ModalAddTechnician",
-  components: {Alert},
+  components: {},
   data() {
     return {
       technicians: [],
@@ -22,7 +21,7 @@ export default defineComponent({
       axios.get(`${BASE_URL}/allTechnicians`).then((response) => {
         this.technicians = response.data;
       }).catch((error) => {
-        console.log(error);
+        alert(error);
       });
     },
     addTechnician() {
@@ -43,7 +42,6 @@ export default defineComponent({
             admin
           })
           .then((response) => {
-            console.log(response.data);
             // Reset form fields and close modal
             document.getElementById("username").value = "";
             document.getElementById("fullNameTechnician").value = "";
@@ -55,7 +53,6 @@ export default defineComponent({
             alert("Tecnico aggiunto con successo!");
           })
           .catch((error) => {
-            console.log(error);
             alert(error);
           });
     },

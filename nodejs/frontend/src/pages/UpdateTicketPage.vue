@@ -23,7 +23,7 @@ export default defineComponent({
         const response = await axios.get(`${BASE_URL}/getTicket:${this.$route.params.id}`);
         this.ticket = response.data;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async getClient() {
@@ -31,7 +31,7 @@ export default defineComponent({
         const response = await axios.get(`${BASE_URL}/getClient:${this.ticket.idClient}`);
         this.client = response.data;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
   },

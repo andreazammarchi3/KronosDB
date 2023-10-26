@@ -2,14 +2,12 @@
 import {defineComponent} from "vue";
 import axios from "axios";
 import {BASE_URL} from "@/main";
-import Alert from "@/components/Alert.vue";
 
 export default defineComponent({
   name: "ModalAddClient",
-  components: {Alert},
+  components: {},
   data() {
     return {
-      showAlertBool: false
     };
   },
   methods: {
@@ -28,7 +26,6 @@ export default defineComponent({
             address
           })
           .then((response) => {
-            console.log(response.data);
             // Reset form fields and close modal
             document.getElementById("fullNameClient").value = "";
             document.getElementById("society").value = "";
@@ -38,18 +35,12 @@ export default defineComponent({
 
             document.getElementById("closeBtnClient").click()
 
-            this.showAlert();
+            alert("Cliente aggiunto con successo");
           })
           .catch((error) => {
-            console.log(error);
+            alert(error);
           });
     },
-    showAlert() {
-      this.showAlertBool = true;
-      setTimeout(() => {
-        this.showAlertBool = false;
-      }, 2000);
-    }
   },
   mounted() {
   }
@@ -99,8 +90,6 @@ export default defineComponent({
       </div>
     </div>
   </div>
-
-  <Alert v-if="showAlertBool" :message="'Cliente aggiunto correttamente'"></Alert>
 </template>
 
 <style scoped>

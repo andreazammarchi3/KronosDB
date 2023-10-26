@@ -19,7 +19,7 @@ export default defineComponent({
           this.$emit('close')
         })
         .catch(error => {
-          console.log(error)
+          alert(error);
         })
     },
     getTechnician() {
@@ -28,7 +28,7 @@ export default defineComponent({
           this.technicianInfo = response.data
         })
         .catch(error => {
-          console.log(error)
+          alert(error);
         })
     }
   },
