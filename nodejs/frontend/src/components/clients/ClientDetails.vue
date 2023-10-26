@@ -22,12 +22,12 @@ export default defineComponent({
 
 <template>
   <div class="card">
-    <div class="card-header"><h3><strong>Nome</strong>: {{ this.client.fullName }}</h3></div>
+    <div class="card-header"><h3><strong>{{ this.client.society }}</strong></h3></div>
     <div class="card-body">
       <h4>Dettagli</h4>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>ID</strong>: {{ this.client.idClient }}</li>
-        <li class="list-group-item"><strong>Società</strong>: {{ this.client.society }}</li>
+        <li class="list-group-item"><strong>Nome</strong>: {{ this.client.fullName }}</li>
         <li class="list-group-item"><strong>Telefono</strong>: {{ this.client.cellphone }}</li>
         <li class="list-group-item"><strong>Mail</strong>: {{ this.client.mail }}</li>
         <li class="list-group-item"><strong>Indirizzo</strong>: {{ this.client.address }}</li>

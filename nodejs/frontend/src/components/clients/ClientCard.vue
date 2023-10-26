@@ -23,7 +23,7 @@ export default defineComponent({
   <div class="card border-secondary" @click="showDetails = true">
     <div class="card-header">ID: {{ this.client.idClient }}</div>
     <div class="card-body">
-      <h5 class="card-title">{{ this.client.fullName }}</h5>
+      <h5 class="card-title"><strong> {{ this.client.society }} </strong></h5>
       <p class="card-text"><strong>Telefono</strong>: {{ this.client.cellphone }}</p>
       <p class="card-text"><strong>Email</strong>: {{ this.client.mail }}</p>
       <p class="card-text"><strong>Indirizzo</strong>: {{ this.client.address }}</p>

@@ -53,10 +53,10 @@ export default defineComponent({
         <h4>Dettagli</h4>
         <label for="idClient" class="form-label">ID Cliente</label>
         <input type="text" class="form-control" id="idClient" :placeholder="this.client.idClient" readonly>
-        <label for="fullName" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="fullName" :value="this.client.fullName">
         <label for="society" class="form-label">Società</label>
         <input type="text" class="form-control" id="society" :value="this.client.society">
+        <label for="fullName" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="fullName" :value="this.client.fullName">
         <label for="cellphone" class="form-label">Telefono</label>
         <input type="number" class="form-control" id="cellphone" :value="this.client.cellphone">
         <label for="mail" class="form-label">Email</label>
