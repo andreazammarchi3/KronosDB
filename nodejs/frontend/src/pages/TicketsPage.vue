@@ -8,6 +8,8 @@
       <hr class="h-divider">
 <!--      <button class="btn btn-primary" title="Ordina"><i class="bi bi-sort-alpha-down"></i></button>-->
       <select class="form-select" id="sort-by" v-model="sortBy" title="Ordina">
+        <option value="ticketIdMinToMax">ID ticket (crescente)</option>
+        <option value="ticketIdMaxToMin">ID ticket (decrescente)</option>
         <option value="openDateMinToMax">Dal meno recente</option>
         <option value="openDateMaxToMin">Dal più recente</option>
         <option value="clientFullNameMinToMax">Per cliente (A-Z)</option>
@@ -72,7 +74,7 @@ export default defineComponent({
       tickets: [],
       clients: [],
       technicians: [],
-      sortBy: 'openDateMinToMax',
+      sortBy: 'ticketIdMinToMax',
       hideClosedTickets: false,
       searchTerm: '',
       searchTermClientRequest: '',
@@ -87,28 +89,32 @@ export default defineComponent({
     sortedTickets() {
       return this.tickets.sort((a, b) => {
         if (this.sortBy === 'openDateMinToMax') {
-          return new Date(a.openDate) - new Date(b.openDate)
+          return new Date(a.openDate) - new Date(b.openDate);
         } else if (this.sortBy === 'openDateMaxToMin') {
-          return new Date(b.openDate) - new Date(a.openDate)
+          return new Date(b.openDate) - new Date(a.openDate);
         } else if (this.sortBy === 'clientFullNameMinToMax') {
-          return a.fullNameClient.localeCompare(b.fullNameClient)
+          return this.getClientSociety(a.idClient).localeCompare(this.getClientSociety(b.idClient));
         } else if (this.sortBy === 'clientFullNameMaxToMin') {
-          return b.fullNameClient.localeCompare(a.fullNameClient)
+          return this.getClientSociety(b.idClient).localeCompare(this.getClientSociety(a.idClient));
+        } else if (this.sortBy === 'ticketIdMinToMax') {
+          return a.idTicket - b.idTicket;
+        } else if (this.sortBy === 'ticketIdMaxToMin') {
+          return b.idTicket - a.idTicket;
         }
       })
     },
     filteredTickets() {
       let filtered = this.sortedTickets
       if (this.hideClosedTickets) {
-        filtered = filtered.filter(ticket => ticket.closeDate === "")
+        filtered = filtered.filter(ticket => ticket.closeDate === "");
       }
 
       if (this.searchTerm !== '' || this.searchTermClientRequest !== '') {
         filtered = filtered.filter(ticket => {
-          const client = this.clients.find(client => client.idClient === ticket.idClient)
+          const client = this.clients.find(client => client.idClient === ticket.idClient);
           if (client && client.fullName) {
             return client.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
-                ticket.clientRequest.toLowerCase().includes(this.searchTermClientRequest.toLowerCase())
+                ticket.clientRequest.toLowerCase().includes(this.searchTermClientRequest.toLowerCase());
           }
         })
       }
@@ -116,22 +122,22 @@ export default defineComponent({
       if (this.searchTermTechnician !== 'all') {
         filtered = filtered.filter(ticket => {
           if (this.searchTermTechnician === 'unassigned') {
-            return ticket.username === '-'
+            return ticket.username === '-';
           } else {
-            return ticket.username === this.searchTermTechnician
+            return ticket.username === this.searchTermTechnician;
           }
         })
       }
-      return filtered
+      return filtered;
     },
     totalPages() {
       const pageCount = Math.ceil(this.filteredTickets.length / this.pageSize);
-      return pageCount === 0 ? 1 : pageCount
+      return pageCount === 0 ? 1 : pageCount;
     },
     paginatedTickets() {
-      const startIndex = (this.currentPage - 1) * this.pageSize
-      const endIndex = startIndex + this.pageSize
-      return this.filteredTickets.slice(startIndex, endIndex)
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.filteredTickets.slice(startIndex, endIndex);
     }
   },
   methods: {
@@ -145,18 +151,18 @@ export default defineComponent({
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.currentPage++
+        this.currentPage++;
       }
     },
     prevPage() {
       if (this.currentPage > 1) {
-        this.currentPage--
+        this.currentPage--;
       }
     },
     getClients() {
       axios.get(BASE_URL + '/allClients')
           .then(response => {
-            this.clients = response.data
+            this.clients = response.data;
           })
           .catch(error => {
             alert(error);
@@ -165,7 +171,7 @@ export default defineComponent({
     getTechnicians() {
       axios.get(BASE_URL + '/allTechnicians')
           .then(response => {
-            this.technicians = response.data
+            this.technicians = response.data;
           })
           .catch(error => {
             alert(error);
@@ -177,6 +183,12 @@ export default defineComponent({
       this.searchTermClientRequest = '';
       this.searchTermTechnician = 'all';
     },
+    getClientSociety(idClient) {
+      const client = this.clients.find(client => client.idClient === idClient);
+      if (client) {
+        return client.society;
+      }
+    }
   },
   mounted() {
     this.getTickets()

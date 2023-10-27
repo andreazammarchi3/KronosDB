@@ -3,7 +3,7 @@ export default {
   name: 'FilterBar',
   data() {
     return {
-      sortBy: 'clientFullNameMinToMax',
+      sortBy: 'clientIdMinToMax',
       searchTerm: ''
     }
   },
@@ -34,8 +34,10 @@ export default {
 <template>
   <div class="filter-bar">
     <select class="form-select" id="sort-by" v-model="sortBy">
-      <option value="clientFullNameMinToMax">Per nome (A-Z)</option>
-      <option value="clientFullNameMaxToMin">Per nome (Z-A)</option>
+      <option value="clientIdMinToMax">Per ID cliente (crescente)</option>
+      <option value="clientIdMaxToMin">Per ID cliente (decrescente)</option>
+      <option value="clientSocietyMinToMax">Per società (A-Z)</option>
+      <option value="clientSocietyMaxToMin">Per società (Z-A)</option>
     </select>
 
     <input class="form-control" id="searchBox" type="search" placeholder="Cerca cliente" v-model="searchTerm">

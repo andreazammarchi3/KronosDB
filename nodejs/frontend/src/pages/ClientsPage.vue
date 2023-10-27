@@ -13,7 +13,7 @@ export default defineComponent({
   data() {
     return {
       clients: [],
-      sortBy: 'clientFullNameMinToMax',
+      sortBy: 'clientIdMinToMax',
       searchTerm: '',
       currentPage: 1,
       pageSize: 10,
@@ -23,35 +23,39 @@ export default defineComponent({
   computed: {
     sortedClients() {
       return this.clients.sort((a, b) => {
-        if (this.sortBy === 'clientFullNameMinToMax') {
-          return a.fullName.localeCompare(b.fullName)
-        } else if (this.sortBy === 'clientFullNameMaxToMin') {
-          return b.fullName.localeCompare(a.fullName)
+        if (this.sortBy === 'clientSocietyMinToMax') {
+          return a.society.localeCompare(b.society);
+        } else if (this.sortBy === 'clientSocietyMaxToMin') {
+          return b.society.localeCompare(a.society);
+        } else if (this.sortBy === 'clientIdMinToMax') {
+          return a.idClient - b.idClient;
+        } else if (this.sortBy === 'clientIdMaxToMin') {
+          return b.idClient - a.idClient;
         }
       })
     },
     filteredClients() {
-      let filtered = this.sortedClients
+      let filtered = this.sortedClients;
       if (this.searchTerm !== '' || this.searchTerm !== null) {
         filtered = filtered.filter(client => {
-          return client.fullName.includes(this.searchTerm)
+          return client.fullName.includes(this.searchTerm);
         })
       }
       return filtered
     },
     totalPages() {
       const pageCount = Math.ceil(this.filteredClients.length / this.pageSize);
-      return pageCount === 0 ? 1 : pageCount
+      return pageCount === 0 ? 1 : pageCount;
     },
     paginatedClients() {
-      const startIndex = (this.currentPage - 1) * this.pageSize
-      const endIndex = startIndex + this.pageSize
-      return this.filteredClients.slice(startIndex, endIndex)
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.filteredClients.slice(startIndex, endIndex);
     }
   },
   methods: {
     sortClients(sortBy) {
-      this.sortBy = sortBy
+      this.sortBy = sortBy;
     },
     async getClients() {
       try {
@@ -62,16 +66,16 @@ export default defineComponent({
       }
     },
     search(searchTerm) {
-      this.searchTerm = searchTerm
+      this.searchTerm = searchTerm;
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.currentPage++
+        this.currentPage++;
       }
     },
     prevPage() {
       if (this.currentPage > 1) {
-        this.currentPage--
+        this.currentPage--;
       }
     }
   },
