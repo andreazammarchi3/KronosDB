@@ -32,6 +32,14 @@
         <label for="searchBoxClientRequest">Cerca per problema:</label>
         <input type="text" class="form-control" id="searchBoxClientRequest" v-model="searchTermClientRequest" placeholder="Problema">
       </div>
+      <div class="form-group">
+        <label for="selectBoxTechnician">Cerca per tecnico assegnato:</label>
+        <select class="form-select" id="selectBoxTechnician" v-model="searchTermTechnician">
+          <option value="all">Tutti i tecnici</option>
+          <option value="unassigned">Non assegnati</option>
+          <option v-for="technician in technicians" :key="technician.username" :value="technician.username">{{ technician.fullName }}</option>
+        </select>
+      </div>
       <!-- Add filter options here -->
     </div>
     <div class="ticket-list">
@@ -63,10 +71,12 @@ export default defineComponent({
     return {
       tickets: [],
       clients: [],
+      technicians: [],
       sortBy: 'openDateMinToMax',
       hideClosedTickets: false,
       searchTerm: '',
       searchTermClientRequest: '',
+      searchTermTechnician: 'all',
       currentPage: 1,
       pageSize: 10,
       socket: io(BASE_URL),
@@ -92,12 +102,23 @@ export default defineComponent({
       if (this.hideClosedTickets) {
         filtered = filtered.filter(ticket => ticket.closeDate === "")
       }
+
       if (this.searchTerm !== '' || this.searchTermClientRequest !== '') {
         filtered = filtered.filter(ticket => {
           const client = this.clients.find(client => client.idClient === ticket.idClient)
           if (client && client.fullName) {
             return client.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
                 ticket.clientRequest.toLowerCase().includes(this.searchTermClientRequest.toLowerCase())
+          }
+        })
+      }
+
+      if (this.searchTermTechnician !== 'all') {
+        filtered = filtered.filter(ticket => {
+          if (this.searchTermTechnician === 'unassigned') {
+            return ticket.username === '-'
+          } else {
+            return ticket.username === this.searchTermTechnician
           }
         })
       }
@@ -141,15 +162,26 @@ export default defineComponent({
             alert(error);
           })
     },
+    getTechnicians() {
+      axios.get(BASE_URL + '/allTechnicians')
+          .then(response => {
+            this.technicians = response.data
+          })
+          .catch(error => {
+            alert(error);
+          })
+    },
     resetFilters() {
       this.hideClosedTickets = false;
       this.searchTerm = '';
       this.searchTermClientRequest = '';
+      this.searchTermTechnician = 'all';
     },
   },
   mounted() {
     this.getTickets()
     this.getClients()
+    this.getTechnicians()
 
     this.socket.on('TICKETS', (data) => {
       this.tickets = data;
@@ -157,6 +189,10 @@ export default defineComponent({
 
     this.socket.on('CLIENTS', (data) => {
       this.clients = data;
+    });
+
+    this.socket.on('TECHNICIANS', (data) => {
+      this.technicians = data;
     });
   }
 })
