@@ -5,7 +5,6 @@ import {BASE_URL} from "@/main";
 import axios from "axios";
 import TicketDetails from "@/components/tickets/TicketDetails.vue";
 import MySignaturePad from "@/components/tickets/MySignaturePad.vue";
-import updateTechnician from "@/components/technicians/UpdateTechnician.vue";
 
 export default defineComponent({
   name: "UpdateTicket",
