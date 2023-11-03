@@ -1,10 +1,35 @@
 import jsPDF from "jspdf";
+import 'jspdf-autotable';
 import logo from '../../assets/img/logo.png';
 
-function generatePDF(ticket, client, technician) {
-    const doc = new jsPDF();
-    let x = 10;
-    let y = 10;
+const doc = new jsPDF();
+let x = 20;
+let y = 10;
+const defaultSpacing = 10;
+let ticket
+let client
+let technician
+const styles = {
+    valign: 'middle',
+    halign: 'center',
+};
+const headStyles = {
+    fillColor: [150, 150, 150],  // Colore di riempimento (grigio)
+    textColor: [255, 255, 255],  // Colore del testo (bianco)
+    lineWidth: 0.2,
+    lineColor: [0, 0, 0],  // Colore dei bordi (nero)
+};
+const bodyStyles = {
+    fillColor: [240, 240, 240],  // Colore di riempimento (grigio chiaro)
+    textColor: [0, 0, 0],  // Colore del testo (nero)
+    lineWidth: 0.2,
+    lineColor: [0, 0, 0],  // Colore dei bordi (nero)
+};
+
+function generatePDF(ti, c, te) {
+    ticket = ti
+    client = c
+    technician = te
 
     // Logo
     doc.addImage(logo, 'PNG', x, y, 20, 12);
@@ -15,30 +40,21 @@ function generatePDF(ticket, client, technician) {
     doc.text('Mail: assistenza@kronos.it', 200, y=y+5, 'right');
     doc.setFontSize(12);
 
-    // Disegna una linea come separatore tra il titolo e il resto del contenuto
+    // Linea Separatore
     doc.setLineWidth(0.5);
     doc.line(10, y=y+10, 200, y);
 
-    // Contenuto
-    doc.text(`Ticket ${ticket.idTicket}`, x, y=y+10);
-    doc.text(`Cliente: ${client.idClient} - ${client.society}`, x, y=y+10)
-    doc.text(`Tecnico assegnato: ${technician ? technician.fullName : '-'}`, x, y=y+10)
-    doc.text(`Data apertura: ${ticket.openDate}`, x, y=y+10);
-    doc.text(`Data chiusura: ${ticket.closeDate}`, x, y=y+10);
-    doc.text(`Richiesta: ${ticket.clientRequest}`, x, y=y+10);
-    doc.text(`Lavoro svolto: ${ticket.workDone}`, x, y=y+10);
-    doc.text('Ore intervento: ' + ticket.workingHours, x, y=y+10);
-    doc.text('Fascia intervento: ' + ticket.transferRange, x, y=y+10);
-    doc.text('Metodo di pagamento: ' + ticket.paymentMethod, x, y=y+10);
-    if (ticket.paymentMethod === 'TESSERA' || ticket.paymentMethod === 'TESSERA + SALDO') {
-        doc.text('Tessera n.: ' + ticket.cardNumber, x, y=y+10);
-        doc.text('Ore totali: ' + ticket.cardTotalHours, x, y=y+10);
-        doc.text('Ore residue: ' + ticket.cardRemainingHours, x, y=y+10);
-    }
-    if (ticket.paymentMethod === 'SALDO' || ticket.paymentMethod === 'TESSERA + SALDO') {
-        doc.text('Saldo: €' + ticket.price, x, y=y+10);
-    }
-    doc.text('Data ', x, y=y+20);
+    // CONTENUTO
+    ticketTable()
+
+    clientTable()
+
+    interventionTable()
+
+    paymentTable()
+
+
+    doc.text('Data ', x, y=doc.previousAutoTable.finalY + defaultSpacing);
     doc.text(new Date().toLocaleDateString(), x, y=y+10);
     doc.text('Firma cliente:', 190, y=y-10, 'right');
     if (ticket.signatureClient != null) {
@@ -57,6 +73,72 @@ function dataURLtoFile(dataurl) {
     } else {
         return null;
     }
+}
+
+function ticketTable() {
+    // Tabella dati ticket
+    const firstRowTicketData = ["Codice Ticket", "Apertura Ticket", "Chiusura Ticket"]
+    const ticketData = [ticket.idTicket, ticket.openDate, ticket.closeDate];
+    doc.autoTable({
+        head: [firstRowTicketData],
+        body: [ticketData],
+        startY: y=y+10,
+        styles: styles,
+        headStyles: headStyles,
+        bodyStyles: bodyStyles,
+    });
+}
+
+function clientTable() {
+    // Tabella dati cliente
+    const firstRowClientData = ["Codice Cliente", "Società", "Indirizzo", "Mail", "Telefono/Cellulare"]
+    const clientData = [client.idClient, client.society, client.address, client.mail, client.cellphone];
+    doc.autoTable({
+        head: [firstRowClientData],
+        body: [clientData],
+        startY: doc.previousAutoTable.finalY + defaultSpacing,
+        styles: styles,
+        headStyles: headStyles,
+        bodyStyles: bodyStyles,
+    });
+}
+
+function interventionTable() {
+    // Tabella dati intervento
+    const firstRowInterventionData = ["Tecnico Assegnato", "Richiesta Cliente", "Lavoro Svolto", "Ore Intervento", "Fascia Intervento"]
+    const interventionData = [technician ? technician.fullName : '-', ticket.clientRequest, ticket.workDone, ticket.workingHours, ticket.transferRange];
+    doc.autoTable({
+        head: [firstRowInterventionData],
+        body: [interventionData],
+        startY: doc.previousAutoTable.finalY + defaultSpacing,
+        styles: styles,
+        headStyles: headStyles,
+        bodyStyles: bodyStyles,
+    });
+}
+
+function paymentTable() {
+    // Tabella dati pagamento
+    const firstRowPaymentData = ["Metodo di Pagamento",
+        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? "Tessera N." : null,
+        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? "Ore Totali" : null,
+        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? "Ore Residue" : null,
+        ticket.paymentMethod === "SALDO" || ticket.paymentMethod === "TESSERA + SALDO" ? "Saldo" : null
+    ]
+    const paymentData = [ticket.paymentMethod,
+        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? ticket.cardNumber : null,
+        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? ticket.cardTotalHours : null,
+        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? ticket.cardRemainingHours : null,
+        ticket.paymentMethod === "SALDO" || ticket.paymentMethod === "TESSERA + SALDO" ? ticket.price : null
+    ];
+    doc.autoTable({
+        head: [firstRowPaymentData],
+        body: [paymentData],
+        startY: doc.previousAutoTable.finalY + defaultSpacing,
+        styles: styles,
+        headStyles: headStyles,
+        bodyStyles: bodyStyles,
+    });
 }
 
 export default generatePDF;
