@@ -97,7 +97,7 @@ export default defineComponent({
         cardRemainingHours: cardRemainingHours,
         signatureClient: this.ticket.signatureClient,
         workingHourPrice: this.workingHourPrice,
-        transferHourPrice: this.transferRangePrice,
+        transferRangePrice: this.transferRangePrice,
         discount: this.discount
       }).then(response => {
           alert('Ticket modificato con successo');
