@@ -34,7 +34,7 @@ export default defineComponent({
       </ul>
     </div>
     <div class="card-footer text-muted">
-        <router-link type="button" class="btn btn-primary" :to="{path: '/clients/' + this.client.idClient}">Modifica</router-link>
+      <router-link type="button" class="btn btn-primary" :to="{path: '/clients/' + this.client.idClient}"><i class="bi bi-pencil"></i> Modifica</router-link>
         <button type="button" class="btn btn-secondary" @click="$emit('close')">Chiudi</button>
     </div>
   </div>

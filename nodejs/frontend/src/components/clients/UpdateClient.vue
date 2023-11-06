@@ -58,7 +58,7 @@ export default defineComponent({
         <label for="fullName" class="form-label">Nome</label>
         <input type="text" class="form-control" id="fullName" :value="this.client.fullName">
         <label for="cellphone" class="form-label">Telefono</label>
-        <input type="number" class="form-control" id="cellphone" :value="this.client.cellphone">
+        <input type="text" class="form-control" id="cellphone" :value="this.client.cellphone">
         <label for="mail" class="form-label">Email</label>
         <input type="email" class="form-control" id="mail" :value="this.client.mail">
         <label for="address" class="form-label">Indirizzo</label>

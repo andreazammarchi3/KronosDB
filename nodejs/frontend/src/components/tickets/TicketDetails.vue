@@ -36,7 +36,7 @@ export default defineComponent({
       generatePDF(this.ticket, this.client, this.technicianInfo);
     },
     totalPrice() {
-      const transferCost = this.ticket.transferRange * this.ticket.transferHourPrice;
+      const transferCost = this.ticket.transferRange * this.ticket.transferRangePrice;
       const workingCost = this.ticket.workingHours * this.ticket.workingHourPrice;
       const net = transferCost + workingCost;
       const iva = net * 22 / 100;
