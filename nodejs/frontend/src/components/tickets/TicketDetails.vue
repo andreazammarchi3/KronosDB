@@ -83,9 +83,9 @@ export default defineComponent({
       </ul>
     </div>
     <div class="card-footer text-muted">
-      <button type="button" class="btn btn-success" @click="genPDF">Genera PDF</button>
-      <button v-if="this.role !== 'BASE'" type="button" class="btn btn-danger" @click="deleteTicket">Elimina</button>
-      <router-link v-if="this.role !== 'BASE'" type="button" class="btn btn-primary" :to="{path: '/tickets/' + this.ticket.idTicket}">Modifica</router-link>
+      <button type="button" class="btn btn-success" @click="genPDF"><i class="bi bi-filetype-pdf"></i> Genera PDF</button>
+      <button v-if="this.role !== 'BASE'" type="button" class="btn btn-danger" @click="deleteTicket"><i class="bi bi-x-lg"></i> Elimina</button>
+      <router-link v-if="this.role !== 'BASE'" type="button" class="btn btn-primary" :to="{path: '/tickets/' + this.ticket.idTicket}"><i class="bi bi-pencil"></i> Modifica</router-link>
       <button type="button" class="btn btn-secondary" @click="$emit('close')">Chiudi</button>
     </div>
   </div>
