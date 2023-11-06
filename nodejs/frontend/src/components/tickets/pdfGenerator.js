@@ -45,14 +45,20 @@ function generatePDF(ti, c, te) {
     doc.line(10, y=y+10, 200, y);
 
     // CONTENUTO
-    ticketTable()
+    ticketTable();
 
-    clientTable()
+    clientTable();
 
-    interventionTable()
+    interventionTable();
 
-    paymentTable()
+    if (ticket.paymentMethod === "TESSERA") {
+        cardTable();
+    }
 
+    if (ticket.paymentMethod === "SALDO") {
+        paymentTable();
+        fiscalTable();
+    }
 
     doc.text('Data ', x, y=doc.previousAutoTable.finalY + defaultSpacing);
     doc.text(new Date().toLocaleDateString(), x, y=y+10);
@@ -117,19 +123,21 @@ function interventionTable() {
     });
 }
 
-function paymentTable() {
-    // Tabella dati pagamento
-    const firstRowPaymentData = ["Metodo di Pagamento",
-        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? "Tessera N." : null,
-        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? "Ore Totali" : null,
-        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? "Ore Residue" : null,
-        ticket.paymentMethod === "SALDO" || ticket.paymentMethod === "TESSERA + SALDO" ? "Saldo" : null
-    ]
-    const paymentData = [ticket.paymentMethod,
-        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? ticket.cardNumber : null,
-        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? ticket.cardTotalHours : null,
-        ticket.paymentMethod === "TESSERA" || ticket.paymentMethod === "TESSERA + SALDO" ? ticket.cardRemainingHours : null,
-        ticket.paymentMethod === "SALDO" || ticket.paymentMethod === "TESSERA + SALDO" ? ticket.price : null
+function cardTable() {
+    // Tabella dati tessera
+    const firstRowPaymentData = [
+        "Metodo di Pagamento",
+        "Tessera N.",
+        "Ore Totali",
+        "Ore Residue pre-ticket",
+        "Ore Residue post-ticket"
+    ];
+    const paymentData = [
+        ticket.paymentMethod,
+        ticket.cardNumber,
+        ticket.cardTotalHours,
+        ticket.cardRemainingHours,
+        ticket.cardRemainingHours - ticket.workingHours - ticket.transferRange / 2
     ];
     doc.autoTable({
         head: [firstRowPaymentData],
@@ -139,6 +147,64 @@ function paymentTable() {
         headStyles: headStyles,
         bodyStyles: bodyStyles,
     });
+}
+
+function paymentTable() {
+    // Tabella dati pagamento
+    const firstRowPaymentData = [
+        "Metodo di Pagamento",
+        "Extra",
+        "Prezzo unitario",
+        "Q.tà",
+        "Totale",
+    ];
+    const paymentData = [
+        ticket.paymentMethod,
+        "Assistenza",
+        formatNumber(ticket.workingHourPrice),
+        ticket.workingHours,
+        formatNumber(ticket.workingHours * ticket.workingHourPrice)
+    ];
+    const transferData = [
+        null,
+        "Trasferta",
+        formatNumber(ticket.transferHourPrice),
+        ticket.transferRange,
+        formatNumber(ticket.transferRange * ticket.transferHourPrice)
+    ];
+    doc.autoTable({
+        head: [firstRowPaymentData],
+        body: [paymentData, transferData],
+        startY: doc.previousAutoTable.finalY + defaultSpacing,
+        styles: styles,
+        headStyles: headStyles,
+        bodyStyles: bodyStyles,
+    });
+}
+
+function fiscalTable() {
+    // Tabella dati fiscali
+    const firstRowFiscalData = ["Totale netto", "Sconto", "IVA", "SALDO"];
+    const net = ticket.workingHours * ticket.workingHourPrice + ticket.transferRange * ticket.transferHourPrice;
+    const iva = net * 22 / 100;
+    const fiscalData = [
+        formatNumber(net),
+        ticket.discount !== 0 ? formatNumber(ticket.discount) : "-",
+        formatNumber(iva),
+        formatNumber(net + iva - ticket.discount)
+    ];
+    doc.autoTable({
+        head: [firstRowFiscalData],
+        body: [fiscalData],
+        startY: doc.previousAutoTable.finalY + defaultSpacing,
+        styles: styles,
+        headStyles: headStyles,
+        bodyStyles: bodyStyles,
+    });
+}
+
+function formatNumber(n) {
+    return '€' + n.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 export default generatePDF;

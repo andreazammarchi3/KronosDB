@@ -13,14 +13,17 @@ const ticketSchema = new mongoose.Schema({
     transferRange: Number,
     paymentMethod: {
         type: String,
-        enum: ['TESSERA', 'SALDO', 'TESSERA + SALDO', 'NON PAGATO'],
+        enum: ['TESSERA', 'SALDO', 'NON PAGATO'],
         default: 'NON PAGATO'
     },
     cardNumber: Number,
     cardTotalHours: Number,
+    cardLeftHours: Number,
     cardRemainingHours: Number,
-    price: Number,
     signatureClient: String,
+    workingHourPrice: Number,
+    transferHourPrice: Number,
+    discount: Number,
 });
 
 module.exports = mongoose.model('tickets', ticketSchema);

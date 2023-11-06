@@ -60,8 +60,10 @@ exports.add_ticket = async (req, res) => {
         cardNumber: null,
         cardTotalHours: null,
         cardRemainingHours: null,
-        price: null,
         signatureClient: null,
+        workingHourPrice: null,
+        transferHourPrice: null,
+        discount: null,
     });
 
     try{

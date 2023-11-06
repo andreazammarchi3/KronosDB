@@ -34,6 +34,13 @@ export default defineComponent({
     },
     genPDF() {
       generatePDF(this.ticket, this.client, this.technicianInfo);
+    },
+    totalPrice() {
+      const transferCost = this.ticket.transferRange * this.ticket.transferHourPrice;
+      const workingCost = this.ticket.workingHours * this.ticket.workingHourPrice;
+      const net = transferCost + workingCost;
+      const iva = net * 22 / 100;
+      return net + iva - this.ticket.discount;
     }
   },
   mounted() {
@@ -67,12 +74,12 @@ export default defineComponent({
 
         <li class="list-group-item"><strong>Metodo di pagamento</strong>: {{ this.ticket.paymentMethod }}</li>
 
-        <li v-if="this.ticket.paymentMethod === 'TESSERA' || this.ticket.paymentMethod === 'TESSERA + SALDO'" class="list-group-item"><strong>Tessera</strong>:
+        <li v-if="this.ticket.paymentMethod === 'TESSERA'" class="list-group-item"><strong>Tessera</strong>:
           numero {{ this.ticket.cardNumber }},
           ore totali {{ this.ticket.cardTotalHours }},
           ore residue {{ this.ticket.cardRemainingHours }},
         </li>
-        <li v-if="this.ticket.paymentMethod === 'SALDO' || this.ticket.paymentMethod === 'TESSERA + SALDO'" class="list-group-item"><strong>Saldo</strong>: €{{ this.ticket.price }}</li>
+        <li v-if="this.ticket.paymentMethod === 'SALDO'" class="list-group-item"><strong>Saldo</strong>: €{{ this.totalPrice() }}</li>
       </ul>
     </div>
     <div class="card-footer text-muted">

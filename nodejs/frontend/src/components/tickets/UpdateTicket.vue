@@ -24,12 +24,32 @@ export default defineComponent({
       cardNumber: this.ticket.cardNumber,
       cardTotalHours: this.ticket.cardTotalHours,
       cardRemainingHours: this.ticket.cardRemainingHours,
-      price: this.ticket.price,
+      workingHourPrice: this.ticket.workingHourPrice,
+      transferRangePrice: this.ticket.transferRangePrice,
+      discount: this.ticket.discount,
       technicians: [],
       technician: null,
     }
   },
   computed: {
+    workingCost() {
+      return this.workingHourPrice * this.workingHours;
+    },
+    transferCost() {
+      return this.transferRangePrice * this.transferRange;
+    },
+    net() {
+      return this.workingCost + this.transferCost;
+    },
+    iva() {
+      return this.net * 22 / 100;
+    },
+    price() {
+      return this.net + this.iva - this.discount;
+    },
+    cardLeftHours() {
+      return this.cardRemainingHours - this.workingHours - this.transferRange / 2;
+    }
   },
   methods: {
     updateTechnician(technician) {
@@ -55,7 +75,7 @@ export default defineComponent({
       const cardRemainingHours = document.getElementById('cardRemainingHours') ? document.getElementById('cardRemainingHours').value : null;
       let price = null;
 
-      if (paymentMethod === 'SALDO' || paymentMethod === 'TESSERA + SALDO') {
+      if (paymentMethod === 'SALDO') {
         price = document.getElementById('price').value;
       }
 
@@ -72,11 +92,13 @@ export default defineComponent({
         workingHours: workingHours,
         transferRange: transferRange,
         paymentMethod: paymentMethod,
-        price: price,
         cardNumber: cardNumber,
         cardTotalHours: cardTotalHours,
         cardRemainingHours: cardRemainingHours,
-        signatureClient: this.ticket.signatureClient
+        signatureClient: this.ticket.signatureClient,
+        workingHourPrice: this.workingHourPrice,
+        transferHourPrice: this.transferRangePrice,
+        discount: this.discount
       }).then(response => {
           alert('Ticket modificato con successo');
         }).catch(error => {
@@ -161,21 +183,37 @@ export default defineComponent({
           <option value="NON PAGATO">NON PAGATO</option>
           <option value="TESSERA">TESSERA</option>
           <option value="SALDO">SALDO</option>
-          <option value="TESSERA + SALDO">TESSERA + SALDO</option>
         </select>
 
-        <div v-if="this.paymentMethod === 'TESSERA' || this.paymentMethod === 'TESSERA + SALDO'" class="form-group">
+        <div v-if="this.paymentMethod === 'TESSERA'" class="form-group">
           <label for="cardNumber" class="form-label mt-4">Numero tessera</label>
           <input type="number" class="form-control" id="cardNumber" v-model="this.cardNumber">
           <label for="cardTotalHours" class="form-label mt-4">Ore totali tessera</label>
           <input type="number" class="form-control" id="cardTotalHours" v-model="this.cardTotalHours" min="0">
-          <label for="cardRemainingHours" class="form-label mt-4">Ore residue tessera</label>
-          <input type="number" class="form-control" id="cardRemainingHours" v-model="this.cardRemainingHours" min="0">
+          <label for="cardRemainingHoursPre" class="form-label mt-4">Ore residue pre-ticket</label>
+          <input type="number" class="form-control" id="cardRemainingHoursPre" v-model="this.cardRemainingHours" min="0">
+          <label for="cardRemainingHoursPost" class="form-label mt-4">Ore residue post-ticket</label>
+          <input type="number" class="form-control" id="cardRemainingHoursPost" v-model="this.cardLeftHours" min="0" readonly>
         </div>
 
-        <label v-if="this.paymentMethod === 'SALDO' || this.paymentMethod === 'TESSERA + SALDO'" for="price" class="form-label mt-4">Saldo (€)</label>
-        <input v-if="this.paymentMethod === 'SALDO' || this.paymentMethod === 'TESSERA + SALDO'" type="number" class="form-control" step="0.05" id="price" v-model="this.price" min="0">
-        <!-- <small id="priceComputed" class="form-text text-muted">Prezzo calcolato in base alle ore: €{{ this.priceSuggested.toFixed(2) }}</small> -->
+        <div v-if="this.paymentMethod === 'SALDO'">
+          <label for="workingHourPrice" class="form-label mt-4">Prezzo unitario assistenza (€)</label>
+          <input type="number" class="form-control" step="0.01" id="workingHourPrice" v-model="this.workingHourPrice" min="0">
+          <label for="workingCost" class="form-label mt-4">Totale assistenza (€)</label>
+          <input type="number" class="form-control" step="0.01" id="workingCost" v-model="this.workingCost" min="0" readonly>
+          <label for="transferRangePrice" class="form-label mt-4">Prezzo unitario trasferta (€)</label>
+          <input type="number" class="form-control" step="0.01" id="transferRangePrice" v-model="this.transferRangePrice" min="0">
+          <label for="transferCost" class="form-label mt-4">Totale trasferta (€)</label>
+          <input type="number" class="form-control" step="0.01" id="transferCost" v-model="this.transferCost" min="0" readonly>
+          <label for="net" class="form-label mt-4">Totale netto (€)</label>
+          <input type="number" class="form-control" step="0.01" id="net" v-model="this.net" min="0" readonly>
+          <label for="discount" class="form-label mt-4">Sconto (€)</label>
+          <input type="number" class="form-control" step="0.01" id="discount" v-model="this.discount" min="0">
+          <label for="iva" class="form-label mt-4">IVA (€)</label>
+          <input type="number" class="form-control" step="0.01" id="iva" v-model="this.iva" min="0" readonly>
+          <label for="price" class="form-label mt-4">Saldo (€)</label>
+          <input type="number" class="form-control" step="0.01" id="price" v-model="this.price" min="0" readonly>
+        </div>
 
         <div class="form-group" v-if="this.ticket.signatureClient">
           <label class="form-label">Firma del cliente</label>
